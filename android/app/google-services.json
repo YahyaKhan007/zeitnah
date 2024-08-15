@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "151009190296",
+    "project_id": "zeitnah-92896",
+    "storage_bucket": "zeitnah-92896.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:151009190296:android:01f658707e20e6145acbed",
+        "android_client_info": {
+          "package_name": "com.stackwise_agency.zeitnah"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6WMUFAHCfyh4c_NL1ffj_Ens1CBlkFyo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
