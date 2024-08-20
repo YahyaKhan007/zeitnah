@@ -4,45 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/services.dart';
-import 'package:zeitnah/utils/app_colors/app_colors.dart';
-import 'package:zeitnah/utils/app_constants.dart';
 
-class ServiceProviderHomeScreen extends StatelessWidget {
-  ServiceProviderHomeScreen({super.key});
+import '../../../../services/services.dart';
+import '../../../../utils/app_colors/app_colors.dart';
+import '../../../../utils/app_constants.dart';
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+class ClientsHomeScreen extends StatelessWidget {
+  const ClientsHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     final controller = Get.find<ZeitnahController>();
-    return Scaffold(
-      // resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: AppColors.kcPrimaryBackgrundColor,
-        centerTitle: true,
-        title: Text(
-          "Set Appointment".tr,
-          style: GoogleFonts.openSans(
-              color: AppColors.kcPrimaryBlackColor,
-              textStyle:
-                  TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
-        ),
-        actions: [
-          GestureDetector(
-            onTap: () {},
-            child: Image.asset(
-              'assets/icons/menu.png',
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-      body: Obx(
-          () => AppConstants.providerPages[controller.selectedPageIndex.value]),
 
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Obx(
+        () =>
+            AppConstants.clientPages[controller.selectedClientPageIndex.value],
+      ),
       bottomNavigationBar: Container(
         height: size.height * 0.1,
         width: size.width,
@@ -61,18 +40,18 @@ class ServiceProviderHomeScreen extends StatelessWidget {
         ),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: AppConstants.bottomBarLables.length,
+          itemCount: AppConstants.clientBottomBarLables.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
             return selectedTab(
                 index: index,
                 controller: controller,
                 color: Colors.white,
-                icon: AppConstants.bottomBarImages[index],
-                label: AppConstants.bottomBarLables[index],
+                icon: AppConstants.clientBottomBarImages[index],
+                label: AppConstants.clientBottomBarLables[index],
                 onTap: () {
-                  controller.selectedPageIndex.value = index;
-                  log("Page index is ${controller.selectedPageIndex.value + 1}");
+                  controller.selectedClientPageIndex.value = index;
+                  log("Page index is ${controller.selectedClientPageIndex.value + 1}");
                 },
                 size: size);
           },
@@ -99,7 +78,7 @@ class ServiceProviderHomeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.r),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: index == controller.selectedPageIndex.value
+                  color: index == controller.selectedClientPageIndex.value
                       ? Colors.grey
                       : Colors.transparent,
                   blurRadius: 8,
@@ -112,13 +91,18 @@ class ServiceProviderHomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(icon),
-              Text(
-                label.tr,
-                style: GoogleFonts.murecho(
-                    color: AppColors.kcPrimaryBlackColor,
-                    textStyle: TextStyle(
-                        fontSize: 12.sp, fontWeight: FontWeight.bold)),
+              Image.asset(
+                icon,
+                color: AppColors.kcPrimaryBlackColor,
+              ),
+              FittedBox(
+                child: Text(
+                  label.tr,
+                  style: GoogleFonts.murecho(
+                      color: AppColors.kcPrimaryBlackColor,
+                      textStyle: TextStyle(
+                          fontSize: 12.sp, fontWeight: FontWeight.bold)),
+                ),
               )
             ],
           ),

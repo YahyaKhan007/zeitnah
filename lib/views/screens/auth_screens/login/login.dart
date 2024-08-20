@@ -185,7 +185,7 @@ class Login extends StatelessWidget {
               break;
 
             case 'patient':
-              Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
+              Get.offAllNamed(RouterHelperService.clientHomeScreen);
 
               break;
           }

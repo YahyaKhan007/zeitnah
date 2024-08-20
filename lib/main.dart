@@ -43,8 +43,10 @@ class MyApp extends StatelessWidget {
             ],
             child: GetMaterialApp(
               translations: AppStrings(),
-              locale: const Locale('de'),
-              fallbackLocale: const Locale('de'),
+              // locale: const Locale('de'),
+              locale: const Locale('en_US'),
+              // fallbackLocale: const Locale('de'),
+              fallbackLocale: const Locale('en_US'),
               initialBinding: ControllerBinding(),
               debugShowCheckedModeBanner: false,
               initialRoute: RouterHelperService.splash,
