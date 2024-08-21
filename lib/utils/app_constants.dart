@@ -17,7 +17,7 @@ class AppConstants {
   static final List bottomBarLables = ['Appointments', 'Patients', 'Settings'];
   static final List clientBottomBarLables = [
     'Messages',
-    'add Service Provider',
+    'add Provider',
     'My Calender'
   ];
 
@@ -28,7 +28,7 @@ class AppConstants {
   ];
   static final List<Widget> clientPages = [
     AppointmentHome(),
-    const ServiceProviderSettings(),
+    const AddProviderHome(),
     const MyCalender(),
   ];
 
@@ -64,4 +64,18 @@ class AppConstants {
   ];
 
   static final List<int> defaultAppointmentTime = [10, 20, 30, 40, 50];
+
+  static final srviceProviderList = [
+    ProviderModel(name: "Shifa"),
+    ProviderModel(
+      name: "Complex",
+    ),
+    ProviderModel(name: "CMH"),
+  ];
+}
+
+class ProviderModel {
+  final String name;
+  final String image;
+  ProviderModel({required this.name, this.image = "assets/icons/hospital.png"});
 }
