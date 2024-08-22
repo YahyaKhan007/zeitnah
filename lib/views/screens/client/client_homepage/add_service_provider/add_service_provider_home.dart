@@ -34,7 +34,7 @@ class AddProviderHome extends StatelessWidget {
                             padding: EdgeInsets.only(
                                 left: 24.w, right: 16.w, bottom: 16.h),
                             child: SizedBox(
-                              height: size.height * 0.1,
+                              height: size.height * 0.08,
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(() => HospitalProfileFromPatientSide(
@@ -46,9 +46,9 @@ class AddProviderHome extends StatelessWidget {
                                 child: Stack(
                                   children: [
                                     Positioned(
-                                      left: 32.w,
+                                      left: 24.w,
                                       right: 0,
-                                      top: 10.h,
+                                      top: 5.h,
                                       child: Center(
                                         child: Container(
                                           height: size.height * 0.07,
@@ -71,7 +71,7 @@ class AddProviderHome extends StatelessWidget {
                                       ),
                                     ),
                                     CircleAvatar(
-                                      radius: 40.r,
+                                      radius: 32.r,
                                       backgroundColor:
                                           AppColors.kcPrimaryBlueColor,
                                       backgroundImage: AssetImage(AppConstants

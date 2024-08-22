@@ -5,12 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../services/services.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
+import '../../../../../views.dart';
 
 PreferredSizeWidget appointmentAppbar(
     {required BuildContext context, required PageController pageController}) {
   Size size = MediaQuery.of(context).size;
   return PreferredSize(
-    preferredSize: Size.fromHeight(140.h),
+    preferredSize: Size.fromHeight(size.height * 0.22),
     child: Container(
       decoration: BoxDecoration(
         color: AppColors.kcPrimaryBackgrundColor,
@@ -39,11 +40,15 @@ PreferredSizeWidget appointmentAppbar(
                     color: AppColors.kcPrimaryBlackColor,
                     textStyle: TextStyle(
                         color: AppColors.kcPrimaryBlackColor,
-                        fontSize: 24.sp,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold)),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => const AccountSettingHomeForClient(),
+                      transition: Transition.rightToLeftWithFade,
+                      duration: const Duration(milliseconds: 400));
+                },
                 child: Image.asset(
                   'assets/icons/menu.png',
                   color: Colors.black,
@@ -63,7 +68,7 @@ PreferredSizeWidget appointmentAppbar(
 Widget topBar({required Size size, required PageController pageController}) {
   final controller = Get.find<ZeitnahController>();
   return Container(
-    height: 40.h,
+    height: size.height * 0.055,
     width: size.width,
     margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
     decoration: BoxDecoration(
@@ -125,7 +130,7 @@ Widget selectedTab({
               style: GoogleFonts.inter(
                   textStyle: TextStyle(
                       color: AppColors.kcPrimaryBlackColor,
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold)),
             ),
           ),

@@ -191,7 +191,7 @@ deleteHospital({required BuildContext context}) {
                     Center(
                       child: Text("Delete Appointment?",
                           style: TextStyle(
-                              fontSize: 24.sp,
+                              fontSize: 20.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
