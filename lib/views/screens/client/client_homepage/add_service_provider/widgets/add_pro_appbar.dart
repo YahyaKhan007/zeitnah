@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/controller_service/controller_service.dart';
+import 'package:zeitnah/views/views.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
 
 PreferredSizeWidget addProAppBar(BuildContext context) {
-  final controller = Get.find<ZeitnahController>();
+  // final controller = Get.find<ZeitnahController>();
   return PreferredSize(
     preferredSize: Size.fromHeight(100.h),
     child: Container(
@@ -38,16 +38,19 @@ PreferredSizeWidget addProAppBar(BuildContext context) {
                     color: AppColors.kcPrimaryBlackColor,
                     textStyle: TextStyle(
                         color: AppColors.kcPrimaryBlackColor,
-                        fontSize: 24.sp,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold)),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => const AccountSettingHomeForClient());
+                },
                 child: Image.asset(
                   'assets/icons/menu.png',
                   color: Colors.black,
                 ),
               ),
+              8.w.horizontalSpace,
             ],
           ),
           16.h.verticalSpace,

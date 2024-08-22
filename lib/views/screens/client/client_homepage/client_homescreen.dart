@@ -23,7 +23,7 @@ class ClientsHomeScreen extends StatelessWidget {
             AppConstants.clientPages[controller.selectedClientPageIndex.value],
       ),
       bottomNavigationBar: Container(
-        height: size.height * 0.1,
+        height: size.height * 0.09,
         width: size.width,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         decoration: BoxDecoration(
@@ -87,12 +87,13 @@ class ClientsHomeScreen extends StatelessWidget {
                   spreadRadius: 0,
                 )
               ]),
-          height: size.height * 0.8,
+          height: size.height * 0.06,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 icon,
+                scale: 1.5,
                 color: AppColors.kcPrimaryBlackColor,
               ),
               FittedBox(
@@ -101,7 +102,7 @@ class ClientsHomeScreen extends StatelessWidget {
                   style: GoogleFonts.murecho(
                       color: AppColors.kcPrimaryBlackColor,
                       textStyle: TextStyle(
-                          fontSize: 12.sp, fontWeight: FontWeight.bold)),
+                          fontSize: 10.sp, fontWeight: FontWeight.bold)),
                 ),
               )
             ],

@@ -18,7 +18,7 @@ class OpenClientAppointments extends StatelessWidget {
             16.h.verticalSpace,
             Expanded(
               child: ListView.builder(
-                itemCount: 2,
+                itemCount: 3,
                 itemBuilder: (context, index) {
                   return messageContainer(context: context);
                 },
@@ -47,7 +47,7 @@ class OpenClientAppointments extends StatelessWidget {
           ),
           width: size.width,
           margin: EdgeInsets.symmetric(horizontal: 24.w),
-          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 8.w),
+          padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 8.w),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -70,6 +70,7 @@ class OpenClientAppointments extends StatelessWidget {
               )),
               CircleAvatar(
                 radius: 40.r,
+                backgroundImage: const AssetImage("assets/icons/hospital.png"),
               )
             ],
           ),

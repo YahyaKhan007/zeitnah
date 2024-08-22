@@ -10,7 +10,7 @@ Widget customeButtonWithIcon(
     required String text,
     required Size size,
     required String image,
-    required Color imageColor,
+    Color? imageColor,
     required double borderRadius,
     required VoidCallback onTap}) {
   return GestureDetector(
