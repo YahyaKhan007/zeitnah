@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/utils/app_constants.dart';
+import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/account_setting_provider_views.dart';
 
 class ServiceProviderHomeScreen extends StatelessWidget {
   ServiceProviderHomeScreen({super.key});
@@ -32,7 +33,9 @@ class ServiceProviderHomeScreen extends StatelessWidget {
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Get.to(() => const ServiceProviderAccountSettingsHome());
+            },
             child: Image.asset(
               'assets/icons/menu.png',
               color: Colors.black,
