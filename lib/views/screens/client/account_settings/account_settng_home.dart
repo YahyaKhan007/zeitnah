@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/views/screens/client/client_views.dart';
 
 import '../../../../utils/app_colors/app_colors.dart';
+import '../../../views.dart';
 import 'widgets/ui_functions.dart';
 
 class AccountSettingHomeForClient extends StatelessWidget {
@@ -53,9 +54,7 @@ class AccountSettingHomeForClient extends StatelessWidget {
               image: "assets/icons/help.svg",
               label: "Help & Support",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),
-                    transition: Transition.rightToLeftWithFade,
-                    duration: const Duration(milliseconds: 400));
+                Get.to(() => const HelpSupportProvider());
               }),
           settingoption(
               image: "assets/icons/logout.svg",

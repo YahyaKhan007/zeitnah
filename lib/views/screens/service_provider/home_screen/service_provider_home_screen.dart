@@ -115,13 +115,16 @@ class ServiceProviderHomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(icon),
+              Image.asset(
+                icon,
+                height: size.height * 0.05,
+              ),
               Text(
                 label.tr,
                 style: GoogleFonts.murecho(
                     color: AppColors.kcPrimaryBlackColor,
                     textStyle: TextStyle(
-                        fontSize: 12.sp, fontWeight: FontWeight.bold)),
+                        fontSize: 10.dg, fontWeight: FontWeight.bold)),
               )
             ],
           ),

@@ -33,60 +33,62 @@ Widget customeNotification({required BuildContext context}) {
           borderRadius: BorderRadius.circular(20.r),
           color: AppColors.kcPrimaryBackgrundColor,
         ),
-        child: Column(
-          children: [
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [
-                  {'start': "08:00", 'end': '10:00'},
-                  {'start': "12:00", 'end': '16:00'},
-                  {'start': "16:00", 'end': '24:00'},
-                ],
-                size: size,
-                onTap: () {
-                  addNotificationTime(context: context, label: "Monday");
-                }),
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [
-                  {'start': "08:00", 'end': '10:00'},
-                  {'start': "12:00", 'end': '16:00'},
-                ],
-                size: size,
-                onTap: () {}),
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [
-                  {'start': "08:00", 'end': '10:00'},
-                ],
-                size: size,
-                onTap: () {}),
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [
-                  {'start': "08:00", 'end': '10:00'},
-                  {'start': "16:00", 'end': '24:00'},
-                ],
-                size: size,
-                onTap: () {}),
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [
-                  {'start': "08:00", 'end': '10:00'}
-                ],
-                size: size,
-                onTap: () {}),
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [],
-                onTap: () {},
-                size: size),
-            dayContainer(
-                day: AppConstants.weekDays[0],
-                dailySchedule: [],
-                onTap: () {},
-                size: size)
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [
+                    {'start': "08:00", 'end': '10:00'},
+                    {'start': "12:00", 'end': '16:00'},
+                    {'start': "16:00", 'end': '24:00'},
+                  ],
+                  size: size,
+                  onTap: () {
+                    addNotificationTime(context: context, label: "Monday");
+                  }),
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [
+                    {'start': "08:00", 'end': '10:00'},
+                    {'start': "12:00", 'end': '16:00'},
+                  ],
+                  size: size,
+                  onTap: () {}),
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [
+                    {'start': "08:00", 'end': '10:00'},
+                  ],
+                  size: size,
+                  onTap: () {}),
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [
+                    {'start': "08:00", 'end': '10:00'},
+                    {'start': "16:00", 'end': '24:00'},
+                  ],
+                  size: size,
+                  onTap: () {}),
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [
+                    {'start': "08:00", 'end': '10:00'}
+                  ],
+                  size: size,
+                  onTap: () {}),
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [],
+                  onTap: () {},
+                  size: size),
+              dayContainer(
+                  day: AppConstants.weekDays[0],
+                  dailySchedule: [],
+                  onTap: () {},
+                  size: size)
+            ],
+          ),
         ),
       ));
 }

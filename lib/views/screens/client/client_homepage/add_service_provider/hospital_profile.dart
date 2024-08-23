@@ -56,50 +56,52 @@ class _HospitalProfileFromPatientSideState
       body: SizedBox(
         height: size.height,
         width: size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              radius: 64.r,
-              backgroundColor: AppColors.kcPrimaryBlackColor,
-              child: CircleAvatar(
-                radius: 62.r,
-                backgroundColor: AppColors.kcPrimaryBlueColor,
-                backgroundImage: AssetImage(widget.model.image),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 64.r,
+                backgroundColor: AppColors.kcPrimaryBlackColor,
+                child: CircleAvatar(
+                  radius: 62.r,
+                  backgroundColor: AppColors.kcPrimaryBlueColor,
+                  backgroundImage: AssetImage(widget.model.image),
+                ),
               ),
-            ),
-            24.h.verticalSpace,
-            profileFieldOption(
-                label: "Address", data: "4 Pitras , H 8/4 H-8, , Islamabad"),
-            profileFieldOption(label: "Phone Number", data: "+4912341234123"),
-            profileFieldOption(label: "E-Mail", data: "abcdefg@gmail.com"),
-            32.h.verticalSpace,
-            widget.isAdd
-                ? GestureDetector(
-                    onTap: () {
-                      deleteHospital(context: context);
-                    },
-                    child: SvgPicture.asset(
-                      "assets/icons/delet.svg",
-                    ),
-                  )
-                : customeButtonWithIcon(
-                    backGroundColor: isSend
-                        ? AppColors.kcGreyTextColor
-                        : AppColors.kcPrimaryBlueColor,
-                    textColor: Colors.white,
-                    text: "Add Service Provider",
-                    size: size,
-                    image: isSend
-                        ? "assets/icons/sent.svg"
-                        : "assets/icons/add_member.svg",
-                    imageColor: Colors.white,
-                    borderRadius: 40.r,
-                    onTap: () {
-                      isSend = !isSend;
-                      setState(() {});
-                    })
-          ],
+              24.h.verticalSpace,
+              profileFieldOption(
+                  label: "Address", data: "4 Pitras , H 8/4 H-8, , Islamabad"),
+              profileFieldOption(label: "Phone Number", data: "+4912341234123"),
+              profileFieldOption(label: "E-Mail", data: "abcdefg@gmail.com"),
+              32.h.verticalSpace,
+              widget.isAdd
+                  ? GestureDetector(
+                      onTap: () {
+                        deleteHospital(context: context);
+                      },
+                      child: SvgPicture.asset(
+                        "assets/icons/delet.svg",
+                      ),
+                    )
+                  : customeButtonWithIcon(
+                      backGroundColor: isSend
+                          ? AppColors.kcGreyTextColor
+                          : AppColors.kcPrimaryBlueColor,
+                      textColor: Colors.white,
+                      text: "Add Service Provider",
+                      size: size,
+                      image: isSend
+                          ? "assets/icons/sent.svg"
+                          : "assets/icons/add_member.svg",
+                      imageColor: Colors.white,
+                      borderRadius: 40.r,
+                      onTap: () {
+                        isSend = !isSend;
+                        setState(() {});
+                      })
+            ],
+          ),
         ),
       ),
     );

@@ -9,14 +9,16 @@ import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../widgets/custome_button_with_icon.dart';
 import '../../../client/account_settings/widgets/ui_functions.dart';
 
-class PersonalInfoScreen extends StatefulWidget {
-  const PersonalInfoScreen({super.key});
+class PersonalInfoServiceProviderScreen extends StatefulWidget {
+  const PersonalInfoServiceProviderScreen({super.key});
 
   @override
-  State<PersonalInfoScreen> createState() => _PersonalInfoScreenState();
+  State<PersonalInfoServiceProviderScreen> createState() =>
+      _PersonalInfoServiceProviderScreenState();
 }
 
-class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
+class _PersonalInfoServiceProviderScreenState
+    extends State<PersonalInfoServiceProviderScreen> {
   late TextEditingController nameController;
   late TextEditingController surName;
   late TextEditingController phoneNumer;
@@ -60,17 +62,36 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              40.h.verticalSpace,
+              16.h.verticalSpace,
+              SizedBox(
+                height: size.height * 0.2,
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: size.height * 0.08,
+                      backgroundImage:
+                          const AssetImage('assets/icons/hospital.png'),
+                    ),
+                  ],
+                ),
+              ),
+              16.h.verticalSpace,
               profileOptionEdit(
                   size: size,
                   onTap: () {},
-                  label: "Name",
+                  label: "Clinic Name",
                   data: "Eduard",
                   controller: nameController),
               profileOptionEdit(
                   size: size,
                   onTap: () {},
-                  label: "Surname",
+                  label: "City",
+                  data: "Ott",
+                  controller: surName),
+              profileOptionEdit(
+                  size: size,
+                  onTap: () {},
+                  label: "Street",
                   data: "Ott",
                   controller: surName),
               profileOptionEdit(

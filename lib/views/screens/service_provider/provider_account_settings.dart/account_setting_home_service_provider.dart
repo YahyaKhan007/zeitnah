@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/personal_info_service_provider/personal_info_service_provider.dart';
 
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../../views.dart';
@@ -45,7 +46,7 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
               image: "assets/icons/personal_info.svg",
               label: "Clinic Info",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),
+                Get.to(() => const PersonalInfoServiceProviderScreen(),
                     transition: Transition.rightToLeftWithFade,
                     duration: const Duration(milliseconds: 400));
               }),
@@ -53,7 +54,7 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
               image: "assets/icons/qr_code.svg",
               label: "My QR-Code",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),
+                Get.to(() => const MyQrCode(),
                     transition: Transition.rightToLeftWithFade,
                     duration: const Duration(milliseconds: 400));
               }),
@@ -61,9 +62,7 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
               image: "assets/icons/help.svg",
               label: "Help & Support",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),
-                    transition: Transition.rightToLeftWithFade,
-                    duration: const Duration(milliseconds: 400));
+                Get.to(() => const HelpSupportProvider());
               }),
           settingoption(
               image: "assets/icons/logout.svg",
