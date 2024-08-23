@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/views/screens/client/client_views.dart';
+import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/personal_info_service_provider/personal_info_service_provider.dart';
 
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../../views.dart';
-import 'widgets/ui_functions.dart';
+import '../../client/account_settings/widgets/ui_functions.dart';
 
-class AccountSettingHomeForClient extends StatelessWidget {
-  const AccountSettingHomeForClient({super.key});
+class ServiceProviderAccountSettingsHome extends StatelessWidget {
+  const ServiceProviderAccountSettingsHome({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,17 @@ class AccountSettingHomeForClient extends StatelessWidget {
           32.h.verticalSpace,
           settingoption(
               image: "assets/icons/personal_info.svg",
-              label: "Personal Info",
+              label: "Clinic Info",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),
+                Get.to(() => const PersonalInfoServiceProviderScreen(),
+                    transition: Transition.rightToLeftWithFade,
+                    duration: const Duration(milliseconds: 400));
+              }),
+          settingoption(
+              image: "assets/icons/qr_code.svg",
+              label: "My QR-Code",
+              onTap: () {
+                Get.to(() => const MyQrCode(),
                     transition: Transition.rightToLeftWithFade,
                     duration: const Duration(milliseconds: 400));
               }),

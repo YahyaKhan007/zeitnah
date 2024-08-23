@@ -10,3 +10,7 @@ export './screens/service_provider/home_screen/patients/patient_views.dart';
 export './screens/service_provider/home_screen/settings/setting_view.dart';
 
 export './screens/client/client_views.dart';
+
+export './screens/service_provider/provider_account_settings.dart/account_setting_provider_views.dart';
+export './screens/service_provider/provider_account_settings.dart/my_qr_code/my_qr_code.dart';
+export './screens/service_provider/provider_account_settings.dart/help_support_provider/help_support_provider.dart';
