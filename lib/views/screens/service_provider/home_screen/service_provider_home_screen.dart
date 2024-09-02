@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
@@ -36,11 +37,10 @@ class ServiceProviderHomeScreen extends StatelessWidget {
             onTap: () {
               Get.to(()=> const ServiceProviderAccountSettingsHome());
             },
-            child: Image.asset(
-              'assets/icons/menu.png',
-              color: Colors.black,
-            ),
+            child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
+
           ),
+          20.w.horizontalSpace,
         ],
       ),
       body: Obx(

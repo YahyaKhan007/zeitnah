@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -35,7 +36,7 @@ PreferredSizeWidget appointmentAppbar(
                 width: 20.w,
               ),
               Text(
-                "Messages".tr,
+                "Appointments".tr,
                 style: GoogleFonts.openSans(
                     color: AppColors.kcPrimaryBlackColor,
                     textStyle: TextStyle(
@@ -43,16 +44,17 @@ PreferredSizeWidget appointmentAppbar(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold)),
               ),
-              GestureDetector(
-                onTap: () {
-                  Get.to(() => const AccountSettingHomeForClient(),
-                      transition: Transition.rightToLeftWithFade,
-                      duration: const Duration(milliseconds: 400));
-                },
-               
-                child: Image.asset(
-                  'assets/icons/menu.png',
-                  color: Colors.black,
+              Padding(
+                padding: const EdgeInsets.only(right: 20).w,
+                child: GestureDetector(
+                  onTap: () {
+                    Get.to(() => const AccountSettingHomeForClient(),
+                        transition: Transition.rightToLeftWithFade,
+                        duration: const Duration(milliseconds: 400));
+                  },
+                 
+                  child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
+                
                 ),
               ),
             ],

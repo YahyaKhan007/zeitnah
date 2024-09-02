@@ -23,7 +23,7 @@ class ClientsHomeScreen extends StatelessWidget {
             AppConstants.clientPages[controller.selectedClientPageIndex.value],
       ),
       bottomNavigationBar: Container(
-        height: size.height * 0.08,
+        height: size.height * 0.088,
         width: size.width,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         decoration: BoxDecoration(

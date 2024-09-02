@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/views/views.dart';
@@ -9,6 +10,7 @@ import '../../../account_settings/account_settng_home.dart';
 
 PreferredSizeWidget addProAppBar(BuildContext context) {
   // final controller = Get.find<ZeitnahController>();
+   Size size = MediaQuery.of(context).size;
   return PreferredSize(
     preferredSize: Size.fromHeight(100.h),
     child: Container(
@@ -48,14 +50,11 @@ PreferredSizeWidget addProAppBar(BuildContext context) {
                   Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(right : 8.0),
-                  child: Image.asset(
-                    'assets/icons/menu.png',
-                    color: Colors.black,
-                  ),
+                  padding: const EdgeInsets.only(right : 20.0),
+                  child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
                 ),
               ),
-
+ 
             ],
           ),
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/controller_service/controller_service.dart';
@@ -8,6 +9,7 @@ import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../account_settings/account_settng_home.dart';
 
 PreferredSizeWidget myCalenderAppbar(BuildContext context) {
+  Size size = MediaQuery.of(context).size;
   final controller = Get.find<ZeitnahController>();
   return PreferredSize(
     preferredSize: Size.fromHeight(170.h),
@@ -28,10 +30,11 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
         children: [
           32.h.verticalSpace,
           Row(
+            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 20.w,
+                width: size.width * 0.22.w,
               ),
               Text(
                 "My Time Window".tr,
@@ -42,14 +45,12 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold)),
               ),
+              const Spacer(),
               GestureDetector(
                 onTap: () {
                   Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
                 },
-                child: Image.asset(
-                  'assets/icons/menu.png',
-                  color: Colors.black,
-                ),
+                child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
               ),
               16.w.horizontalSpace,
             ],

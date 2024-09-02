@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeitnah/views/views.dart';
 
-import '../views/screens/client/client_homepage/add_service_provider/add_service_provider_home.dart';
+import '../views/screens/client/client_homepage/add_service_provider/add_pro_views.dart';
 
 class AppConstants {
   static final List bottomBarImages = [
@@ -18,8 +18,7 @@ class AppConstants {
 
   static final List bottomBarLables = ['Appointments', 'Patients', 'Settings'];
   static final List clientBottomBarLables = [
-    'Messages',
-    'add Provider',
+    'Appointments',
     'add Provider',
     'My Calender'
   ];
@@ -31,7 +30,6 @@ class AppConstants {
   ];
   static final List<Widget> clientPages = [
     AppointmentHome(),
-    const AddProviderHome(),
     const AddProviderHome(),
     const MyCalender(),
   ];
