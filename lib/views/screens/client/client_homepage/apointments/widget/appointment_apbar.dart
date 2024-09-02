@@ -11,7 +11,7 @@ PreferredSizeWidget appointmentAppbar(
     {required BuildContext context, required PageController pageController}) {
   Size size = MediaQuery.of(context).size;
   return PreferredSize(
-    preferredSize: Size.fromHeight(140.h),
+    preferredSize: Size.fromHeight(size.height * 0.22),
     child: Container(
       decoration: BoxDecoration(
         color: AppColors.kcPrimaryBackgrundColor,
@@ -45,6 +45,11 @@ PreferredSizeWidget appointmentAppbar(
               ),
               GestureDetector(
                 onTap: () {
+                  Get.to(() => const AccountSettingHomeForClient(),
+                      transition: Transition.rightToLeftWithFade,
+                      duration: const Duration(milliseconds: 400));
+                },
+                onTap: () {
                   Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
                 },
                 child: Image.asset(
@@ -66,7 +71,7 @@ PreferredSizeWidget appointmentAppbar(
 Widget topBar({required Size size, required PageController pageController}) {
   final controller = Get.find<ZeitnahController>();
   return Container(
-    height: 40.h,
+    height: size.height * 0.055,
     width: size.width,
     margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
     decoration: BoxDecoration(

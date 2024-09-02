@@ -51,6 +51,7 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
                   color: Colors.black,
                 ),
               ),
+              16.w.horizontalSpace,
             ],
           ),
           16.h.verticalSpace,

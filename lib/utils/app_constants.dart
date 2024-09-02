@@ -20,6 +20,7 @@ class AppConstants {
   static final List clientBottomBarLables = [
     'Messages',
     'add Provider',
+    'add Provider',
     'My Calender'
   ];
 
@@ -30,6 +31,7 @@ class AppConstants {
   ];
   static final List<Widget> clientPages = [
     AppointmentHome(),
+    const AddProviderHome(),
     const AddProviderHome(),
     const MyCalender(),
   ];

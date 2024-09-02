@@ -19,7 +19,7 @@ class OpenClientAppointments extends StatelessWidget {
             16.h.verticalSpace,
             Expanded(
               child: ListView.builder(
-                itemCount: 2,
+                itemCount: 3,
                 itemBuilder: (context, index) {
                   return appointmentDetailsContainer(context: context);
                 },

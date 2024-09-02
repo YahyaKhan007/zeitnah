@@ -88,6 +88,26 @@ class ClientsHomeScreen extends StatelessWidget {
                   spreadRadius: 0,
                 )
               ]),
+          height: size.height * 0.06,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                icon,
+                scale: 1.5,
+                color: AppColors.kcPrimaryBlackColor,
+              ),
+              FittedBox(
+                child: Text(
+                  label.tr,
+                  style: GoogleFonts.murecho(
+                      color: AppColors.kcPrimaryBlackColor,
+                      textStyle: TextStyle(
+                          fontSize: 10.sp, fontWeight: FontWeight.bold)),
+                ),
+              )
+            ],
+          ),
           // height: size.height * 0.8,
           child: FittedBox(
             child: Column(

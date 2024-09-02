@@ -28,25 +28,27 @@ class _AppointmentsState extends State<Appointments> {
     return SizedBox(
       height: size.height,
       width: size.width,
-      child: Column(
-        children: [
-          topBar(size: size, pageController: pageController),
-          SizedBox(
-            height: size.height * 0.59,
-            width: size.width,
-            child: PageView.builder(
-              controller: pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (index) {
-                controller.selectedTabIndex.value = index;
-              },
-              itemCount: AppConstants.appointmentPages.length,
-              itemBuilder: (context, index) {
-                return AppConstants.appointmentPages[index];
-              },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            topBar(size: size, pageController: pageController),
+            SizedBox(
+              height: size.height * 0.59,
+              width: size.width,
+              child: PageView.builder(
+                controller: pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                onPageChanged: (index) {
+                  controller.selectedTabIndex.value = index;
+                },
+                itemCount: AppConstants.appointmentPages.length,
+                itemBuilder: (context, index) {
+                  return AppConstants.appointmentPages[index];
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
