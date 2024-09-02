@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zeitnah/views/views.dart';
 
+import '../views/screens/client/client_homepage/add_service_provider/add_service_provider_home.dart';
+
 class AppConstants {
   static final List bottomBarImages = [
     'assets/icons/calender.png',
@@ -17,7 +19,7 @@ class AppConstants {
   static final List bottomBarLables = ['Appointments', 'Patients', 'Settings'];
   static final List clientBottomBarLables = [
     'Messages',
-    'add Service Provider',
+    'add Provider',
     'My Calender'
   ];
 
@@ -28,7 +30,7 @@ class AppConstants {
   ];
   static final List<Widget> clientPages = [
     AppointmentHome(),
-    const ServiceProviderSettings(),
+    const AddProviderHome(),
     const MyCalender(),
   ];
 
@@ -64,4 +66,18 @@ class AppConstants {
   ];
 
   static final List<int> defaultAppointmentTime = [10, 20, 30, 40, 50];
+
+  static final srviceProviderList = [
+    ProviderModel(name: "Shifa"),
+    ProviderModel(
+      name: "Complex",
+    ),
+    ProviderModel(name: "CMH"),
+  ];
+}
+
+class ProviderModel {
+  final String name;
+  final String image;
+  ProviderModel({required this.name, this.image = "assets/icons/hospital.png"});
 }

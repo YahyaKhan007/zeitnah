@@ -60,30 +60,41 @@ class ServiceProviderSettings extends StatelessWidget {
           border: Border.all(color: AppColors.kcGreyColor),
         ),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        child: Row(children: [
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
           SvgPicture.asset(
             image,
             color: AppColors.kcPrimaryBlueColor,
+            height: 24.h,
           ),
           Expanded(
-            child: Center(
-              child: Text(
-                label,
-                style: GoogleFonts.inter(
-                  textStyle: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.kcPrimaryBlackColor,
-                      fontWeight: FontWeight.bold),
+            child: SizedBox(
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(
+                    textStyle: TextStyle(
+                        fontSize: 12.sp,
+                        color: AppColors.kcPrimaryBlackColor,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
           ),
-          Text(trailingText,
-              style: GoogleFonts.inter(
-                  textStyle: TextStyle(
-                      fontSize: 16.sp,
-                      color: AppColors.kcPrimaryBlueColor,
-                      fontWeight: FontWeight.bold)))
+          SizedBox(
+            width: 40.w,
+            child: Center(
+              child: Text(trailingText,
+                  style: GoogleFonts.inter(
+                      textStyle: TextStyle(
+                          fontSize: 12.sp,
+                          color: AppColors.kcPrimaryBlueColor,
+                          fontWeight: FontWeight.bold))),
+            ),
+          )
         ]),
       ),
     );

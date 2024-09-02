@@ -33,7 +33,7 @@ addNotificationTime({required BuildContext context, required String label}) {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.murecho(
                               textStyle: TextStyle(
-                                  fontSize: 20.sp,
+                                  fontSize: 18.sp,
                                   color: AppColors.kcPrimaryBlackColor,
                                   fontWeight: FontWeight.bold))),
                     ),
@@ -97,13 +97,14 @@ void pickNotificationTime({required BuildContext context}) async {
                     textAlign: TextAlign.center,
                     style: GoogleFonts.murecho(
                         textStyle: TextStyle(
-                            fontSize: 20.sp,
+                            fontSize: 18.sp,
                             color: AppColors.kcPrimaryBlackColor,
                             fontWeight: FontWeight.bold))),
                 16.h.verticalSpace,
-                const Text(
+                 Text(
                   "From",
                   style: TextStyle(
+                    fontSize: 16.sp,
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 8.h.verticalSpace,
@@ -124,9 +125,10 @@ void pickNotificationTime({required BuildContext context}) async {
                   ),
                 ),
                 16.h.verticalSpace,
-                const Text(
+                 Text(
                   "To",
                   style: TextStyle(
+                      fontSize: 16.sp,
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
                 8.h.verticalSpace,

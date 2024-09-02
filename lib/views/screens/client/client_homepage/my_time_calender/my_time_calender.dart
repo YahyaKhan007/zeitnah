@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +31,7 @@ class MyCalender extends StatelessWidget {
       height: size.height,
       width: size.width,
       child: Center(
-        child: SvgPicture.asset("assets/icons/always.svg"),
+        child: SvgPicture.asset("assets/icons/always.svg", height: size.height * 0.15,),
       ),
     );
   }
@@ -40,7 +41,7 @@ class MyCalender extends StatelessWidget {
       height: size.height,
       width: size.width,
       child: Center(
-        child: SvgPicture.asset("assets/icons/mute.svg"),
+        child: SvgPicture.asset("assets/icons/mute.svg", height: size.height * 0.15,),
       ),
     );
   }

@@ -54,12 +54,12 @@ class _AppointmentsState extends State<Appointments> {
   Widget topBar({required Size size, required PageController pageController}) {
     final controller = Get.find<ZeitnahController>();
     return Container(
-      height: 40.h,
+      height: 32.h,
       width: size.width,
       margin: EdgeInsets.symmetric(vertical: 32.h, horizontal: 24.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(50.r),
-        color: const Color(0xffE4E4E4),
+        color: Colors.grey.shade400.withOpacity(0.7),
       ),
       child: Row(
         children: [
@@ -84,7 +84,7 @@ class _AppointmentsState extends State<Appointments> {
         },
         child: Obx(
           () => Container(
-            margin: EdgeInsets.all(4.r),
+            margin: EdgeInsets.all(2.r),
             decoration: BoxDecoration(
               color: controller.selectedTabIndex.value == tabIndex
                   ? AppColors.kcPrimaryBackgrundColor
@@ -93,9 +93,9 @@ class _AppointmentsState extends State<Appointments> {
               boxShadow: [
                 BoxShadow(
                   color: controller.selectedTabIndex.value == tabIndex
-                      ? Colors.grey
+                      ? Colors.black
                       : Colors.transparent,
-                  blurRadius: 8,
+                  blurRadius: 2,
                   offset: const Offset(0, 0),
                 ),
               ],

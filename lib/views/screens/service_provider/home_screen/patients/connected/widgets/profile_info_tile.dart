@@ -14,12 +14,13 @@ Widget profileInfoTile({required String label, required String data}) {
         Text(
           label,
           style: TextStyle(
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.bold,
               color: AppColors.kcPrimaryBlackColor),
         ),
+        8.h.verticalSpace,
         Container(
-          height: 40.h,
+          height: 32.h,
           width: double.maxFinite,
           decoration: BoxDecoration(
             border: Border.all(
@@ -34,7 +35,7 @@ Widget profileInfoTile({required String label, required String data}) {
                 textStyle: TextStyle(
                     color: AppColors.kcPrimaryBlueColor,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.sp),
+                    fontSize: 12.sp),
               ),
             ),
           ),

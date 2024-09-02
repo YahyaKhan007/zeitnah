@@ -34,14 +34,10 @@ Widget deletePatient(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(
-            radius: 12.r,
-            backgroundColor: Colors.white,
-            child: Image.asset(
-              "assets/icons/check.png",
-              color: AppColors.kcPrimaryBlackColor,
-              scale: 1.5,
-            ),
+          Image.asset(
+            "assets/icons/close.png",
+            // color: AppColors.kcPrimaryBlackColor,
+            // scale: 1.5,
           ),
           8.w.horizontalSpace,
           Text(

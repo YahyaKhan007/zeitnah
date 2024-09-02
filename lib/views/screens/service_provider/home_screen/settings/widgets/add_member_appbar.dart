@@ -12,7 +12,7 @@ PreferredSize settingAppBar(
     required String label,
     required BuildContext context}) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(130.h),
+    preferredSize: Size.fromHeight(120.h),
     child: Container(
       decoration:
           BoxDecoration(color: AppColors.kcPrimaryBackgrundColor, boxShadow: [
@@ -39,6 +39,7 @@ PreferredSize settingAppBar(
                 child: SvgPicture.asset(
                   "assets/icons/back.svg",
                   color: AppColors.kcPrimaryBlueColor,
+                  height: 32.h,
                 ),
               ),
               Center(
@@ -50,28 +51,31 @@ PreferredSize settingAppBar(
                           fontSize: 18.sp, fontWeight: FontWeight.bold)),
                 ),
               ),
-              SizedBox(width: 40.w),
+              SizedBox(width: 24.w),
             ],
           ),
           16.h.verticalSpace,
           label.startsWith('P')
               ? Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  height: 32.h,
+                  height: 30.h,
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       color: AppColors.kcGreyColor.withOpacity(0.5)),
-                  child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom : 8).h,
                     child: TextFormField(
                       controller: controller,
                       // textAlign: TextAlign.center,
+
                       style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.kcPrimaryBlackColor),
                       decoration: InputDecoration(
                           prefixIcon: Padding(
-                            padding: EdgeInsets.only(left: 8.w),
+                            padding: EdgeInsets.only(left: 8.w, top: 4.h),
                             child: const Icon(
                               Icons.search,
                               color: AppColors.kcGreyTextColor,
@@ -79,7 +83,7 @@ PreferredSize settingAppBar(
                           ),
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                               color: AppColors.kcGreyTextColor),
                           hintText: "Search"),
@@ -109,25 +113,31 @@ Widget addTeamMemberButton(
         borderRadius: BorderRadius.circular(40.r),
         color: AppColors.kcPrimaryBlueColor,
       ),
-      height: 40.h,
+      height: 32.h,
       width: double.maxFinite,
       margin: const EdgeInsets.symmetric(horizontal: 32).w,
       padding: EdgeInsets.only(left: 16.w),
       child: Row(
+        
         children: [
           SvgPicture.asset(
             image,
             color: AppColors.kcPrimaryBackgrundColor,
-            height: 32.r,
+            height: 24.h,
+          ),
+          // 24.w.horizontalSpace,
+          Expanded(
+            child: Center(
+              child: Text(
+                label,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
+              ),
+            ),
           ),
           24.w.horizontalSpace,
-          Text(
-            label,
-            style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white),
-          )
         ],
       ),
     ),

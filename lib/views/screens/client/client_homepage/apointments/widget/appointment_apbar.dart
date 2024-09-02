@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../services/services.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
+import '../../../account_settings/account_settng_home.dart';
 
 PreferredSizeWidget appointmentAppbar(
     {required BuildContext context, required PageController pageController}) {
@@ -39,11 +40,13 @@ PreferredSizeWidget appointmentAppbar(
                     color: AppColors.kcPrimaryBlackColor,
                     textStyle: TextStyle(
                         color: AppColors.kcPrimaryBlackColor,
-                        fontSize: 24.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold)),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
+                },
                 child: Image.asset(
                   'assets/icons/menu.png',
                   color: Colors.black,
@@ -125,7 +128,7 @@ Widget selectedTab({
               style: GoogleFonts.inter(
                   textStyle: TextStyle(
                       color: AppColors.kcPrimaryBlackColor,
-                      fontSize: 16.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.bold)),
             ),
           ),

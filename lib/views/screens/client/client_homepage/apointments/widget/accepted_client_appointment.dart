@@ -43,7 +43,7 @@ class AcceptedClientAppointment extends StatelessWidget {
           ),
           width: size.width,
           margin: EdgeInsets.symmetric(horizontal: 24.w),
-          padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 8.w),
+          padding: EdgeInsets.only(bottom: 24.h, left: 16.w, right : 16.w),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -65,7 +65,7 @@ class AcceptedClientAppointment extends StatelessWidget {
                 ],
               )),
               CircleAvatar(
-                radius: 28.r,
+                radius: 24.r,
                 backgroundColor: Colors.white,
                 child: CircleAvatar(
                   radius: 20.r,
@@ -87,19 +87,19 @@ class AcceptedClientAppointment extends StatelessWidget {
 
   Widget tileOption({required String image, required String title}) {
     return SizedBox(
-      height: 32.h,
+      height: 28.h,
       child: ListTile(
         minVerticalPadding: 0,
         leading: SvgPicture.asset(
           image,
-          height: 24.r,
+          height: 18.r,
           color: Colors.white,
         ),
         title: Text(
           title,
           style: TextStyle(
               color: Colors.white,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w300),
         ),
       ),

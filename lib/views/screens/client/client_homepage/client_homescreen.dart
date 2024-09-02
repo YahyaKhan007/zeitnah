@@ -23,7 +23,7 @@ class ClientsHomeScreen extends StatelessWidget {
             AppConstants.clientPages[controller.selectedClientPageIndex.value],
       ),
       bottomNavigationBar: Container(
-        height: size.height * 0.1,
+        height: size.height * 0.08,
         width: size.width,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         decoration: BoxDecoration(
@@ -36,7 +36,7 @@ class ClientsHomeScreen extends StatelessWidget {
               spreadRadius: 0,
             )
           ],
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(100.r),
         ),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -74,8 +74,9 @@ class ClientsHomeScreen extends StatelessWidget {
         () => Container(
           margin: EdgeInsets.all(2.r),
           width: size.width * 0.292,
+          padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(100.r),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                   color: index == controller.selectedClientPageIndex.value
@@ -87,25 +88,23 @@ class ClientsHomeScreen extends StatelessWidget {
                   spreadRadius: 0,
                 )
               ]),
-          height: size.height * 0.8,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                icon,
-                color: AppColors.kcPrimaryBlackColor,
-              ),
-              FittedBox(
-                child: Text(
-                  label.tr,
-                  style: GoogleFonts.murecho(
-                      color: AppColors.kcPrimaryBlackColor,
-                      textStyle: TextStyle(
-                          fontSize: 12.sp, fontWeight: FontWeight.bold)),
-                ),
-              )
-            ],
+          // height: size.height * 0.8,
+          child: FittedBox(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(icon, height: size.height * 0.05, color: index == controller.selectedClientPageIndex.value
+                    ? AppColors.kcPrimaryBlueColor : AppColors.kcPrimaryBlackColor,),
+                Text(
+                    label.tr,
+                    style: TextStyle(
+                        fontSize: 12.sp, fontWeight: FontWeight.normal, color: AppColors.kcPrimaryBlackColor)
+                )
+              ],
+            ),
           ),
+
+
         ),
       ),
     );

@@ -42,8 +42,8 @@ Widget patientName(
     onTap: onTap,
     child: Container(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
-      margin: EdgeInsets.only(left: 24.w, right: 16.w, bottom: 16.h),
-      height: 48.h,
+      margin: EdgeInsets.only(left: 32.w, right: 24.w, bottom: 16.h),
+      height: 40.h,
       width: double.maxFinite,
       decoration: BoxDecoration(
         color: AppColors.kcPrimaryBlueColor,
@@ -58,7 +58,7 @@ Widget patientName(
             child: Text(
               drName,
               style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: 14.sp,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             ),

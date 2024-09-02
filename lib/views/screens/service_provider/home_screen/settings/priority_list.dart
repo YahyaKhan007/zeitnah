@@ -49,7 +49,7 @@ class PriorityListScreen extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
         margin: EdgeInsets.only(left: 24.w, right: 16.w, bottom: 16.h),
-        height: 48.h,
+        height: 40.h,
         width: double.maxFinite,
         decoration: BoxDecoration(
           color: AppColors.kcPrimaryBlueColor,
@@ -64,7 +64,7 @@ class PriorityListScreen extends StatelessWidget {
               child: Text(
                 drName,
                 style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 12.sp,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
@@ -73,8 +73,12 @@ class PriorityListScreen extends StatelessWidget {
                 ? Align(
                     alignment: Alignment.centerRight,
                     child: CircleAvatar(
-                        backgroundColor: AppColors.kcPrimaryBackgrundColor,
-                        child: SvgPicture.asset(image)))
+                      radius: 12
+
+                        .r
+                        ,
+                        backgroundColor: Colors.transparent,
+                        child: SvgPicture.asset(image, height: 16.h,color: Colors.white,)))
                 : const SizedBox(),
           ],
         ),

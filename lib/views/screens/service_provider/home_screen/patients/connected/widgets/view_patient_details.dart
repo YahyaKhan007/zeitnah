@@ -22,7 +22,7 @@ class ViewPatientDetails extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: AppColors.kcPrimaryBackgrundColor,
           leading: Padding(
-            padding: const EdgeInsets.only(left: 12).w,
+            padding: const EdgeInsets.only(left: 20).w,
             child: GestureDetector(
               onTap: () {
                 Get.back();
@@ -37,7 +37,7 @@ class ViewPatientDetails extends StatelessWidget {
           title: Text(name,
               style: GoogleFonts.openSans(
                   textStyle: TextStyle(
-                      fontSize: 22.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.kcPrimaryBlackColor))),
         ),

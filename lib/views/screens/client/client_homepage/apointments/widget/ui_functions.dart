@@ -16,8 +16,9 @@ acceptClientAppointment({
         return Material(
           elevation: 50,
           type: MaterialType.transparency,
+          
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).w,
+            padding: const EdgeInsets.symmetric(horizontal: 32).w,
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16).w,
@@ -32,31 +33,34 @@ acceptClientAppointment({
                       child: Text("Accept\nAppointment?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 14.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
                     (size.height * 0.02).h.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        commonButtonWithLowWidth(
-                            backGroundColor: AppColors.kcPrimaryBlackColor,
-                            textColor: Colors.white,
-                            text: "Yes",
-                            size: size,
-                            borderRadius: 24.r,
-                            onTap: onYes),
-                        commonButtonWithLowWidth(
-                            backGroundColor: AppColors.kcPrimaryBlueColor,
-                            textColor: Colors.white,
-                            text: "No",
-                            size: size,
-                            borderRadius: 24.r,
-                            onTap: () {
-                              Get.back();
-                            }),
-                      ],
+                    Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          commonButtonWithLowWidth(
+                              backGroundColor: AppColors.kcPrimaryBlackColor,
+                              textColor: Colors.white,
+                              text: "Yes",
+                              size: size,
+                              borderRadius: 24.r,
+                              onTap: onYes),
+                          commonButtonWithLowWidth(
+                              backGroundColor: AppColors.kcPrimaryBlueColor,
+                              textColor: Colors.white,
+                              text: "No",
+                              size: size,
+                              borderRadius: 24.r,
+                              onTap: () {
+                                Get.back();
+                              }),
+                        ],
+                      ),
                     ),
                     (size.height * 0.01).h.verticalSpace,
                   ],
@@ -95,31 +99,34 @@ rejectClientAppointment({
                       child: Text("Delete\nAppointment?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 16.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
                     (size.height * 0.02).h.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        commonButtonWithLowWidth(
-                            backGroundColor: AppColors.kcPrimaryBlackColor,
-                            textColor: Colors.white,
-                            text: "Yes",
-                            size: size,
-                            borderRadius: 24.r,
-                            onTap: onYes),
-                        commonButtonWithLowWidth(
-                            backGroundColor: AppColors.kcPrimaryBlueColor,
-                            textColor: Colors.white,
-                            text: "No",
-                            size: size,
-                            borderRadius: 24.r,
-                            onTap: () {
-                              Get.back();
-                            }),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          commonButtonWithLowWidth(
+                              backGroundColor: AppColors.kcPrimaryBlackColor,
+                              textColor: Colors.white,
+                              text: "Yes",
+                              size: size,
+                              borderRadius: 24.r,
+                              onTap: onYes),
+                          commonButtonWithLowWidth(
+                              backGroundColor: AppColors.kcPrimaryBlueColor,
+                              textColor: Colors.white,
+                              text: "No",
+                              size: size,
+                              borderRadius: 24.r,
+                              onTap: () {
+                                Get.back();
+                              }),
+                        ],
+                      ),
                     ),
                     (size.height * 0.01).h.verticalSpace,
                   ],

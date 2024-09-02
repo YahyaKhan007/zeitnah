@@ -41,10 +41,10 @@ class Login extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 34.sp),
+                        fontSize: 26.sp),
                   ),
                 ),
-                8.h.verticalSpace,
+                24.h.verticalSpace,
                 Expanded(
                   child: Container(
                     height: double.maxFinite,
@@ -58,7 +58,7 @@ class Login extends StatelessWidget {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // mainAxisSize: MainAxisSize.max,
                         children: [
-                          (size.height * 0.05).h.verticalSpace,
+                          (size.height * 0.06).h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/email.svg',

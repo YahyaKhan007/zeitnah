@@ -12,11 +12,11 @@ class AcceptDeclineRequest extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      height: 48.h,
+      height: 40.h,
       width: size.width,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40.r),
-          color: AppColors.kcGreyTextColor),
+          color: AppColors.kcGreyTextColor.withOpacity(0.3)),
       margin: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 16.h),
       padding: EdgeInsets.all(6.r),
       child: Row(
@@ -33,7 +33,7 @@ class AcceptDeclineRequest extends StatelessWidget {
               child: Text(
                 "Alex Bright",
                 style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.kcPrimaryBlackColor),
               ),

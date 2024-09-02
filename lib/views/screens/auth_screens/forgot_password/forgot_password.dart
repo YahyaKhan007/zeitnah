@@ -18,7 +18,7 @@ class ForgotPassword extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: EdgeInsets.only(left: 16.w),
+          padding: EdgeInsets.only(left: 20.w),
           child: GestureDetector(
               onTap: () {
                 Get.back();
@@ -51,10 +51,10 @@ class ForgotPassword extends StatelessWidget {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 30.sp),
+                        fontSize: 26.sp),
                   ),
                 ),
-                8.h.verticalSpace,
+                  24.h.verticalSpace,
                 Expanded(
                   child: Container(
                     height: double.maxFinite,

@@ -34,7 +34,7 @@ class AddProviderHome extends StatelessWidget {
                             padding: EdgeInsets.only(
                                 left: 24.w, right: 16.w, bottom: 16.h),
                             child: SizedBox(
-                              height: size.height * 0.08,
+                              height: size.height * 0.075,
                               child: GestureDetector(
                                 onTap: () {
                                   Get.to(() => HospitalProfileFromPatientSide(
@@ -51,7 +51,7 @@ class AddProviderHome extends StatelessWidget {
                                       top: 5.h,
                                       child: Center(
                                         child: Container(
-                                          height: size.height * 0.07,
+                                          height: size.height * 0.06,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(24.r),
@@ -62,7 +62,8 @@ class AddProviderHome extends StatelessWidget {
                                               AppConstants
                                                   .srviceProviderList[index]
                                                   .name,
-                                              style: const TextStyle(
+                                              style:  TextStyle(
+                                                fontSize: 12.sp,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             ),
@@ -106,7 +107,7 @@ class AddProviderHome extends StatelessWidget {
                           child: Center(
                             child: SvgPicture.asset(
                               "assets/icons/add_pro.svg",
-                              height: 64.r,
+                              height: 48.r,
                             ),
                           ),
                         ),
@@ -115,7 +116,7 @@ class AddProviderHome extends StatelessWidget {
                           style: TextStyle(
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.normal,
-                              fontSize: 16.sp),
+                              fontSize: 12.sp),
                         )
                       ],
                     ),

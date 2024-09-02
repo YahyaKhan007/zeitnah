@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/utils/app_constants.dart';
+import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/account_setting_home_service_provider.dart';
 
 class ServiceProviderHomeScreen extends StatelessWidget {
   ServiceProviderHomeScreen({super.key});
@@ -28,11 +29,13 @@ class ServiceProviderHomeScreen extends StatelessWidget {
           style: GoogleFonts.openSans(
               color: AppColors.kcPrimaryBlackColor,
               textStyle:
-                  TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
+                  TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold)),
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Get.to(()=> const ServiceProviderAccountSettingsHome());
+            },
             child: Image.asset(
               'assets/icons/menu.png',
               color: Colors.black,
@@ -44,20 +47,20 @@ class ServiceProviderHomeScreen extends StatelessWidget {
           () => AppConstants.providerPages[controller.selectedPageIndex.value]),
 
       bottomNavigationBar: Container(
-        height: size.height * 0.1,
+        height: size.height * 0.08,
         width: size.width,
         margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 8,
+              blurRadius: 4,
               blurStyle: BlurStyle.outer,
               offset: Offset(0, 0),
-              spreadRadius: 0,
+              spreadRadius: -4,
             )
           ],
-          borderRadius: BorderRadius.circular(16.r),
+          borderRadius: BorderRadius.circular(100.r),
         ),
         child: ListView.builder(
           physics: const NeverScrollableScrollPhysics(),
@@ -94,9 +97,10 @@ class ServiceProviderHomeScreen extends StatelessWidget {
       child: Obx(
         () => Container(
           margin: EdgeInsets.all(2.r),
+          padding: EdgeInsets.all(6),
           width: size.width * 0.292,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.r),
+              borderRadius: BorderRadius.circular(100.r),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                   color: index == controller.selectedPageIndex.value
@@ -108,19 +112,20 @@ class ServiceProviderHomeScreen extends StatelessWidget {
                   spreadRadius: 0,
                 )
               ]),
-          height: size.height * 0.8,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(icon),
-              Text(
-                label.tr,
-                style: GoogleFonts.murecho(
-                    color: AppColors.kcPrimaryBlackColor,
-                    textStyle: TextStyle(
-                        fontSize: 12.sp, fontWeight: FontWeight.bold)),
-              )
-            ],
+          // height: size.height * 0.01,
+          child: FittedBox(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(icon, height: size.height * 0.05, color: index == controller.selectedPageIndex.value
+                        ? AppColors.kcPrimaryBlueColor : AppColors.kcPrimaryBlackColor,),
+                Text(
+                  label.tr,
+                  style: TextStyle(
+                          fontSize: 12.sp, fontWeight: FontWeight.normal, color: AppColors.kcPrimaryBlackColor)
+                )
+              ],
+            ),
           ),
         ),
       ),

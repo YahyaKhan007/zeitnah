@@ -28,7 +28,7 @@ void pickDate({required BuildContext context}) async {
                 Text(
                   "Date",
                   style: TextStyle(
-                      fontSize: 22.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.kcPrimaryBlackColor),
                 ),
@@ -41,6 +41,7 @@ void pickDate({required BuildContext context}) async {
                           Border.all(color: AppColors.kcGreyColor, width: 1)),
                   height: 100.h,
                   child: CupertinoDatePicker(
+
                     use24hFormat: true,
                     initialDateTime: initialDate,
                     mode: CupertinoDatePickerMode.date,
@@ -97,7 +98,7 @@ void pickTime({required BuildContext context, required String label}) async {
                 Text(
                   label,
                   style: TextStyle(
-                      fontSize: 22.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: AppColors.kcPrimaryBlackColor),
                 ),
@@ -168,7 +169,7 @@ void pickWorker({required BuildContext context}) async {
                 Text(
                   "Select Worker",
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.kcPrimaryBlackColor,
                   ),

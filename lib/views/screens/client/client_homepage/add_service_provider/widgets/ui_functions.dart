@@ -31,9 +31,15 @@ addProviderDialog({required BuildContext context}) {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     (size.height * 0.01).h.verticalSpace,
-                    SvgPicture.asset(
-                      "assets/icons/back.svg",
-                      color: AppColors.kcPrimaryBlueColor,
+                    GestureDetector(
+                      onTap: (){
+                        Get.back();
+                      },
+                      child: SvgPicture.asset(
+                        "assets/icons/back.svg",
+                        color: AppColors.kcPrimaryBlueColor,
+                        height: 32.h,
+                      ),
                     ),
                     // (size.height * 0.01).h.verticalSpace,
                     Center(
@@ -41,10 +47,11 @@ addProviderDialog({required BuildContext context}) {
                           textAlign: TextAlign.center,
                           style: GoogleFonts.murecho(
                               textStyle: TextStyle(
-                                  fontSize: 20.sp,
+                                  fontSize: 16.sp,
                                   color: AppColors.kcPrimaryBlackColor,
                                   fontWeight: FontWeight.bold))),
                     ),
+                    8.h.verticalSpace,
                     Container(
                       margin: EdgeInsetsDirectional.symmetric(horizontal: 24.w),
                       height: 32.h,
@@ -52,74 +59,81 @@ addProviderDialog({required BuildContext context}) {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.r),
                           color: AppColors.kcGreyColor.withOpacity(0.5)),
-                      child: TextFormField(
-                        style: TextStyle(
-                            color:
-                                AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12.sp),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color:
-                                AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: 26.h,
+                            child: TextFormField(
+                              style: TextStyle(
+                                  color:
+                                      AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 12.sp),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.only(top:6),
+                                  child: Icon(
+                                    Icons.search,
+                                    color:
+                                        AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+                                  ),
+                                ),
+                                hintText: "Search",
+                                hintStyle: TextStyle(
+                                    color: AppColors.kcPrimaryBlackColor
+                                        .withOpacity(0.6),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12.sp),
+                              ),
+                            ),
                           ),
-                          hintText: "Search",
-                          hintStyle: TextStyle(
-                              color: AppColors.kcPrimaryBlackColor
-                                  .withOpacity(0.6),
-                              fontWeight: FontWeight.normal,
-                              fontSize: 12.sp),
-                        ),
+                          4.h.verticalSpace,
+                        ],
                       ),
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 8).h,
+                        padding: const EdgeInsets.only(top: 16).h,
                         child: SizedBox(
                           child: ListView.builder(
                               itemCount: AppConstants.srviceProviderList.length,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(bottom: 8).h,
+                                  padding: const EdgeInsets.only(bottom: 12).h,
                                   child: SizedBox(
-                                    height: size.height * 0.08,
+                                    height: size.height * 0.07,
                                     child: GestureDetector(
                                       onTap: () {
-                                        Get.back();
-                                        Get.to(() =>
-                                            HospitalProfileFromPatientSide(
-                                              isAdd: false,
-                                              model: AppConstants
-                                                  .srviceProviderList[index],
-                                            ));
+                                        // Get.to(() => HospitalProfileFromPatientSide(
+                                        //   isAdd: true,
+                                        //   model: AppConstants
+                                        //       .srviceProviderList[index],
+                                        // ));
                                       },
                                       child: Stack(
                                         children: [
                                           Positioned(
-                                            left: 24.w,
-                                            right: 0,
-                                            top: 8.h,
+                                            left: 16.w,
+                                            right: 20.w,
+                                            top: 5.h,
                                             child: Center(
                                               child: Container(
-                                                height: size.height * 0.06,
+                                                height: size.height * 0.055,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          24.r),
-                                                  color: AppColors
-                                                      .kcPrimaryBlueColor,
+                                                  BorderRadius.circular(24.r),
+                                                  color: AppColors.kcPrimaryBlueColor,
                                                 ),
                                                 child: Center(
                                                   child: Text(
                                                     AppConstants
-                                                        .srviceProviderList[
-                                                            index]
+                                                        .srviceProviderList[index]
                                                         .name,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                    style:  TextStyle(
+                                                        fontSize: 12.sp,
+                                                        fontWeight: FontWeight.bold,
                                                         color: Colors.white),
                                                   ),
                                                 ),
@@ -127,13 +141,11 @@ addProviderDialog({required BuildContext context}) {
                                             ),
                                           ),
                                           CircleAvatar(
-                                            radius: 32.r,
+                                            radius: 28.r,
                                             backgroundColor:
-                                                AppColors.kcPrimaryBlueColor,
-                                            backgroundImage: AssetImage(
-                                                AppConstants
-                                                    .srviceProviderList[index]
-                                                    .image),
+                                            AppColors.kcPrimaryBlueColor,
+                                            backgroundImage: AssetImage(AppConstants
+                                                .srviceProviderList[index].image),
                                           ),
                                         ],
                                       ),
@@ -154,8 +166,8 @@ addProviderDialog({required BuildContext context}) {
 
                     Row(
                       children: [
-                        SvgPicture.asset("assets/icons/qr_text.svg"),
-                        SvgPicture.asset("assets/icons/qr.svg")
+                        SvgPicture.asset("assets/icons/qr_text.svg", height: 32.h),
+                        SvgPicture.asset("assets/icons/qr.svg", height: 56.h,)
                       ],
                     ),
                     16.h.verticalSpace,
@@ -191,7 +203,7 @@ deleteHospital({required BuildContext context}) {
                     Center(
                       child: Text("Delete Appointment?",
                           style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 16.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),

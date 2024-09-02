@@ -28,7 +28,7 @@ deleteAppointment({required BuildContext context}) {
                     Center(
                       child: Text("Delete Appointment?",
                           style: TextStyle(
-                              fontSize: 24.sp,
+                              fontSize: 18.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
@@ -63,7 +63,7 @@ deleteAppointment({required BuildContext context}) {
                             ],
                           )),
                           CircleAvatar(
-                            radius: 40.r,
+                            radius: 32.r,
                           )
                         ],
                       ),
@@ -109,14 +109,14 @@ Widget tileOption({required String image, required String title}) {
       minVerticalPadding: 0,
       leading: SvgPicture.asset(
         image,
-        height: 24.r,
+        height: 20.r,
         color: AppColors.kcPrimaryBlackColor,
       ),
       title: Text(
         title,
         style: TextStyle(
             color: AppColors.kcPrimaryBlackColor,
-            fontSize: 14.sp,
+            fontSize: 12.sp,
             fontWeight: FontWeight.w300),
       ),
     ),

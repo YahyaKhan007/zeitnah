@@ -32,7 +32,7 @@ void selectDefaultTime({required BuildContext context}) async {
                 Text(
                   "Time Settings",
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.kcPrimaryBlackColor,
                   ),
@@ -60,7 +60,7 @@ void selectDefaultTime({required BuildContext context}) async {
                         child: Text(
                           "$worker min",
                           style: TextStyle(
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                             color: AppColors.kcPrimaryBlackColor,
                           ),
                         ),
@@ -121,7 +121,7 @@ void addMember(
                 Text(
                   "Add Member",
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                     color: AppColors.kcPrimaryBlackColor,
                   ),
@@ -144,7 +144,7 @@ void addMember(
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.bold,
                               color: AppColors.kcGreyTextColor),
                           hintText: "✎ Type..."),
@@ -208,7 +208,7 @@ removeMember(
                       child: Text("Delete\n$name?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 20.sp,
+                              fontSize: 16.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),

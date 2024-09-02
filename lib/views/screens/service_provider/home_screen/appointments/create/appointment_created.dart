@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/views/screens/auth_screens/widgets/common_widgets.dart';
 
+import '../../../../../widgets/appoint_container_widget.dart';
+import '../../../../../widgets/appointment_detail_container.dart';
+
 class AppointmentCreated extends StatelessWidget {
   const AppointmentCreated({super.key});
 
@@ -20,50 +23,16 @@ class AppointmentCreated extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             (size.height * 0.06).h.verticalSpace,
-            Image.asset('assets/icons/splash_icon.png'),
+            Image.asset('assets/icons/splash_icon.png', height: size.height * 0.2,),
             Text(
               "Appointment uploaded\nsuccessfully!",
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppColors.kcPrimaryBlackColor,
-                  fontSize: 22.sp,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold),
             ),
-            (size.height * 0.03).h.verticalSpace,
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24.r),
-                color: AppColors.kcPrimaryBlueColor,
-              ),
-              width: size.width,
-              margin: EdgeInsets.symmetric(horizontal: 24.w),
-              padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 8.w),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                      child: Column(
-                    children: [
-                      tileOption(
-                        image: 'assets/icons/calender.svg',
-                        title: "Today (05.08)",
-                      ),
-                      tileOption(
-                        image: 'assets/icons/clock.svg',
-                        title: "09:00 - 09:20",
-                      ),
-                      tileOption(
-                        image: 'assets/icons/calender.svg',
-                        title: "Peter Weiß",
-                      ),
-                    ],
-                  )),
-                  CircleAvatar(
-                    radius: 40.r,
-                  )
-                ],
-              ),
-            ),
+            (size.height * 0.03).h.verticalSpace, appointmentDetailsContainer(context: context),
             (size.height * 0.03).h.verticalSpace,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24).w,

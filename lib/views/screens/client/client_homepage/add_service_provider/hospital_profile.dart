@@ -32,7 +32,7 @@ class _HospitalProfileFromPatientSideState
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         centerTitle: true,
         leading: Padding(
-          padding: EdgeInsets.only(left: 12.w),
+          padding: EdgeInsets.only(left: 20.w),
           child: GestureDetector(
             onTap: () {
               Get.back();
@@ -49,7 +49,7 @@ class _HospitalProfileFromPatientSideState
             textStyle: TextStyle(
                 color: AppColors.kcPrimaryBlackColor,
                 fontWeight: FontWeight.bold,
-                fontSize: 20.sp),
+                fontSize: 18.sp),
           ),
         ),
       ),
@@ -61,10 +61,10 @@ class _HospitalProfileFromPatientSideState
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                radius: 64.r,
+                radius: 48.r,
                 backgroundColor: AppColors.kcPrimaryBlackColor,
                 child: CircleAvatar(
-                  radius: 62.r,
+                  radius: 46.r,
                   backgroundColor: AppColors.kcPrimaryBlueColor,
                   backgroundImage: AssetImage(widget.model.image),
                 ),
@@ -123,12 +123,12 @@ class _HospitalProfileFromPatientSideState
               textStyle: TextStyle(
                   color: AppColors.kcGreyTextColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 14.sp),
+                  fontSize: 12.sp),
             ),
           ),
           8.h.verticalSpace,
           Container(
-            height: 40.h,
+            height: 32.h,
             width: double.maxFinite,
             decoration: BoxDecoration(
               border: Border.all(
@@ -143,7 +143,7 @@ class _HospitalProfileFromPatientSideState
                   textStyle: TextStyle(
                       color: AppColors.kcPrimaryBlueColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 14.sp),
+                      fontSize: 12.sp),
                 ),
               ),
             ),

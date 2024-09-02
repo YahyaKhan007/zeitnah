@@ -18,7 +18,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 12).w,
+          padding: const EdgeInsets.only(left: 24).w,
           child: GestureDetector(
             onTap: () {
               Get.back();
@@ -34,7 +34,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
           "Appointment",
           style: GoogleFonts.openSans(
               textStyle: TextStyle(
-                  fontSize: 22.sp,
+                  fontSize: 16.sp,
                   color: AppColors.kcPrimaryBlackColor,
                   fontWeight: FontWeight.bold)),
         ),
@@ -51,13 +51,13 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
                 "Bilal Hospital",
                 style: GoogleFonts.openSans(
                     textStyle: TextStyle(
-                        fontSize: 18.sp,
+                        fontSize: 16.sp,
                         color: AppColors.kcPrimaryBlackColor,
                         fontWeight: FontWeight.bold)),
               ),
               16.h.verticalSpace,
               CircleAvatar(
-                  radius: 56.r,
+                  radius: 40.r,
                   backgroundColor: AppColors.kcPrimaryBlueColor,
                   backgroundImage:
                       const AssetImage("assets/icons/hospital.png")),
@@ -65,7 +65,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
               remainingTime(),
               16.h.verticalSpace,
               appointmentDetails(),
-              16.h.verticalSpace,
+              24.h.verticalSpace,
               commonButton(
                   backGroundColor: AppColors.kcPrimaryBlueColor,
                   textColor: Colors.white,
@@ -82,6 +82,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
                 },
                 child: SvgPicture.asset(
                   "assets/icons/cancel.svg",
+                  height: size.height * 0.06,
                 ),
               )
             ],
@@ -96,7 +97,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
       "35:49 min",
       style: GoogleFonts.inter(
         textStyle: TextStyle(
-            fontSize: 30.sp,
+            fontSize: 18.sp,
             color: AppColors.kcGreyTextColor,
             fontWeight: FontWeight.bold),
       ),
@@ -106,12 +107,13 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
   Widget appointmentDetails() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 80.w),
-      padding: EdgeInsets.symmetric(vertical: 16.h),
+      padding: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.kcGreyColor, width: 1),
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           tileOption(
             image: 'assets/icons/calender.svg',
@@ -132,19 +134,19 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
 
   Widget tileOption({required String image, required String title}) {
     return SizedBox(
-      height: 32.h,
+      height: 28.h,
       child: ListTile(
         minVerticalPadding: 0,
         leading: SvgPicture.asset(
           image,
-          height: 24.r,
+          height: 18.r,
           color: AppColors.kcGreyTextColor,
         ),
         title: Text(
           title,
           style: TextStyle(
               color: AppColors.kcGreyTextColor,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w300),
         ),
       ),

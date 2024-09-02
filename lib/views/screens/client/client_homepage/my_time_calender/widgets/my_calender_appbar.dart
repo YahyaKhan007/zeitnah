@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/controller_service/controller_service.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
+import '../../../account_settings/account_settng_home.dart';
 
 PreferredSizeWidget myCalenderAppbar(BuildContext context) {
   final controller = Get.find<ZeitnahController>();
@@ -38,11 +39,13 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
                     color: AppColors.kcPrimaryBlackColor,
                     textStyle: TextStyle(
                         color: AppColors.kcPrimaryBlackColor,
-                        fontSize: 24.sp,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold)),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
+                },
                 child: Image.asset(
                   'assets/icons/menu.png',
                   color: Colors.black,
@@ -88,7 +91,7 @@ Widget containerOption({
   Size size = MediaQuery.of(context).size;
   final controller = Get.find<ZeitnahController>();
   return Container(
-    height: 80.h,
+    height: 60.h,
     width: size.width * 0.28,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.r),
@@ -110,15 +113,20 @@ Widget containerOption({
             color: AppColors.kcPrimaryBlackColor,
             textStyle: TextStyle(
                 color: AppColors.kcPrimaryBlackColor,
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold),
           ),
         ),
-        Switch(
-            value: value,
-            onChanged: (val) {
-              controller.setNotification(value: label);
-            }),
+        Transform.scale(
+          scale: 0.8,
+          child: Switch(
+            activeColor: Colors.white,
+activeTrackColor: AppColors.kcPrimaryBlueColor,
+              value: value,
+              onChanged: (val) {
+                controller.setNotification(value: label);
+              }),
+        ),
       ],
     ),
   );

@@ -22,12 +22,12 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: EdgeInsets.only(left: 16.w),
+          padding: EdgeInsets.only(left: 20.w),
           child: GestureDetector(
               onTap: () {
                 Get.back();
               },
-              child: SvgPicture.asset("assets/icons/back.svg")),
+              child: SvgPicture.asset("assets/icons/back.svg",)),
         ),
       ),
       extendBodyBehindAppBar: true,
@@ -52,10 +52,10 @@ class RegisterScreen extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 34.sp),
+                    fontSize: 26.sp),
               ),
             ),
-            8.h.verticalSpace,
+              24.h.verticalSpace,
             Expanded(
               child: Container(
                 decoration: BoxDecoration(

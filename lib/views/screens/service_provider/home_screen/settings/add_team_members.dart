@@ -32,9 +32,10 @@ class AddTeamMembers extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 16.h),
                     child: Container(
-                      height: 40.h,
+                      height: 32.h,
                       width: size.width,
                       margin: EdgeInsets.symmetric(horizontal: 32.w),
+                      padding: EdgeInsets.only(left: 16.w),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40.r),
                         color: AppColors.kcGreyColor,
@@ -44,10 +45,11 @@ class AddTeamMembers extends StatelessWidget {
                           Center(
                             child: Text(
                               memberName,
+                              overflow: TextOverflow.ellipsis,
                               style: GoogleFonts.openSans(
                                 color: AppColors.kcPrimaryBlackColor,
                                 textStyle: TextStyle(
-                                    fontSize: 16.sp,
+                                    fontSize: 12.sp,
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -71,7 +73,7 @@ class AddTeamMembers extends StatelessWidget {
                                 );
                               },
                               child: CircleAvatar(
-                                radius: 22.r,
+                                radius: 16.r,
                                 backgroundColor: AppColors.kcPrimaryBlackColor,
                                 child: const Center(
                                   child: Icon(

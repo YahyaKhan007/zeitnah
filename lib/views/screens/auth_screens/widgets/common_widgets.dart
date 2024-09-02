@@ -15,10 +15,10 @@ Widget commonField(
         boxShadow: const <BoxShadow>[
           BoxShadow(
             color: Colors.grey,
-            blurRadius: 8,
+            blurRadius: 2,
             blurStyle: BlurStyle.outer,
             offset: Offset(1, 1),
-            spreadRadius: 0,
+            spreadRadius: -4,
           )
         ]),
     height: 48.h,
@@ -27,13 +27,13 @@ Widget commonField(
     padding: EdgeInsets.symmetric(horizontal: 16.w),
     child: Row(
       children: [
-        SvgPicture.asset(image),
+        SvgPicture.asset(image, height: size.height * 0.03,),
         16.w.horizontalSpace,
         Expanded(
           child: TextFormField(
             style: TextStyle(
               fontWeight: FontWeight.w500,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               color: const Color(0xff64748B),
             ),
             controller: controller,
@@ -41,7 +41,7 @@ Widget commonField(
               border: InputBorder.none,
               hintText: title.tr,
               hintStyle: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w500,
                 color: const Color(0xff64748B),
               ),
@@ -68,24 +68,24 @@ Widget commonButton(
       // height: 48.h,
       width: size.width * 0.6,
 
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
           color: backGroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 8,
+              blurRadius: 2,
               blurStyle: BlurStyle.outer,
               offset: Offset(0, 0),
-              spreadRadius: 0,
+              spreadRadius: -4,
             )
           ]),
       child: Center(
         child: Text(
           text.tr,
           style: TextStyle(
-              color: textColor, fontSize: 16.sp, fontWeight: FontWeight.bold),
+              color: textColor, fontSize: 14.sp, fontWeight: FontWeight.bold),
         ),
       ),
     ),
@@ -107,24 +107,24 @@ Widget commonButtonWithLowWidth(
       // height: 48.h,
       width: size.width * 0.3,
 
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
       decoration: BoxDecoration(
           color: backGroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 8,
+              blurRadius: 2,
               blurStyle: BlurStyle.outer,
               offset: Offset(0, 0),
-              spreadRadius: 0,
+              spreadRadius: -4,
             )
           ]),
       child: Center(
         child: Text(
           text.tr,
           style: TextStyle(
-              color: textColor, fontSize: 16.sp, fontWeight: FontWeight.bold),
+              color: textColor, fontSize: 12.sp, fontWeight: FontWeight.bold),
         ),
       ),
     ),
@@ -152,17 +152,17 @@ Widget commonFullSizeButton(
           boxShadow: const <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 8,
+              blurRadius: 2,
               blurStyle: BlurStyle.outer,
               offset: Offset(0, 0),
-              spreadRadius: 0,
+              spreadRadius: -4,
             )
           ]),
       child: Center(
         child: Text(
           text.tr,
           style: TextStyle(
-              color: textColor, fontSize: 16.sp, fontWeight: FontWeight.bold),
+              color: textColor, fontSize: 14.sp, fontWeight: FontWeight.bold),
         ),
       ),
     ),
