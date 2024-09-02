@@ -49,9 +49,7 @@ PreferredSizeWidget appointmentAppbar(
                       transition: Transition.rightToLeftWithFade,
                       duration: const Duration(milliseconds: 400));
                 },
-                onTap: () {
-                  Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
-                },
+               
                 child: Image.asset(
                   'assets/icons/menu.png',
                   color: Colors.black,

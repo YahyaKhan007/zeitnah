@@ -109,20 +109,7 @@ class ClientsHomeScreen extends StatelessWidget {
             ],
           ),
           // height: size.height * 0.8,
-          child: FittedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(icon, height: size.height * 0.05, color: index == controller.selectedClientPageIndex.value
-                    ? AppColors.kcPrimaryBlueColor : AppColors.kcPrimaryBlackColor,),
-                Text(
-                    label.tr,
-                    style: TextStyle(
-                        fontSize: 12.sp, fontWeight: FontWeight.normal, color: AppColors.kcPrimaryBlackColor)
-                )
-              ],
-            ),
-          ),
+         
 
 
         ),
