@@ -37,11 +37,15 @@ class AddProviderHome extends StatelessWidget {
                               height: size.height * 0.075,
                               child: GestureDetector(
                                 onTap: () {
-                                  Get.to(() => HospitalProfileFromPatientSide(
-                                        isAdd: true,
-                                        model: AppConstants
-                                            .srviceProviderList[index],
-                                      ));
+                                  Get.to(
+                                    () => HospitalProfileFromPatientSide(
+                                      isAdd: true,
+                                      model: AppConstants
+                                          .srviceProviderList[index],
+                                    ),
+                                    duration: const Duration(milliseconds: 300),
+                                    transition: Transition.rightToLeft,
+                                  );
                                 },
                                 child: Stack(
                                   children: [
@@ -52,18 +56,25 @@ class AddProviderHome extends StatelessWidget {
                                       child: Center(
                                         child: Container(
                                           height: size.height * 0.06,
+                                          width: size.width,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(24.r),
                                             color: AppColors.kcPrimaryBlueColor,
                                           ),
-                                          child: Center(
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                    right: 8.w,
+                                                    left: size.width * 0.15,
+                                                    top: size.height * 0.02)
+                                                .w,
                                             child: Text(
                                               AppConstants
                                                   .srviceProviderList[index]
                                                   .name,
-                                              style:  TextStyle(
-                                                fontSize: 12.sp,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 14.sp,
                                                   fontWeight: FontWeight.bold,
                                                   color: Colors.white),
                                             ),
@@ -98,6 +109,7 @@ class AddProviderHome extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
+                        6.h.verticalSpace,
                         GestureDetector(
                           onTap: () {
                             addProviderDialog(

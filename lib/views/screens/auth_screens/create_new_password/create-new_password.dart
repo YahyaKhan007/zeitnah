@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:zeitnah/utils/app_colors/app_colors.dart';
-
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import '../widgets/common_widgets.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class CreateNewPassword extends StatelessWidget {
-  CreateNewPassword({super.key});
+  CreateNewPassword({super.key,});
+  
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -19,7 +20,7 @@ class CreateNewPassword extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: EdgeInsets.only(left: 20.w),
+          padding: EdgeInsets.only(left: 16.w),
           child: GestureDetector(
               onTap: () {
                 Get.back();
@@ -68,19 +69,19 @@ class CreateNewPassword extends StatelessWidget {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // mainAxisSize: MainAxisSize.max,
                         children: [
-                          (size.height * 0.05).h.verticalSpace,
+                         (size.height * 0.03).h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/email.svg',
                               title: 'E-Mail',
                               controller: emailController),
-                          24.h.verticalSpace,
+                          16.h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/lock.svg',
                               title: 'Password',
                               controller: passController),
-                          24.h.verticalSpace,
+                          16.h.verticalSpace,
                           8.h.verticalSpace,
                           commonButton(
                               backGroundColor: AppColors.kcPrimaryBlueColor,

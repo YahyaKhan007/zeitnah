@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
@@ -45,48 +44,67 @@ Widget customeNotification({required BuildContext context}) {
                   ],
                   size: size,
                   onTap: () {
-                    addNotificationTime(context: context, label: "Monday");
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[0]);
                   }),
               dayContainer(
-                  day: AppConstants.weekDays[0],
+                  day: AppConstants.weekDays[1],
                   dailySchedule: [
                     {'start': "08:00", 'end': '10:00'},
                     {'start': "12:00", 'end': '16:00'},
                   ],
                   size: size,
-                  onTap: () {}),
+                  onTap: () {
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[1]);
+                  }),
               dayContainer(
-                  day: AppConstants.weekDays[0],
+                  day: AppConstants.weekDays[2],
                   dailySchedule: [
                     {'start': "08:00", 'end': '10:00'},
                   ],
                   size: size,
-                  onTap: () {}),
+                  onTap: () {
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[2]);
+                  }),
               dayContainer(
-                  day: AppConstants.weekDays[0],
+                  day: AppConstants.weekDays[3],
+                  dailySchedule: [
+                    {'start': "08:00", 'end': '10:00'}
+                  ],
+                  size: size,
+                  onTap: () {
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[3]);
+                  }),
+              dayContainer(
+                  day: AppConstants.weekDays[4],
+                  dailySchedule: [],
+                  onTap: () {
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[4]);
+                  },
+                  size: size),
+              dayContainer(
+                  day: AppConstants.weekDays[5],
+                  dailySchedule: [],
+                  onTap: () {
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[5]);
+                  },
+                  size: size),
+              dayContainer(
+                  day: AppConstants.weekDays[6],
                   dailySchedule: [
                     {'start': "08:00", 'end': '10:00'},
                     {'start': "16:00", 'end': '24:00'},
                   ],
                   size: size,
-                  onTap: () {}),
-              dayContainer(
-                  day: AppConstants.weekDays[0],
-                  dailySchedule: [
-                    {'start': "08:00", 'end': '10:00'}
-                  ],
-                  size: size,
-                  onTap: () {}),
-              dayContainer(
-                  day: AppConstants.weekDays[0],
-                  dailySchedule: [],
-                  onTap: () {},
-                  size: size),
-              dayContainer(
-                  day: AppConstants.weekDays[0],
-                  dailySchedule: [],
-                  onTap: () {},
-                  size: size)
+                  onTap: () {
+                    addNotificationTime(
+                        context: context, label: AppConstants.weekDays[6]);
+                  }),
             ],
           ),
         ),

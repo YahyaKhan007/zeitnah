@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../../../utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class MyQrCode extends StatelessWidget {
   const MyQrCode({super.key});
@@ -16,7 +16,7 @@ class MyQrCode extends StatelessWidget {
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         centerTitle: true,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 20).w,
+          padding: const EdgeInsets.only(left: 16).w,
           child: GestureDetector(
             onTap: () {
               Get.back();

@@ -8,7 +8,7 @@ import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../../utils/app_constants.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
 
-void selectDefaultTime({required BuildContext context}) async {
+void selectDefaultTime({required BuildContext context, String? label}) async {
   Size size = MediaQuery.of(context).size;
   int? selectedTime;
   int initialTime = AppConstants.defaultAppointmentTime[0];
@@ -30,7 +30,7 @@ void selectDefaultTime({required BuildContext context}) async {
               children: [
                 24.h.verticalSpace,
                 Text(
-                  "Time Settings",
+                  label ?? "Time Settings",
                   style: TextStyle(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -47,6 +47,10 @@ void selectDefaultTime({required BuildContext context}) async {
                   height: 200,
                   child: CupertinoPicker(
                     itemExtent: 32.0,
+                    selectionOverlay: Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.kcGreyColor.withOpacity(0.2)),
+                    ),
                     scrollController: FixedExtentScrollController(
                       initialItem: AppConstants.defaultAppointmentTime
                           .indexOf(initialTime),
@@ -68,6 +72,141 @@ void selectDefaultTime({required BuildContext context}) async {
                     }).toList(),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24.h),
+                  child: commonButton(
+                    backGroundColor: AppColors.kcPrimaryBlueColor,
+                    textColor: Colors.white,
+                    text: "Set",
+                    size: size,
+                    borderRadius: 40,
+                    onTap: () {
+                      Navigator.of(context).pop<int>(initialTime);
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+
+  if (selectedTime != null) {
+    // Do something with the selected time
+    print("Selected time: $selectedTime");
+  }
+}
+
+void setPriorityTime({required BuildContext context}) async {
+  Size size = MediaQuery.of(context).size;
+  final controller = Get.find<ZeitnahController>();
+  int? selectedTime;
+  int initialTime = AppConstants.defaultAppointmentTime[0];
+
+  selectedTime = await showCupertinoModalPopup<int>(
+    context: context,
+    builder: (BuildContext context) {
+      return Material(
+        type: MaterialType.transparency,
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              borderRadius: BorderRadius.circular(24.r),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                24.h.verticalSpace,
+                Text(
+                  "Set Priority time",
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.kcPrimaryBlackColor,
+                  ),
+                ),
+                16.h.verticalSpace,
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: AppConstants.setPriorityTime.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.only(bottom: 16.h),
+                      child: Container(
+                        margin: EdgeInsets.symmetric(
+                          horizontal: 24.w,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.kcGreyColor, width: 1),
+                          borderRadius: BorderRadius.circular(32.r),
+                        ),
+                        child: Obx(() => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                24.w.horizontalSpace,
+                                Text(
+                                  "${AppConstants.setPriorityTime[index]} Minutes",
+                                  style: TextStyle(
+                                      color: AppColors.kcPrimaryBlackColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.sp),
+                                ),
+                                Radio(
+                                    value: AppConstants.setPriorityTime[index],
+                                    groupValue:
+                                        controller.setPriorityTime.value,
+                                    onChanged: (value) {
+                                      controller.setPriorityTime.value = value!;
+                                      controller.customPriority.value = false;
+                                    })
+                              ],
+                            )),
+                      ),
+                    );
+                  },
+                ),
+                Padding(
+                    padding: EdgeInsets.only(bottom: 16.h),
+                    child: Obx(
+                      () => Container(
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 24.w,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: AppColors.kcGreyColor, width: 1),
+                            borderRadius: BorderRadius.circular(32.r),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              24.w.horizontalSpace,
+                              Text(
+                                "Custom",
+                                style: TextStyle(
+                                    color: AppColors.kcPrimaryBlackColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12.sp),
+                              ),
+                              Radio(
+                                  value: controller.customPriority.value,
+                                  groupValue: true,
+                                  onChanged: (value) {
+                                    controller.setPriorityTime.value = 0;
+                                    controller.customPriority.value = true;
+                                    Get.back();
+
+                                    selectDefaultTime(
+                                        context: context, label: "Custom Time");
+                                  })
+                            ],
+                          )),
+                    )),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 24.h),
                   child: commonButton(

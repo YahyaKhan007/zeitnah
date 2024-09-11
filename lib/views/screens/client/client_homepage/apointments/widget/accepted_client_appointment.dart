@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
+
 
 class AcceptedClientAppointment extends StatelessWidget {
   const AcceptedClientAppointment({super.key});
@@ -10,19 +11,24 @@ class AcceptedClientAppointment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        child: Column(
-          children: [
-            16.h.verticalSpace,
-            Expanded(
-              child: ListView.builder(
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return messageContainer(context: context);
-                },
+      body: CupertinoScrollbar(
+        radius: const Radius.circular(40),
+        thickness: 6,
+        thumbVisibility: true,
+        child: SizedBox(
+          child: Column(
+            children: [
+              16.h.verticalSpace,
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 2,
+                  itemBuilder: (context, index) {
+                    return messageContainer(context: context);
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -44,40 +50,55 @@ class AcceptedClientAppointment extends StatelessWidget {
           width: size.width,
           margin: EdgeInsets.symmetric(horizontal: 24.w),
           padding: EdgeInsets.only(bottom: 24.h, left: 16.w, right : 16.w),
-          child: Row(
+          child: Column(
             mainAxisSize: MainAxisSize.min,
+mainAxisAlignment: MainAxisAlignment.center,
+crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
-                  child: Column(
+               8.h.verticalSpace,
+            Text(
+        "Bilal Hospital",
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600),
+      ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  tileOption(
-                    image: 'assets/icons/calender.svg',
-                    title: "Today (05.08)",
+                  Expanded(
+                      child: Column(
+                    children: [
+                      tileOption(
+                        image: 'assets/icons/calender.svg',
+                        title: "Today (05.08)",
+                      ),
+                      tileOption(
+                        image: 'assets/icons/clock.svg',
+                        title: "09:00 - 09:20",
+                      ),
+                      tileOption(
+                        image: 'assets/icons/calender.svg',
+                        title: "Peter Weiß",
+                      ),
+                    ],
+                  )),
+                  CircleAvatar(
+                    radius: 24.r,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 20.r,
+                      backgroundColor: AppColors.kcPrimaryBlueColor,
+                      child: Icon(
+                        Icons.check,
+                        color: Colors.white,
+                        size: 32.r,
+                      ),
+                    ),
                   ),
-                  tileOption(
-                    image: 'assets/icons/clock.svg',
-                    title: "09:00 - 09:20",
-                  ),
-                  tileOption(
-                    image: 'assets/icons/calender.svg',
-                    title: "Peter Weiß",
-                  ),
+                  8.w.horizontalSpace,
                 ],
-              )),
-              CircleAvatar(
-                radius: 24.r,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  radius: 20.r,
-                  backgroundColor: AppColors.kcPrimaryBlueColor,
-                  child: Icon(
-                    Icons.check,
-                    color: Colors.white,
-                    size: 32.r,
-                  ),
-                ),
               ),
-              8.w.horizontalSpace,
             ],
           ),
         ),

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../auth_screens/widgets/common_widgets.dart';
-import '../../app_view.dart';
 
 confirmCancelAppointment({required BuildContext context}) {
   Size size = MediaQuery.of(context).size;
@@ -35,7 +34,7 @@ confirmCancelAppointment({required BuildContext context}) {
                               fontWeight: FontWeight.bold)),
                     ),
                     (size.height * 0.03).h.verticalSpace,
-                    cancelAppointment(
+                    cancelAppointment2(
                         drName: "drName",
                         time: "time",
                         date: "date",
@@ -73,6 +72,77 @@ confirmCancelAppointment({required BuildContext context}) {
           ),
         );
       });
+}
+Widget cancelAppointment2({
+  required String drName,
+  required String time,
+  required String date,
+  required Size size,
+  required VoidCallback onCancel,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 24).h,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+      margin: EdgeInsets.symmetric(horizontal: 24.w),
+      width: size.width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          16.r,
+        ),
+        border: Border.all(
+          color: AppColors.kcGreyColor,
+        ),
+      ),
+      child: Stack(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 4.h),
+                width: size.width,
+                decoration: BoxDecoration(
+                  color: AppColors.kcPrimaryBlueColor,
+                  borderRadius: BorderRadius.circular(
+                    48.r,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    drName,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14.sp),
+                  ),
+                ),
+              ),
+              8.h.verticalSpace,
+              Text(
+                time,
+                style: TextStyle(
+                    color: AppColors.kcPrimaryBlackColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp),
+              ),
+              8.h.verticalSpace,
+              Text(
+                date,
+                style: TextStyle(
+                    color: AppColors.kcPrimaryBlackColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.sp),
+              )
+            ],
+          ),
+          
+        ],
+      ),
+    ),
+  );
 }
 
 Widget tileOption({required String image, required String title}) {

@@ -7,15 +7,42 @@ import 'package:zeitnah/views/screens/auth_screens/widgets/common_widgets.dart';
 
 void pickDate({required BuildContext context}) async {
   Size size = MediaQuery.of(context).size;
-  DateTime initialDate = DateTime.now();
-  DateTime? pickedDate = await showCupertinoModalPopup<DateTime>(
+  DateTime today = DateTime.now();
+  DateTime tomorrow = today.add(const Duration(days: 1));
+  DateTime? pickedDate;
+
+  // Generate a list of dates from today up to the next 4 weeks (28 days)
+  List<DateTime> dateList = List.generate(
+    30,
+    (index) => today.add(Duration(days: index)),
+  );
+
+  // Map the dates to their display values
+  List<String> formattedDates = dateList.map((date) {
+    String formattedDate =
+        "${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year.toString().substring(2)}";
+
+    if (date.day == today.day &&
+        date.month == today.month &&
+        date.year == today.year) {
+      return "$formattedDate (Today)";
+    } else if (date.day == tomorrow.day &&
+        date.month == tomorrow.month &&
+        date.year == tomorrow.year) {
+      return "$formattedDate (Tomorrow)";
+    } else {
+      return formattedDate;
+    }
+  }).toList();
+
+  // Show the picker dialog
+  await showCupertinoModalPopup<DateTime>(
     context: context,
     builder: (BuildContext context) {
       return Material(
         type: MaterialType.transparency,
         child: Center(
           child: Container(
-            // height: 270,
             decoration: BoxDecoration(
               color: CupertinoColors.systemBackground.resolveFrom(context),
               borderRadius: BorderRadius.circular(24.r),
@@ -26,7 +53,7 @@ void pickDate({required BuildContext context}) async {
               children: [
                 24.h.verticalSpace,
                 Text(
-                  "Date",
+                  "Select Date",
                   style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -36,18 +63,28 @@ void pickDate({required BuildContext context}) async {
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16.r),
-                      border:
-                          Border.all(color: AppColors.kcGreyColor, width: 1)),
+                    borderRadius: BorderRadius.circular(16.r),
+                    border: Border.all(color: AppColors.kcGreyColor, width: 1),
+                  ),
                   height: 100.h,
-                  child: CupertinoDatePicker(
-
-                    use24hFormat: true,
-                    initialDateTime: initialDate,
-                    mode: CupertinoDatePickerMode.date,
-                    onDateTimeChanged: (DateTime dateTime) {
-                      initialDate = dateTime;
+                  child: CupertinoPicker(
+                    itemExtent: 32.0,
+                    scrollController:
+                        FixedExtentScrollController(initialItem: 0),
+                    onSelectedItemChanged: (int index) {
+                      pickedDate = dateList[index];
                     },
+                    children: formattedDates.map((String dateString) {
+                      return Center(
+                        child: Text(
+                          dateString,
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            color: AppColors.kcPrimaryBlackColor,
+                          ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
                 Padding(
@@ -59,7 +96,7 @@ void pickDate({required BuildContext context}) async {
                       size: size,
                       borderRadius: 40,
                       onTap: () {
-                        Navigator.of(context).pop(initialDate);
+                        Navigator.of(context).pop(pickedDate);
                       }),
                 )
               ],
@@ -71,7 +108,7 @@ void pickDate({required BuildContext context}) async {
   );
 
   if (pickedDate != null) {
-    // Do something with the pickedDate
+    // Do something with the picked date
     print("Selected date: $pickedDate");
   }
 }
@@ -114,6 +151,12 @@ void pickTime({required BuildContext context, required String label}) async {
                     use24hFormat: true,
                     initialDateTime: initialTime,
                     mode: CupertinoDatePickerMode.time,
+                    selectionOverlayBuilder: (context,
+                            {required columnCount, required selectedIndex}) =>
+                        Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.kcGreyColor.withOpacity(0.2)),
+                    ),
                     onDateTimeChanged: (DateTime dateTime) {
                       initialTime = dateTime;
                     },
@@ -179,6 +222,7 @@ void pickWorker({required BuildContext context}) async {
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.r),
+                    // color: Colors.red,
                     border: Border.all(color: AppColors.kcGreyColor, width: 1),
                   ),
                   height: 200,
@@ -191,6 +235,10 @@ void pickWorker({required BuildContext context}) async {
                     onSelectedItemChanged: (int index) {
                       initialWorker = AppConstants.workersList[index];
                     },
+                    selectionOverlay: Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.kcGreyColor.withOpacity(0.2)),
+                    ),
                     children: AppConstants.workersList.map((String worker) {
                       return Center(
                         child: Text(

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/views/screens/auth_screens/widgets/common_widgets.dart';
 
-import '../../../../../widgets/appoint_container_widget.dart';
 import '../../../../../widgets/appointment_detail_container.dart';
 
 class AppointmentCreated extends StatelessWidget {

@@ -25,31 +25,47 @@ Widget appointmentDetailsContainer({
         width: size.width,
         margin: EdgeInsets.symmetric(horizontal: 24.w),
         padding: EdgeInsets.only(bottom: 24.h, left: 16.w, right : 16.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+        child: Column(
+mainAxisSize: MainAxisSize.min,
+mainAxisAlignment: MainAxisAlignment.center,
+crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-                child: Column(
-                  children: [
-                    tileOption(
-                      image: 'assets/icons/calender.svg',
-                      title: "Today (05.08)",
-                    ),
-                    tileOption(
-                      image: 'assets/icons/clock.svg',
-                      title: "09:00 - 09:20",
-                    ),
-                    tileOption(
-                      image: 'assets/icons/calender.svg',
-                      title: "Peter Weiß",
-                    ),
-                  ],
-                )),
-            CircleAvatar(
-              radius: 28.r,
-            )
+            8.h.verticalSpace,
+            Text(
+        "Bilal Hospital",
+        style: TextStyle(
+            color: Colors.white,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w600),
+      ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                    child: Column(
+                      children: [
+                        tileOption(
+                          image: 'assets/icons/calender.svg',
+                          title: "Today (05.08)",
+                        ),
+                        tileOption(
+                          image: 'assets/icons/clock.svg',
+                          title: "09:00 - 09:20",
+                        ),
+                        tileOption(
+                          image: 'assets/icons/calender.svg',
+                          title: "Peter Weiß",
+                        ),
+                      ],
+                    )),
+                CircleAvatar(
+                  radius: 28.r,
+                  backgroundImage: const AssetImage('assets/icons/hospital.png'),
+                )
+              ],
+            ),
           ],
         ),
       ),
@@ -72,7 +88,7 @@ Widget tileOption({required String image, required String title}) {
         style: TextStyle(
             color: Colors.white,
             fontSize: 12.sp,
-            fontWeight: FontWeight.w300),
+            fontWeight: FontWeight.w400),
       ),
     ),
   );

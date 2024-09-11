@@ -1,15 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import '../../../views.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../client/account_settings/widgets/ui_functions.dart';
 import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/personal_info_service_provider/personal_info_service_provider.dart';
 
-import '../../../../utils/app_colors/app_colors.dart';
-import '../../../views.dart';
-import '../../client/account_settings/widgets/ui_functions.dart';
-import 'help_support_provider/help_support_provider.dart';
-import 'my_qr_code/my_qr_code.dart';
 
 class ServiceProviderAccountSettingsHome extends StatelessWidget {
   const ServiceProviderAccountSettingsHome({super.key});
@@ -20,7 +18,7 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 20).w,
+          padding: const EdgeInsets.only(left: 16).w,
           child: GestureDetector(
             onTap: () {
               Get.back();
@@ -49,16 +47,15 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
               label: "Clinic Info",
               onTap: () {
                 Get.to(() => const PersonalInfoServiceProviderScreen(),
-                    transition: Transition.rightToLeftWithFade,
-                    duration: const Duration(milliseconds: 400));
+                  
+                   );
               }),
           settingoption(
               image: "assets/icons/qr_code.svg",
               label: "My QR-Code",
               onTap: () {
                 Get.to(() => const MyQrCode(),
-                    transition: Transition.rightToLeftWithFade,
-                    duration: const Duration(milliseconds: 400));
+                    );
               }),
           settingoption(
               image: "assets/icons/help.svg",

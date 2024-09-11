@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'widgets/ui_functions.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../../../widgets/profile_option_edit.dart';
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../../widgets/custome_button_with_icon.dart';
-import '../../../widgets/profile_option_edit.dart';
-import 'widgets/ui_functions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class PersonalInfoScreen extends StatefulWidget {
   const PersonalInfoScreen({super.key});
@@ -36,7 +36,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
         appBar: AppBar(
           backgroundColor: AppColors.kcPrimaryBackgrundColor,
           leading: Padding(
-            padding: const EdgeInsets.only(left: 12).w,
+            padding: const EdgeInsets.only(left: 16).w,
             child: GestureDetector(
               onTap: () {
                 Get.back();

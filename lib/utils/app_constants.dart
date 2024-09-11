@@ -19,7 +19,7 @@ class AppConstants {
   static final List bottomBarLables = ['Appointments', 'Patients', 'Settings'];
   static final List clientBottomBarLables = [
     'Appointments',
-    'add Provider',
+    'Add Provider',
     'My Calender'
   ];
 
@@ -36,7 +36,7 @@ class AppConstants {
 
   static final List<Widget> appointmentPages = [
     const CreateAppointments(),
-    const OpenClientAppointments(),
+    const OpenAppointments(),
     const AcceptedAppointments()
   ];
 
@@ -65,7 +65,25 @@ class AppConstants {
     'Sunday',
   ];
 
-  static final List<int> defaultAppointmentTime = [10, 20, 30, 40, 50];
+  static final List<int> defaultAppointmentTime = [
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    35,
+    40,
+    45,
+    50,
+    55,
+    60
+  ];
+  static final List setPriorityTime = [
+    3,
+    5,
+    10,
+  ];
 
   static final srviceProviderList = [
     ProviderModel(name: "Shifa"),

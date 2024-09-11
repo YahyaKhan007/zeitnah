@@ -64,6 +64,8 @@ deleteAppointment({required BuildContext context}) {
                           )),
                           CircleAvatar(
                             radius: 32.r,
+                            backgroundImage:
+                                const AssetImage('assets/icons/hospital.png'),
                           )
                         ],
                       ),

@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/services/controller_service/controller_service.dart';
+import 'package:zeitnah/services/services.dart';
+import 'package:zeitnah/views/widgets/custome_button_with_icon.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
 
 addNotificationTime({required BuildContext context, required String label}) {
   Size size = MediaQuery.of(context).size;
+  final controller = Get.find<ZeitnahController>();
   return showDialog(
       context: context,
       builder: (context) {
@@ -18,52 +22,103 @@ addNotificationTime({required BuildContext context, required String label}) {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16).w,
             child: Center(
-              child: Container(
-                height: size.height * 0.6,
-                padding: const EdgeInsets.symmetric(horizontal: 16).w,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24.r)),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    (size.height * 0.01).h.verticalSpace,
-                    Center(
-                      child: Text(label,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.murecho(
-                              textStyle: TextStyle(
-                                  fontSize: 18.sp,
-                                  color: AppColors.kcPrimaryBlackColor,
-                                  fontWeight: FontWeight.bold))),
-                    ),
-                    (size.height * 0.02).h.verticalSpace,
-                    commonButton(
-                        backGroundColor: AppColors.kcPrimaryBlueColor,
-                        textColor: Colors.white,
-                        text: "Add My Time",
-                        size: size,
-                        borderRadius: 40.r,
-                        onTap: () {
-                          pickNotificationTime(context: context);
-                        }),
-                    const Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        commonButtonWithLowWidth(
-                            backGroundColor: AppColors.kcPrimaryBlackColor,
-                            textColor: Colors.white,
-                            text: "Back",
-                            size: size,
-                            borderRadius: 24.r,
-                            onTap: () {
-                              Get.back();
-                            }),
-                      ],
-                    ),
-                    (size.height * 0.01).h.verticalSpace,
-                  ],
+              child: Obx(
+                () => Container(
+                  height: size.height * 0.6,
+                  padding: const EdgeInsets.symmetric(horizontal: 16).w,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(24.r)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      (size.height * 0.01).h.verticalSpace,
+                      Center(
+                        child: Text(label,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.murecho(
+                                textStyle: TextStyle(
+                                    fontSize: 18.sp,
+                                    color: AppColors.kcPrimaryBlackColor,
+                                    fontWeight: FontWeight.bold))),
+                      ),
+                      (size.height * 0.02).h.verticalSpace,
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: controller.notificationTime.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 40.h,
+                            margin: EdgeInsets.only(
+                                bottom: 16.h, left: 16.w, right: 16.w),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32.r),
+                                color: AppColors.kcPrimaryBlueColor),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16).w,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  32.w.horizontalSpace,
+                                  Text(
+                                    controller.notificationTime[index].time,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  GestureDetector(
+                                      onTap: () {
+                                        controller.notificationTime.remove(
+                                            controller.notificationTime[index]);
+                                      },
+                                      child: CircleAvatar(
+                                        radius: 16.r,
+                                        backgroundColor: Colors.white,
+                                        child: const Icon(
+                                          Icons.close,
+                                          color: Colors.black,
+                                        ),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      customeButtonWithIcon(
+                          backGroundColor: AppColors.kcPrimaryBlueColor,
+                          textColor: Colors.white,
+                          text: "Add My Time",
+                          size: size,
+                          image: "assets/icons/edit.svg",
+                          borderRadius: 40.r,
+                          onTap: () {
+                            controller.notificationTime.length >= 3
+                                ? null
+                                : pickNotificationTime(
+                                    context: context, controller: controller);
+                          }),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          commonButtonWithLowWidth(
+                              backGroundColor: AppColors.kcPrimaryBlackColor,
+                              textColor: Colors.white,
+                              text: "Back",
+                              size: size,
+                              borderRadius: 24.r,
+                              onTap: () {
+                                Get.back();
+                              }),
+                        ],
+                      ),
+                      (size.height * 0.01).h.verticalSpace,
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -72,7 +127,14 @@ addNotificationTime({required BuildContext context, required String label}) {
       });
 }
 
-void pickNotificationTime({required BuildContext context}) async {
+class AddTime {
+  final String time;
+  AddTime({required this.time});
+}
+
+void pickNotificationTime(
+    {required BuildContext context,
+    required ZeitnahController controller}) async {
   Size size = MediaQuery.of(context).size;
   DateTime initialTime = DateTime.now();
   DateTime? pickedTime = await showCupertinoModalPopup<DateTime>(
@@ -101,11 +163,12 @@ void pickNotificationTime({required BuildContext context}) async {
                             color: AppColors.kcPrimaryBlackColor,
                             fontWeight: FontWeight.bold))),
                 16.h.verticalSpace,
-                 Text(
+                Text(
                   "From",
                   style: TextStyle(
-                    fontSize: 16.sp,
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      fontSize: 16.sp,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
                 8.h.verticalSpace,
                 Container(
@@ -125,11 +188,12 @@ void pickNotificationTime({required BuildContext context}) async {
                   ),
                 ),
                 16.h.verticalSpace,
-                 Text(
+                Text(
                   "To",
                   style: TextStyle(
                       fontSize: 16.sp,
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
                 ),
                 8.h.verticalSpace,
                 Container(
@@ -157,6 +221,8 @@ void pickNotificationTime({required BuildContext context}) async {
                       size: size,
                       borderRadius: 40,
                       onTap: () {
+                        controller.notificationTime
+                            .add(AddTime(time: "09:00 - 15:00"));
                         Navigator.of(context).pop(initialTime);
                       }),
                 )

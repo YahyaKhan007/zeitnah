@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import 'widgets/functions.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'widgets/functions.dart';
+
 
 class ServiceProviderSettings extends StatelessWidget {
   const ServiceProviderSettings({super.key});
@@ -26,19 +26,13 @@ class ServiceProviderSettings extends StatelessWidget {
               image: 'assets/icons/add_member.svg',
               label: 'Team Member',
               trailingText: '3'),
-          settingOption(
-              onTap: () {
-                Get.toNamed(RouterHelperService.priorityList);
-              },
-              image: 'assets/icons/diomond.svg',
-              label: 'Priority List',
-              trailingText: '5'),
+          
           settingOption(
               onTap: () {
                 selectDefaultTime(context: context);
               },
               image: 'assets/icons/clock_1.svg',
-              label: 'Team Member',
+              label: 'Priority Time',
               trailingText: '20min'),
         ],
       ),

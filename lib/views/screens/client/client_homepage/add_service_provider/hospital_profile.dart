@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'widgets/ui_functions.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/utils/app_constants.dart';
+import '../../../../../utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zeitnah/views/widgets/custome_button_with_icon.dart';
 
-import '../../../../../utils/app_colors/app_colors.dart';
-import 'widgets/ui_functions.dart';
 
 class HospitalProfileFromPatientSide extends StatefulWidget {
   final ProviderModel model;
@@ -32,7 +32,7 @@ class _HospitalProfileFromPatientSideState
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         centerTitle: true,
         leading: Padding(
-          padding: EdgeInsets.only(left: 20.w),
+          padding: EdgeInsets.only(left: 16.w),
           child: GestureDetector(
             onTap: () {
               Get.back();
@@ -82,6 +82,7 @@ class _HospitalProfileFromPatientSideState
                       },
                       child: SvgPicture.asset(
                         "assets/icons/delet.svg",
+
                       ),
                     )
                   : customeButtonWithIcon(
@@ -92,7 +93,7 @@ class _HospitalProfileFromPatientSideState
                       text: "Add Service Provider",
                       size: size,
                       image: isSend
-                          ? "assets/icons/sent.svg"
+                          ? null
                           : "assets/icons/add_member.svg",
                       imageColor: Colors.white,
                       borderRadius: 40.r,

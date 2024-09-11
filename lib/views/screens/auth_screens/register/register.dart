@@ -1,16 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:zeitnah/utils/app_colors/app_colors.dart';
-
+import 'package:flutter/material.dart';
 import '../widgets/common_widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zeitnah/services/router_service/router_helper_service.dart';
+
 
 class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
+  final bool isProvider;
+  RegisterScreen({super.key, required this.isProvider});
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  TextEditingController confirmPassController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController surNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -22,7 +25,7 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: EdgeInsets.only(left: 20.w),
+          padding: EdgeInsets.only(left: 16.w),
           child: GestureDetector(
               onTap: () {
                 Get.back();
@@ -70,44 +73,53 @@ class RegisterScreen extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.center,
                     // mainAxisSize: MainAxisSize.max,
                     children: [
-                      (size.height * 0.05).h.verticalSpace,
+                      (size.height * 0.03).h.verticalSpace,
+                      commonField(
+                          context: context,
+                          image: 'assets/icons/person.svg',
+                          title: 'Name',
+                          controller: nameController),
+                      16.h.verticalSpace,
+                      commonField(
+                          context: context,
+                          image: 'assets/icons/person.svg',
+                          title: 'Surname',
+                          controller: surNameController),
+                      16.h.verticalSpace,
                       commonField(
                           context: context,
                           image: 'assets/icons/email.svg',
-                          title: 'Name',
-                          controller: nameController),
-                      24.h.verticalSpace,
-                      commonField(
-                          context: context,
-                          image: 'assets/icons/lock.svg',
-                          title: 'Surname',
-                          controller: surNameController),
-                      24.h.verticalSpace,
-                      commonField(
-                          context: context,
-                          image: 'assets/icons/lock.svg',
                           title: 'E-Mail',
                           controller: emailController),
-                      24.h.verticalSpace,
+                      16.h.verticalSpace,
                       commonField(
                           context: context,
                           image: 'assets/icons/lock.svg',
                           title: 'Password',
                           controller: passController),
-                      24.h.verticalSpace,
-                      commonField(
+                      16.h.verticalSpace,
+
+                          commonField(
                           context: context,
                           image: 'assets/icons/lock.svg',
+                          title: 'Password',
+                          controller: confirmPassController),
+                      16.h.verticalSpace,
+                      commonField(
+                          context: context,
+                          image: 'assets/icons/phone.svg',
                           title: 'Phone Number',
                           controller: phoneNumberController),
-                      24.h.verticalSpace,
+                      16.h.verticalSpace,
                       commonButton(
                           backGroundColor: AppColors.kcPrimaryBlueColor,
                           textColor: Colors.white,
                           text: "Registrieren",
                           size: size,
                           borderRadius: 100.w,
-                          onTap: () {}),
+                          onTap: () {
+                            isProvider ? Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen) : Get.offAllNamed(RouterHelperService.sharePhone);
+                          }),
                     ],
                   ),
                 ),

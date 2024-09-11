@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 
+import '../../../../../../../utils/app_constants.dart';
+import '../../connected/widgets/view_patient_details.dart';
 import 'ui_functions.dart';
 
 class AcceptDeclineRequest extends StatelessWidget {
-  const AcceptDeclineRequest({super.key});
+  final int index;
+  const AcceptDeclineRequest({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +32,25 @@ class AcceptDeclineRequest extends StatelessWidget {
               iconColor: Colors.white,
               image: 'assets/icons/check.png'),
           Expanded(
-            child: Center(
-              child: Text(
-                "Alex Bright",
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.kcPrimaryBlackColor),
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                Get.to(
+                  () => ViewPatientDetails(
+                    name: AppConstants.workersList[index],
+                  ),
+                  duration: const Duration(milliseconds: 300),
+                  transition: Transition.rightToLeft,
+                );
+              },
+              child: Center(
+                child: Text(
+                  "Alex Bright",
+                  style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.kcPrimaryBlackColor),
+                ),
               ),
             ),
           ),
@@ -53,7 +68,7 @@ class AcceptDeclineRequest extends StatelessWidget {
               },
               backColor: AppColors.kcPrimaryBlackColor,
               iconColor: Colors.white,
-              image: 'assets/icons/check.png')
+              image: null)
         ],
       ),
     );
@@ -63,7 +78,7 @@ class AcceptDeclineRequest extends StatelessWidget {
       {required VoidCallback onTap,
       required Color backColor,
       required Color iconColor,
-      required String image}) {
+      String? image}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -71,7 +86,12 @@ class AcceptDeclineRequest extends StatelessWidget {
             borderRadius: BorderRadius.circular(24.r), color: backColor),
         width: 80.w,
         child: Center(
-          child: Image.asset(image),
+          child: image == null
+              ? const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                )
+              : Image.asset(image),
         ),
       ),
     );

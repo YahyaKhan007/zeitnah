@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/controller_service/controller_service.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../account_settings/account_settng_home.dart';
+import 'package:zeitnah/services/controller_service/controller_service.dart';
+
 
 PreferredSizeWidget myCalenderAppbar(BuildContext context) {
   Size size = MediaQuery.of(context).size;
@@ -48,7 +48,7 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
+                  Get.to(()=> const AccountSettingHomeForClient());
                 },
                 child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
               ),
@@ -93,7 +93,7 @@ Widget containerOption({
   Size size = MediaQuery.of(context).size;
   final controller = Get.find<ZeitnahController>();
   return Container(
-    height: 60.h,
+    height: size.height * 0.095,
     width: size.width * 0.28,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.r),

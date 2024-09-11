@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
 
 Widget customeButtonWithIcon(
     {required Color backGroundColor,
@@ -9,7 +10,7 @@ Widget customeButtonWithIcon(
     double? width,
     required String text,
     required Size size,
-    required String image,
+     String? image,
     Color? imageColor,
     required double borderRadius,
     required VoidCallback onTap}) {
@@ -38,7 +39,10 @@ Widget customeButtonWithIcon(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(
+         image == null ? CircleAvatar(
+          backgroundColor: Colors.white,
+          radius: 10.r,
+          child:  Icon(Icons.check,color: AppColors.kcGreyTextColor,size: 16.r,))  : SvgPicture.asset(
             image,
             color: imageColor,
             height: 24.h,

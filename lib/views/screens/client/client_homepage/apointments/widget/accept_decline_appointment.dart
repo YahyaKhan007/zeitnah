@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../../client_views.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:zeitnah/views/screens/auth_screens/widgets/common_widgets.dart';
 
-import '../../../client_views.dart';
 
 class AcceptDeclineClientAppointments extends StatelessWidget {
   const AcceptDeclineClientAppointments({super.key});
@@ -18,7 +18,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 24).w,
+          padding: const EdgeInsets.only(left: 16).w,
           child: GestureDetector(
             onTap: () {
               Get.back();
@@ -57,7 +57,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
               ),
               16.h.verticalSpace,
               CircleAvatar(
-                  radius: 40.r,
+                  radius: 56.r,
                   backgroundColor: AppColors.kcPrimaryBlueColor,
                   backgroundImage:
                       const AssetImage("assets/icons/hospital.png")),
@@ -66,15 +66,18 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
               16.h.verticalSpace,
               appointmentDetails(),
               24.h.verticalSpace,
-              commonButton(
-                  backGroundColor: AppColors.kcPrimaryBlueColor,
-                  textColor: Colors.white,
-                  text: "Accept Appointment",
-                  size: size,
-                  borderRadius: 40.r,
-                  onTap: () {
-                    acceptClientAppointment(context: context, onYes: () {});
-                  }),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24).w,
+                child: commonFullSizeButton(
+                    backGroundColor: AppColors.kcPrimaryBlueColor,
+                    textColor: Colors.white,
+                    text: "Accept Appointment",
+                    // size: size,
+                    borderRadius: 40.r,
+                    onTap: () {
+                      acceptClientAppointment(context: context, onYes: () {});
+                    }),
+              ),
               16.h.verticalSpace,
               GestureDetector(
                 onTap: () {
@@ -97,7 +100,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
       "35:49 min",
       style: GoogleFonts.inter(
         textStyle: TextStyle(
-            fontSize: 18.sp,
+            fontSize: 22.sp,
             color: AppColors.kcGreyTextColor,
             fontWeight: FontWeight.bold),
       ),
@@ -109,22 +112,30 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 80.w),
       padding: EdgeInsets.only(bottom: 16.h),
       decoration: BoxDecoration(
+        color: Colors.white,
         border: Border.all(color: AppColors.kcGreyColor, width: 1),
+        boxShadow: [
+          BoxShadow(color: Colors.grey.shade400,
+          // spreadRadius: 4.r,
+          blurRadius: 4,
+          offset: const Offset(0, 0)
+          )
+        ],
         borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           tileOption(
-            image: 'assets/icons/calender.svg',
+            image: 'assets/icons/calend.svg',
             title: "Today (05.08)",
           ),
           tileOption(
-            image: 'assets/icons/clock.svg',
+            image: 'assets/icons/Time.svg',
             title: "09:00 - 09:20",
           ),
           tileOption(
-            image: 'assets/icons/calender.svg',
+            image: 'assets/icons/user_box.svg',
             title: "Peter Weiß",
           ),
         ],
@@ -139,7 +150,7 @@ class AcceptDeclineClientAppointments extends StatelessWidget {
         minVerticalPadding: 0,
         leading: SvgPicture.asset(
           image,
-          height: 18.r,
+          height: 18.h,
           color: AppColors.kcGreyTextColor,
         ),
         title: Text(

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
+import '../widgets/common_widgets.dart';
+import '../../../../services/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../services/services.dart';
-import '../widgets/common_widgets.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -58,13 +58,13 @@ class Login extends StatelessWidget {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // mainAxisSize: MainAxisSize.max,
                         children: [
-                          (size.height * 0.06).h.verticalSpace,
+                          (size.height * 0.03).h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/email.svg',
                               title: 'E-Mail',
                               controller: emailController),
-                          24.h.verticalSpace,
+                          16.h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/lock.svg',
@@ -91,7 +91,7 @@ class Login extends StatelessWidget {
                               ),
                             ),
                           ),
-                          24.h.verticalSpace,
+                          16.h.verticalSpace,
                           commonButton(
                               backGroundColor: AppColors.kcPrimaryBlueColor,
                               textColor: Colors.white,
@@ -101,7 +101,7 @@ class Login extends StatelessWidget {
                               onTap: () {
                                 showRoleDialog(context);
                               }),
-                          (size.height * 0.1).h.verticalSpace,
+                          (size.height * 0.05).h.verticalSpace,
                           Center(
                             child: Text(
                               "Not registered yet?".tr,
@@ -119,8 +119,27 @@ class Login extends StatelessWidget {
                               text: "Sign Up",
                               borderRadius: 100.w,
                               onTap: () {
-                                Get.toNamed('/register');
+                                Get.toNamed('/register' ,arguments: {'isProvider': false});
                               }),
+                              (size.height * 0.05).verticalSpace,
+                              Padding(
+                              padding: EdgeInsets.only(right: 0.w),
+                              child: TextButton(
+                                child: Text(
+                                  "Register Your Clinic ".tr,
+                                  style: const TextStyle(
+                                      color: AppColors.kcPrimaryBlueColor,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline),
+                                ),
+                                onPressed: () {
+                                  // Get.toNamed(
+                                  // RouterHelperService.createNewPassword);
+                                 Get.toNamed(RouterHelperService.register ,arguments: {'isProvider': true});
+                                },
+                              ),
+                            ),
+                          
                         ],
                       ),
                     ),

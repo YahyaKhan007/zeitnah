@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:zeitnah/utils/app_colors/app_colors.dart';
-
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import '../widgets/common_widgets.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class ForgotPassword extends StatelessWidget {
   ForgotPassword({super.key});
@@ -18,7 +18,7 @@ class ForgotPassword extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: Padding(
-          padding: EdgeInsets.only(left: 20.w),
+          padding: EdgeInsets.only(left: 16.w),
           child: GestureDetector(
               onTap: () {
                 Get.back();
@@ -33,6 +33,7 @@ class ForgotPassword extends StatelessWidget {
         width: size.width,
         child: Stack(
           children: [
+           
             Image.asset(
               'assets/images/backImage.png',
               height: size.height,
@@ -68,14 +69,22 @@ class ForgotPassword extends StatelessWidget {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // mainAxisSize: MainAxisSize.max,
                         children: [
-                          (size.height * 0.05).h.verticalSpace,
+                         (size.height * 0.03).h.verticalSpace,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 72).w,
+                            child: Text("Insert your Email to create a new password",
+                            textAlign: TextAlign.center,
+                            
+                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16.sp),),
+                          ),
+                          16.h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/email.svg',
                               title: 'E-Mail',
                               controller: emailController),
-                          24.h.verticalSpace,
-                          8.h.verticalSpace,
+                          16.h.verticalSpace,
+                         
                           commonButton(
                               backGroundColor: AppColors.kcPrimaryBlueColor,
                               textColor: Colors.white,
@@ -83,7 +92,7 @@ class ForgotPassword extends StatelessWidget {
                               text: "Bestätigen",
                               borderRadius: 100.w,
                               onTap: () {
-                                Get.toNamed('/register');
+                                Get.toNamed('/register', arguments: {'isProvider' : true});
                               }),
                         ],
                       ),

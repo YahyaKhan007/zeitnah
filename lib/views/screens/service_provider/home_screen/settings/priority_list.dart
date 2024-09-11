@@ -32,6 +32,7 @@ class PriorityListScreen extends StatelessWidget {
                     String name = AppConstants.workersList[index];
                     return patientName(
                         drName: name,
+                        index : index,
                         onTap: () {},
                         image: 'assets/icons/diomond.svg');
                   }),
@@ -43,7 +44,7 @@ class PriorityListScreen extends StatelessWidget {
   }
 
   Widget patientName(
-      {required String drName, required VoidCallback onTap, String? image}) {
+      {required String drName, required VoidCallback onTap, String? image, required int index}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -69,8 +70,7 @@ class PriorityListScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            image != null
-                ? Align(
+            [2,3,5].contains(index)? Align(
                     alignment: Alignment.centerRight,
                     child: CircleAvatar(
                       radius: 12
@@ -78,7 +78,7 @@ class PriorityListScreen extends StatelessWidget {
                         .r
                         ,
                         backgroundColor: Colors.transparent,
-                        child: SvgPicture.asset(image, height: 16.h,color: Colors.white,)))
+                        child: SvgPicture.asset("assets/icons/diomond.svg", height: 16.h,color: Colors.white,)))
                 : const SizedBox(),
           ],
         ),

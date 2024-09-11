@@ -1,12 +1,13 @@
-// Create Appointments Page (Placeholder)
+import '../app_view.dart';
+import 'package:get/get.dart';
+import '../../../../../views.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:zeitnah/services/router_service/router_helper_service.dart';
-
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
-import '../app_view.dart';
+import 'package:zeitnah/services/router_service/router_helper_service.dart';
+// Create Appointments Page (Placeholder)
+
 
 class CreateAppointments extends StatelessWidget {
   const CreateAppointments({super.key});
@@ -28,7 +29,7 @@ class CreateAppointments extends StatelessWidget {
               },
             ),
             appointmentOption(
-              image: 'assets/icons/calender.svg',
+              image: 'assets/icons/Time.svg',
               label: 'Start Time',
               context: context,
               onTap: () {
@@ -36,7 +37,7 @@ class CreateAppointments extends StatelessWidget {
               },
             ),
             appointmentOption(
-              image: 'assets/icons/calender.svg',
+              image: 'assets/icons/Time.svg',
               label: 'End Time',
               context: context,
               onTap: () {
@@ -44,7 +45,7 @@ class CreateAppointments extends StatelessWidget {
               },
             ),
             appointmentOption(
-              image: 'assets/icons/calender.svg',
+              image: 'assets/icons/user_box.svg',
               label: 'Select Worker (optional)',
               context: context,
               onTap: () {
@@ -56,7 +57,8 @@ class CreateAppointments extends StatelessWidget {
               label: 'Priority Function',
               context: context,
               onTap: () {
-                pickWorker(context: context);
+               
+               
               },
             ),
             Padding(

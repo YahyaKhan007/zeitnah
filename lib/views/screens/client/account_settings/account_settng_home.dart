@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/views/screens/client/client_views.dart';
-
-import '../../../../utils/app_colors/app_colors.dart';
 import '../../../views.dart';
-import '../../service_provider/provider_account_settings.dart/help_support_provider/help_support_provider.dart';
-import 'personal_info.dart';
+import 'package:get/get.dart';
 import 'widgets/ui_functions.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../../utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class AccountSettingHomeForClient extends StatelessWidget {
   const AccountSettingHomeForClient({super.key});
@@ -20,7 +17,7 @@ class AccountSettingHomeForClient extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 12).w,
+          padding: const EdgeInsets.only(left: 16).w,
           child: GestureDetector(
             onTap: () {
               Get.back();
@@ -48,9 +45,7 @@ class AccountSettingHomeForClient extends StatelessWidget {
               image: "assets/icons/personal_info.svg",
               label: "Personal Info",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),
-                    transition: Transition.rightToLeftWithFade,
-                    duration: const Duration(milliseconds: 400));
+                Get.to(() => const PersonalInfoScreen(),);
               }),
           settingoption(
               image: "assets/icons/help.svg",

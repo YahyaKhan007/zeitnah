@@ -1,9 +1,9 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
+
 
 acceptClientAppointment({
   required BuildContext context,
@@ -18,7 +18,7 @@ acceptClientAppointment({
           type: MaterialType.transparency,
           
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32).w,
+            padding: const EdgeInsets.symmetric(horizontal: 24).w,
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16).w,
@@ -33,13 +33,13 @@ acceptClientAppointment({
                       child: Text("Accept\nAppointment?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 14.sp,
+                              fontSize: 18.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
                     (size.height * 0.02).h.verticalSpace,
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 16.w),
+                      padding:  EdgeInsets.symmetric(horizontal: 0.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -62,7 +62,7 @@ acceptClientAppointment({
                         ],
                       ),
                     ),
-                    (size.height * 0.01).h.verticalSpace,
+                    (size.height * 0.02).h.verticalSpace,
                   ],
                 ),
               ),
@@ -128,7 +128,8 @@ rejectClientAppointment({
                         ],
                       ),
                     ),
-                    (size.height * 0.01).h.verticalSpace,
+                    (size.height * 0.02
+                    ).h.verticalSpace,
                   ],
                 ),
               ),

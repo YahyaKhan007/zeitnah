@@ -1,10 +1,12 @@
-// Appointment Option Widget
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/services/controller_service/controller_service.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+
+import '../../../../../../views.dart';
+// Appointment Option Widget
 
 Widget appointmentOption(
     {required String label,
@@ -22,20 +24,23 @@ Widget appointmentOption(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.r),
           color: Colors.white,
-           boxShadow: const [
-                BoxShadow(
-                  color:  Colors.grey
-                     ,
-                  blurRadius: 2,
-                  offset: Offset(0, 0),
-                ),
-              ],
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 2,
+              offset: Offset(0, 0),
+            ),
+          ],
           border: Border.all(color: AppColors.kcGreyColor, width: 1.w),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SvgPicture.asset(image, height: size.height * 0.04,),
+            SvgPicture.asset(
+              image,
+              // height: size.height * 0.04,
+              color: AppColors.kcPrimaryBlueColor,
+            ),
             16.w.horizontalSpace,
             Expanded(
               child: Text(
@@ -92,20 +97,21 @@ Widget appointmentPriority(
               ),
             ),
           ),
-          Obx(
-            () => Transform.scale(
-  scale: 0.8, // Adjust the scale value to make the Switch smaller
-  child: Switch(
-    activeTrackColor: AppColors.kcPrimaryBlueColor,
-    inactiveThumbColor: Colors.white,
-    inactiveTrackColor: AppColors.kcGreyColor,
-    value: controller.isPriorityFunction.value,
-    onChanged: (val) {
-      controller.isPriorityFunction.value = val;
-    },
-  ),
-)
-          )
+          Obx(() => Transform.scale(
+                scale: 0.8, // Adjust the scale value to make the Switch smaller
+                child: Switch(
+                  activeTrackColor: AppColors.kcPrimaryBlueColor,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: AppColors.kcGreyColor,
+                  value: controller.isPriorityFunction.value,
+                  onChanged: (val) {
+                    controller.isPriorityFunction.value = val;
+                    if (val) {
+                      setPriorityTime(context: context);
+                    }
+                  },
+                ),
+              ))
         ],
       ),
     ),

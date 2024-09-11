@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:zeitnah/services/services.dart';
-
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../auth_screens/widgets/common_widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 deleteAccount({required BuildContext context}) {
   Size size = MediaQuery.of(context).size;
@@ -31,11 +31,11 @@ deleteAccount({required BuildContext context}) {
                           "Are you sure you want to\ndelete your account?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
-                    (size.height * 0.03).h.verticalSpace,
+                    (size.height * 0.02).h.verticalSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -78,7 +78,7 @@ logoutDialog({required BuildContext context}) {
           elevation: 50,
           type: MaterialType.transparency,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).w,
+            padding: const EdgeInsets.symmetric(horizontal: 24).w,
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16).w,
@@ -93,11 +93,11 @@ logoutDialog({required BuildContext context}) {
                       child: Text("Dou you want to\nlog out your account?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.bold)),
                     ),
-                    (size.height * 0.03).h.verticalSpace,
+                    (size.height * 0.02).h.verticalSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

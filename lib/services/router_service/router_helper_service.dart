@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:zeitnah/views/screens/auth_screens/register/share_phone_number.dart';
 
 import '../../views/views.dart';
 
@@ -11,6 +12,7 @@ class RouterHelperService {
   static const String createNewPassword = '/createNewPassword';
   static const String login = '/login';
   static const String register = '/register';
+  static const String sharePhone = '/sharePhone';
 
   // Settings
   static const String addTeamMember = '/addTeamMember';
@@ -34,23 +36,22 @@ class RouterHelperService {
     GetPage(name: splash, page: () => const SplashScreen()),
     GetPage(name: forgotPassword, page: () => ForgotPassword()),
     GetPage(name: login, page: () => Login()),
-    GetPage(name: createNewPassword, page: () => CreateNewPassword()),
     GetPage(name: appointmentCreated, page: () => const AppointmentCreated()),
-    GetPage(name: register, page: () => RegisterScreen()),
+    GetPage(name: createNewPassword, page: () => CreateNewPassword()),
     GetPage(name: addTeamMember, page: () => AddTeamMembers()),
     GetPage(name: priorityList, page: () => PriorityListScreen()),
     GetPage(name: clientHomeScreen, page: () => const ClientsHomeScreen()),
-    // GetPage(
-    //   name: chatRoom,
-    //   page: () {
-    //     final args = Get.arguments as Map<String, dynamic>;
-    //     return ChatroomScreen(
-    //       chatModel: args['chatModel'],
-    //       targetUser: args['targetUser'],
-    //     );
-    //   },
-    // ),
-    // GetPage(name: profile, page: () => const ProfileScreen()),
+    GetPage(
+      name: register,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>;
+        return RegisterScreen(
+          isProvider: args['isProvider'],
+          
+        );
+      },
+    ),
+    GetPage(name: sharePhone, page: () => const SharePhoneNumber()),
     GetPage(
         name: serviceProviderHomeScreen,
         page: () => ServiceProviderHomeScreen()),

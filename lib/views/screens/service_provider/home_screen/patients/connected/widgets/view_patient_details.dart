@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'notify_widget.dart';
+import 'delete_patient.dart';
 import 'package:get/get.dart';
+import 'profile_info_tile.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'delete_patient.dart';
-import 'notify_widget.dart';
-import 'profile_info_tile.dart';
 
 class ViewPatientDetails extends StatelessWidget {
   final String name;
@@ -22,7 +22,7 @@ class ViewPatientDetails extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: AppColors.kcPrimaryBackgrundColor,
           leading: Padding(
-            padding: const EdgeInsets.only(left: 20).w,
+            padding: const EdgeInsets.only(left: 16).w,
             child: GestureDetector(
               onTap: () {
                 Get.back();

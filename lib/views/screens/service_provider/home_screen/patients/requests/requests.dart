@@ -10,13 +10,15 @@ class PatientRequests extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: CupertinoScrollbar(
-        thickness: 8.w,
+        thickness: 4.w,
         radius: Radius.circular(40.r),
         thumbVisibility: true,
         child: ListView.builder(
           itemCount: 3,
           itemBuilder: (context, index) {
-            return const AcceptDeclineRequest();
+            return AcceptDeclineRequest(
+              index: index,
+            );
           },
         ),
       ),

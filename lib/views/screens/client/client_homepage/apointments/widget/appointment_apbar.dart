@@ -48,13 +48,15 @@ PreferredSizeWidget appointmentAppbar(
                 padding: const EdgeInsets.only(right: 20).w,
                 child: GestureDetector(
                   onTap: () {
-                    Get.to(() => const AccountSettingHomeForClient(),
-                        transition: Transition.rightToLeftWithFade,
-                        duration: const Duration(milliseconds: 400));
+                    Get.to(
+                      () => const AccountSettingHomeForClient(),
+                      transition: Transition.rightToLeftWithFade,
+                    );
                   },
-                 
-                  child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
-                
+                  child: SvgPicture.asset(
+                    'assets/icons/three_bar.svg',
+                    height: size.height * 0.04,
+                  ),
                 ),
               ),
             ],
@@ -71,26 +73,54 @@ PreferredSizeWidget appointmentAppbar(
 Widget topBar({required Size size, required PageController pageController}) {
   final controller = Get.find<ZeitnahController>();
   return Container(
-    height: size.height * 0.055,
+    // height: size.height * 0.055,
+    height: 32.h,
     width: size.width,
     margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.w),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(50.r),
       color: const Color(0xffE4E4E4),
     ),
-    child: Row(
+    child: Stack(
       children: [
-        selectedTab(
-          controller: controller,
-          label: "Open",
-          tabIndex: 0,
-          pageController: pageController,
+        Obx(
+          () => AnimatedPositioned(
+            duration: const Duration(milliseconds: 200),
+            left: controller.selectClientMessagetab.value * (size.width / 2.32),
+            width: size.width / 2.32,
+            height: 32.h,
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.kcPrimaryBackgrundColor,
+                borderRadius: BorderRadius.circular(50.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.shade900,
+                    blurRadius: 6,
+                    offset: const Offset(0, 0),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
-        selectedTab(
-          controller: controller,
-          label: "Accepted",
-          tabIndex: 1,
-          pageController: pageController,
+        Row(
+          children: [
+            selectedTab(
+              size: size,
+              controller: controller,
+              label: "Open",
+              tabIndex: 0,
+              pageController: pageController,
+            ),
+            selectedTab(
+              size: size,
+              controller: controller,
+              label: "Accepted",
+              tabIndex: 1,
+              pageController: pageController,
+            ),
+          ],
         ),
       ],
     ),
@@ -99,44 +129,28 @@ Widget topBar({required Size size, required PageController pageController}) {
 
 Widget selectedTab({
   required int tabIndex,
+  required Size size,
   required ZeitnahController controller,
   required String label,
   required PageController pageController,
 }) {
-  return Expanded(
-    child: GestureDetector(
-      onTap: () {
-        controller.selectClientMessagetab.value = tabIndex;
-        pageController.jumpToPage(tabIndex);
-      },
-      child: Obx(
-        () => Container(
-          margin: EdgeInsets.all(4.r),
-          decoration: BoxDecoration(
-            color: controller.selectClientMessagetab.value == tabIndex
-                ? AppColors.kcPrimaryBackgrundColor
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(50.r),
-            boxShadow: [
-              BoxShadow(
-                color: controller.selectClientMessagetab.value == tabIndex
-                    ? Colors.grey
-                    : Colors.transparent,
-                blurRadius: 8,
-                offset: const Offset(0, 0),
-              ),
-            ],
-          ),
-          child: Center(
-            child: Text(
-              label.tr,
-              style: GoogleFonts.inter(
-                  textStyle: TextStyle(
-                      color: AppColors.kcPrimaryBlackColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.bold)),
-            ),
-          ),
+  return GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onTap: () {
+      controller.selectClientMessagetab.value = tabIndex;
+      pageController.jumpToPage(tabIndex);
+    },
+    child: SizedBox(
+      height: 32.h,
+      width: size.width / 2.32,
+      child: Center(
+        child: Text(
+          label.tr,
+          style: GoogleFonts.inter(
+              textStyle: TextStyle(
+                  color: AppColors.kcPrimaryBlackColor,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold)),
         ),
       ),
     ),

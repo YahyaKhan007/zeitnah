@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:zeitnah/views/views.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../account_settings/account_settng_home.dart';
+
 
 PreferredSizeWidget addProAppBar(BuildContext context) {
   // final controller = Get.find<ZeitnahController>();
@@ -47,7 +47,7 @@ PreferredSizeWidget addProAppBar(BuildContext context) {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(()=> const AccountSettingHomeForClient(), duration: const Duration(milliseconds: 500));
+                  Get.to(()=> const AccountSettingHomeForClient(), );
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right : 20.0),

@@ -1,9 +1,9 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import '../../../../../../../utils/app_colors/app_colors.dart';
 import 'package:zeitnah/views/screens/auth_screens/widgets/common_widgets.dart';
 
-import '../../../../../../../utils/app_colors/app_colors.dart';
 
 patientRequestAccepted({required BuildContext context, required String name}) {
   Size size = MediaQuery.of(context).size;
@@ -14,7 +14,7 @@ patientRequestAccepted({required BuildContext context, required String name}) {
           elevation: 50,
           type: MaterialType.transparency,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).w,
+            padding: const EdgeInsets.symmetric(horizontal: 56).w,
             child: Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16).w,
@@ -66,10 +66,10 @@ rejectPatientRequest(
           elevation: 50,
           type: MaterialType.transparency,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16).w,
+            padding: const EdgeInsets.symmetric(horizontal: 32).w,
             child: Center(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16).w,
+                padding: const EdgeInsets.symmetric(horizontal: 8).w,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24.r)),
@@ -105,7 +105,7 @@ rejectPatientRequest(
                             onTap: no),
                       ],
                     ),
-                    (size.height * 0.01).h.verticalSpace,
+                    (size.height * 0.02).h.verticalSpace,
                   ],
                 ),
               ),

@@ -1,7 +1,7 @@
+import 'package:get/get.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 
 Widget commonField(
     {required BuildContext context,
@@ -68,7 +68,7 @@ Widget commonButton(
       // height: 48.h,
       width: size.width * 0.6,
 
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
       decoration: BoxDecoration(
           color: backGroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
@@ -105,9 +105,9 @@ Widget commonButtonWithLowWidth(
     child: Container(
       // width: ScreenUtil().screenWidth,
       // height: 48.h,
-      width: size.width * 0.3,
+      width: size.width * 0.35,
 
-      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
       decoration: BoxDecoration(
           color: backGroundColor,
           borderRadius: BorderRadius.circular(borderRadius),
