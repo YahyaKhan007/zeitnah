@@ -52,60 +52,59 @@ addProviderDialog({required BuildContext context}) {
                                   fontWeight: FontWeight.bold))),
                     ),
                     8.h.verticalSpace,
-                    Container(
-                      margin: EdgeInsetsDirectional.symmetric(horizontal: 24.w),
-                      // height: 32,
-                      width: size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          color: const Color(0xffE4E4E4)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            // height: 24.h,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(left: 8, top: 8).h,
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        final containerWidth = constraints.maxWidth -
+                            32.w; // Subtracting horizontal margin
+                        final containerHeight =
+                            36.h; // Increased height for better touch target
+                        final iconSize = containerHeight * 0.47;
+                        final fontSize = containerHeight * 0.28;
+
+                        return Container(
+                          margin: EdgeInsets.symmetric(horizontal: 16.w),
+                          width: containerWidth,
+                          height: containerHeight,
+                          // width: size.width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            color: AppColors.kcGreyColor.withOpacity(0.5),
+                          ),
+                          child: Center(
+                            child: TextFormField(
+                              style: TextStyle(
+                                color: AppColors.kcPrimaryBlackColor
+                                    .withOpacity(0.6),
+                                fontWeight: FontWeight.normal,
+                                fontSize: fontSize,
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: containerHeight * 0.2),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: containerWidth * 0.05,
+                                      right: containerWidth * 0.02),
                                   child: Icon(
                                     Icons.search,
-                                    size: 22.r,
+                                    size: iconSize,
                                     color: AppColors.kcPrimaryBlackColor
                                         .withOpacity(0.6),
                                   ),
                                 ),
-                                8.w.horizontalSpace,
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 32.h,
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                          color: AppColors.kcPrimaryBlackColor
-                                              .withOpacity(0.6),
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 12.sp),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Search",
-                                        hintStyle: TextStyle(
-                                            color: AppColors.kcPrimaryBlackColor
-                                                .withOpacity(0.6),
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 12.sp),
-                                      ),
-                                    ),
-                                  ),
+                                hintText: "Search",
+                                hintStyle: TextStyle(
+                                  color: AppColors.kcPrimaryBlackColor
+                                      .withOpacity(0.6),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: fontSize,
                                 ),
-                              ],
+                              ),
                             ),
                           ),
-                          4.h.verticalSpace,
-                        ],
-                      ),
+                        );
+                      },
                     ),
                     Expanded(
                       child: Padding(

@@ -50,7 +50,7 @@ PreferredSizeWidget appointmentAppbar(
                   onTap: () {
                     Get.to(
                       () => const AccountSettingHomeForClient(),
-                      transition: Transition.rightToLeftWithFade,
+                      // transition: Transition.rightToLeftWithFade,
                     );
                   },
                   child: SvgPicture.asset(

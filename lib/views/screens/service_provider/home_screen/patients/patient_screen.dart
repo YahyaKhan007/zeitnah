@@ -112,32 +112,41 @@ class _PatientScreenState extends State<PatientScreen> {
             ),
           ),
           20.h.verticalSpace,
-          Container(
-            margin: EdgeInsetsDirectional.symmetric(horizontal: 32.w),
-            // height: 28.h,
-            width: size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
-              color: AppColors.kcGreyColor.withOpacity(0.5),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  height: 32.h,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final containerWidth =
+                  constraints.maxWidth - 64.w; // Subtracting horizontal margin
+              final containerHeight =
+                  36.h; // Increased height for better touch target
+              final iconSize = containerHeight * 0.47;
+              final fontSize = containerHeight * 0.28;
+
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 32.w),
+                width: containerWidth,
+                height: containerHeight,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.r),
+                  color: AppColors.kcGreyColor.withOpacity(0.5),
+                ),
+                child: Center(
                   child: TextFormField(
                     style: TextStyle(
                       color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
                       fontWeight: FontWeight.normal,
-                      fontSize: 12.sp,
+                      fontSize: fontSize,
                     ),
                     decoration: InputDecoration(
                       border: InputBorder.none,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: containerHeight * 0.2),
                       prefixIcon: Padding(
-                        padding: const EdgeInsets.only(top: 0),
+                        padding: EdgeInsets.only(
+                            left: containerWidth * 0.05,
+                            right: containerWidth * 0.02),
                         child: Icon(
                           Icons.search,
-                          size: 22.r,
+                          size: iconSize,
                           color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
                         ),
                       ),
@@ -145,13 +154,13 @@ class _PatientScreenState extends State<PatientScreen> {
                       hintStyle: TextStyle(
                         color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
                         fontWeight: FontWeight.normal,
-                        fontSize: 12.sp,
+                        fontSize: fontSize,
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              );
+            },
           ),
           12.h.verticalSpace,
         ],
@@ -199,5 +208,68 @@ class _PatientScreenState extends State<PatientScreen> {
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+}
+
+class ResponsiveSearchWidget extends StatelessWidget {
+  const ResponsiveSearchWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final height = constraints.maxHeight;
+
+        // Calculate responsive sizes
+        final containerHeight = height * 0.07; // Adjust as needed
+        final horizontalMargin = width * 0.08; // Equivalent to 32.w
+        final borderRadius = width * 0.03; // Equivalent to 12.r
+        final iconSize = width * 0.055; // Equivalent to 22.r
+        final fontSize = width * 0.03; // Equivalent to 12.sp
+
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
+          height: containerHeight,
+          width: width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(borderRadius),
+            color: AppColors.kcGreyColor.withOpacity(0.5),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: containerHeight,
+                child: TextFormField(
+                  style: TextStyle(
+                    color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+                    fontWeight: FontWeight.normal,
+                    fontSize: fontSize,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    prefixIcon: Padding(
+                      padding: const EdgeInsets.only(top: 0),
+                      child: Icon(
+                        Icons.search,
+                        size: iconSize,
+                        color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+                      ),
+                    ),
+                    hintText: "Search",
+                    hintStyle: TextStyle(
+                      color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+                      fontWeight: FontWeight.normal,
+                      fontSize: fontSize,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
