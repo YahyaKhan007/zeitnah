@@ -5,15 +5,15 @@ import '../views/screens/client/client_homepage/add_service_provider/add_pro_vie
 
 class AppConstants {
   static final List bottomBarImages = [
-    'assets/icons/calender.png',
-    'assets/icons/patient.png',
-    'assets/icons/setting.png'
+    'assets/pngs/appointment.png',
+    'assets/pngs/patient.png',
+    'assets/pngs/setting.png'
   ];
 
   static final List clientBottomBarImages = [
-    'assets/icons/calender.png',
-    'assets/icons/patient.png',
-    'assets/icons/setting.png'
+    'assets/pngs/appointment.png',
+    'assets/pngs/patient.png',
+    'assets/pngs/setting.png'
   ];
 
   static final List bottomBarLables = ['Appointments', 'Patients', 'Settings'];

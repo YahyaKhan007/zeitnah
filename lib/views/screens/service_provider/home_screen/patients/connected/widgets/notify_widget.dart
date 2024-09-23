@@ -40,14 +40,14 @@ Widget notifyClient({
               controller.willNotifyPatient.value
                   ? SvgPicture.asset(
                       "assets/icons/noti_bell.svg",
-                      height: 48.h,
+                      height: 32.h,
                     )
                   : SvgPicture.asset(
                       "assets/icons/bell_off.svg",
-                      height: 48.h,
+                      height: 32.h,
                     ),
               Transform.scale(
-                scale: 1,
+                scale: 0.8,
                 child: Switch.adaptive(
                     activeTrackColor: AppColors.kcPrimaryBlueColor,
                     inactiveThumbColor: Colors.white,
@@ -79,7 +79,7 @@ Widget priorPatient({
       ),
       8.h.verticalSpace,
       Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 7.h),
         decoration: BoxDecoration(
             color: AppColors.kcPrimaryBackgrundColor,
             borderRadius: BorderRadius.circular(16.r),
@@ -98,14 +98,14 @@ Widget priorPatient({
             children: [
               SvgPicture.asset(
                 "assets/icons/diomond_new.svg",
-                height: 48.r,
+                height: 32.r,
                 color: !controller.isPatientPriority.value
                     ? AppColors.kcPrimaryBlackColor
                     : const Color(0xffC4B420),
               ),
-              8.w.horizontalSpace,
+              4.w.horizontalSpace,
               Transform.scale(
-                  scale: 1,
+                  scale: 0.8,
                   child: Switch.adaptive(
                       activeTrackColor: AppColors.kcPrimaryBlueColor,
                       inactiveThumbColor: Colors.white,

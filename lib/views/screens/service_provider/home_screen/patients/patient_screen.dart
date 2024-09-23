@@ -14,6 +14,7 @@ class PatientScreen extends StatefulWidget {
 }
 
 class _PatientScreenState extends State<PatientScreen> {
+  TextEditingController searchController = TextEditingController();
   PageController pageController = PageController();
   final zeitnahControler = Get.find<ZeitnahController>();
 
@@ -30,13 +31,6 @@ class _PatientScreenState extends State<PatientScreen> {
               child: zeitnahControler.selectedClientPatientPageIndex.value == 0
                   ? PatientConnected()
                   : const PatientRequests(),
-              // PageView(
-              //   controller: pageController,
-              //   children: const [
-              //     PatientConnected(), // Connected tab content
-              //     PatientRequests(), // Requests tab content
-              //   ],
-              // ),
             ),
           ),
         ],
@@ -112,55 +106,94 @@ class _PatientScreenState extends State<PatientScreen> {
             ),
           ),
           20.h.verticalSpace,
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final containerWidth =
-                  constraints.maxWidth - 64.w; // Subtracting horizontal margin
-              final containerHeight =
-                  36.h; // Increased height for better touch target
-              final iconSize = containerHeight * 0.47;
-              final fontSize = containerHeight * 0.28;
-
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 32.w),
-                width: containerWidth,
-                height: containerHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  color: AppColors.kcGreyColor.withOpacity(0.5),
-                ),
-                child: Center(
+          // LayoutBuilder(
+          //   builder: (context, constraints) {
+          //     final containerWidth =
+          //         constraints.maxWidth - 64.w; // Subtracting horizontal margin
+          //     final containerHeight =
+          //         36.h; // Increased height for better touch target
+          //     final iconSize = containerHeight * 0.47;
+          //     final fontSize = containerHeight * 0.28;
+          //
+          //     return Container(
+          //       margin: EdgeInsets.symmetric(horizontal: 16.w),
+          //       width: containerWidth,
+          //       height: containerHeight,
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(12.r),
+          //         color: AppColors.kcGreyColor.withOpacity(0.5),
+          //       ),
+          //       child: Center(
+          //         child: TextFormField(
+          //           style: TextStyle(
+          //             color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+          //             fontWeight: FontWeight.normal,
+          //             fontSize: fontSize,
+          //           ),
+          //           textAlignVertical: TextAlignVertical.center,
+          //           decoration: InputDecoration(
+          //             border: InputBorder.none,
+          //             contentPadding:
+          //                 EdgeInsets.symmetric(vertical: containerHeight * 0.2),
+          //             prefixIcon: Padding(
+          //               padding: EdgeInsets.only(left: containerWidth * 0.05),
+          //               child: Icon(
+          //                 Icons.search,
+          //                 size: iconSize,
+          //                 color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+          //               ),
+          //             ),
+          //             hintText: "Search",
+          //             hintStyle: TextStyle(
+          //               color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
+          //               fontWeight: FontWeight.normal,
+          //               fontSize: fontSize,
+          //             ),
+          //             alignLabelWithHint: true, // Ensures hint is aligned
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          // ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(24.r),
+              color: AppColors.kcGreyColor.withOpacity(0.5),
+            ),
+            height: 48.h,
+            width: size.width,
+            margin: EdgeInsets.symmetric(horizontal: size.width * 0.1),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: Row(
+              children: [
+                // SvgPicture.asset(
+                //   image,
+                //   height: size.height * 0.03,
+                // ),
+                const Icon(Icons.search),
+                16.w.horizontalSpace,
+                Expanded(
                   child: TextFormField(
                     style: TextStyle(
-                      color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                      fontWeight: FontWeight.normal,
-                      fontSize: fontSize,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12.sp,
+                      color: const Color(0xff64748B),
                     ),
+                    controller: searchController,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: containerHeight * 0.2),
-                      prefixIcon: Padding(
-                        padding: EdgeInsets.only(
-                            left: containerWidth * 0.05,
-                            right: containerWidth * 0.02),
-                        child: Icon(
-                          Icons.search,
-                          size: iconSize,
-                          color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                        ),
-                      ),
-                      hintText: "Search",
+                      hintText: "Search".tr,
                       hintStyle: TextStyle(
-                        color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                        fontWeight: FontWeight.normal,
-                        fontSize: fontSize,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xff64748B),
                       ),
                     ),
                   ),
                 ),
-              );
-            },
+              ],
+            ),
           ),
           12.h.verticalSpace,
         ],
@@ -212,7 +245,7 @@ class _PatientScreenState extends State<PatientScreen> {
 }
 
 class ResponsiveSearchWidget extends StatelessWidget {
-  const ResponsiveSearchWidget({Key? key}) : super(key: key);
+  const ResponsiveSearchWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

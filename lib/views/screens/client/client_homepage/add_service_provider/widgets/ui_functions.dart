@@ -10,6 +10,8 @@ import '../../../../../../utils/app_constants.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
 
 addProviderDialog({required BuildContext context}) {
+  TextEditingController searchController = TextEditingController();
+
   Size size = MediaQuery.of(context).size;
   return showDialog(
       context: context,
@@ -41,7 +43,6 @@ addProviderDialog({required BuildContext context}) {
                         height: 32.h,
                       ),
                     ),
-                    // (size.height * 0.01).h.verticalSpace,
                     Center(
                       child: Text("Search Service Provider",
                           textAlign: TextAlign.center,
@@ -52,59 +53,45 @@ addProviderDialog({required BuildContext context}) {
                                   fontWeight: FontWeight.bold))),
                     ),
                     8.h.verticalSpace,
-                    LayoutBuilder(
-                      builder: (context, constraints) {
-                        final containerWidth = constraints.maxWidth -
-                            32.w; // Subtracting horizontal margin
-                        final containerHeight =
-                            36.h; // Increased height for better touch target
-                        final iconSize = containerHeight * 0.47;
-                        final fontSize = containerHeight * 0.28;
-
-                        return Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16.w),
-                          width: containerWidth,
-                          height: containerHeight,
-                          // width: size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12.r),
-                            color: AppColors.kcGreyColor.withOpacity(0.5),
-                          ),
-                          child: Center(
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.r),
+                        color: AppColors.kcGreyColor.withOpacity(0.5),
+                      ),
+                      height: 48.h,
+                      width: size.width,
+                      margin:
+                          EdgeInsets.symmetric(horizontal: size.width * 0.03),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: Row(
+                        children: [
+                          // SvgPicture.asset(
+                          //   image,
+                          //   height: size.height * 0.03,
+                          // ),
+                          const Icon(Icons.search),
+                          16.w.horizontalSpace,
+                          Expanded(
                             child: TextFormField(
                               style: TextStyle(
-                                color: AppColors.kcPrimaryBlackColor
-                                    .withOpacity(0.6),
-                                fontWeight: FontWeight.normal,
-                                fontSize: fontSize,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp,
+                                color: const Color(0xff64748B),
                               ),
+                              controller: searchController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: containerHeight * 0.2),
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: containerWidth * 0.05,
-                                      right: containerWidth * 0.02),
-                                  child: Icon(
-                                    Icons.search,
-                                    size: iconSize,
-                                    color: AppColors.kcPrimaryBlackColor
-                                        .withOpacity(0.6),
-                                  ),
-                                ),
-                                hintText: "Search",
+                                hintText: "Search".tr,
                                 hintStyle: TextStyle(
-                                  color: AppColors.kcPrimaryBlackColor
-                                      .withOpacity(0.6),
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: fontSize,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff64748B),
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Padding(
@@ -188,7 +175,6 @@ addProviderDialog({required BuildContext context}) {
                       ),
                     ),
                     8.h.verticalSpace,
-
                     Row(
                       children: [
                         SvgPicture.asset("assets/icons/qr_text.svg",

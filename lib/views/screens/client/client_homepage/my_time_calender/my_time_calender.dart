@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
 
 import '../../../../../services/services.dart';
 import 'widgets/custome_notifications.dart';
@@ -29,8 +32,26 @@ class MyCalender extends StatelessWidget {
     return SizedBox(
       height: size.height,
       width: size.width,
-      child: Center(
-        child: SvgPicture.asset("assets/icons/always.svg", height: size.height * 0.15,),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            "assets/icons/always.svg",
+            height: size.height * 0.1,
+          ),
+          4.h.verticalSpace,
+          Text(
+            "You get all\nNotifications",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+                textStyle: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.kcPrimaryBlackColor)),
+          )
+        ],
       ),
     );
   }
@@ -39,8 +60,26 @@ class MyCalender extends StatelessWidget {
     return SizedBox(
       height: size.height,
       width: size.width,
-      child: Center(
-        child: SvgPicture.asset("assets/icons/mute.svg", height: size.height * 0.15,),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            "assets/icons/mute.svg",
+            height: size.height * 0.1,
+          ),
+          4.h.verticalSpace,
+          Text(
+            "You get no\nNotifications",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(
+                textStyle: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.kcPrimaryBlackColor)),
+          )
+        ],
       ),
     );
   }

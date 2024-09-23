@@ -152,7 +152,7 @@ class ServiceProviderHomeScreen extends StatelessWidget {
               children: [
                 Image.asset(
                   icon,
-                  height: size.height * 0.04,
+                  // height: size.height * 0.04,
                   color: index == controller.selectedPageIndex.value
                       ? AppColors.kcPrimaryBlueColor
                       : AppColors.kcPrimaryBlackColor,

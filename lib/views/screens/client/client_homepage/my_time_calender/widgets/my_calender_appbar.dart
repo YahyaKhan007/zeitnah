@@ -1,12 +1,12 @@
-import 'package:get/get.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../../../utils/app_colors/app_colors.dart';
-import '../../../account_settings/account_settng_home.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/controller_service/controller_service.dart';
 
+import '../../../../../../utils/app_colors/app_colors.dart';
+import '../../../account_settings/account_settng_home.dart';
 
 PreferredSizeWidget myCalenderAppbar(BuildContext context) {
   Size size = MediaQuery.of(context).size;
@@ -34,7 +34,7 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: size.width * 0.22.w,
+                width: size.width * 0.27.w,
               ),
               Text(
                 "My Time Window".tr,
@@ -48,9 +48,12 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(()=> const AccountSettingHomeForClient());
+                  Get.to(() => const AccountSettingHomeForClient());
                 },
-                child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
+                child: SvgPicture.asset(
+                  'assets/icons/three_bar.svg',
+                  height: size.height * 0.04,
+                ),
               ),
               16.w.horizontalSpace,
             ],
@@ -122,8 +125,8 @@ Widget containerOption({
         Transform.scale(
           scale: 0.8,
           child: Switch(
-            activeColor: Colors.white,
-activeTrackColor: AppColors.kcPrimaryBlueColor,
+              activeColor: Colors.white,
+              activeTrackColor: AppColors.kcPrimaryBlueColor,
               value: value,
               onChanged: (val) {
                 controller.setNotification(value: label);

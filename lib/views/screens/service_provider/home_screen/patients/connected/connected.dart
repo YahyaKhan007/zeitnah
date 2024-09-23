@@ -80,10 +80,9 @@ class PatientConnected extends StatelessWidget {
               ),
             ),
             index == 2
-                ? SvgPicture.asset(
-                    "assets/icons/bell_off.svg",
+                ? SvgPicture.asset("assets/icons/bell_off.svg", height: 32.r
                     // color: Colors.black,
-                  )
+                    )
                 : Align(
                     alignment: Alignment.centerRight,
                     child: Obx(

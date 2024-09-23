@@ -1,20 +1,19 @@
-import 'package:get/get.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:zeitnah/views/views.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/views/views.dart';
+
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../account_settings/account_settng_home.dart';
 
-
 PreferredSizeWidget addProAppBar(BuildContext context) {
   // final controller = Get.find<ZeitnahController>();
-   Size size = MediaQuery.of(context).size;
+  Size size = MediaQuery.of(context).size;
   return PreferredSize(
     preferredSize: Size.fromHeight(100.h),
     child: Container(
-
       decoration: const BoxDecoration(
         color: AppColors.kcPrimaryBackgrundColor,
         // boxShadow: [
@@ -34,7 +33,7 @@ PreferredSizeWidget addProAppBar(BuildContext context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 20.w,
+                width: 40.w,
               ),
               Text(
                 "Service Provider".tr,
@@ -47,17 +46,20 @@ PreferredSizeWidget addProAppBar(BuildContext context) {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(()=> const AccountSettingHomeForClient(), );
+                  Get.to(
+                    () => const AccountSettingHomeForClient(),
+                  );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(right : 20.0),
-                  child: SvgPicture.asset('assets/icons/three_bar.svg', height: size.height * 0.04,),
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: SvgPicture.asset(
+                    'assets/icons/three_bar.svg',
+                    height: size.height * 0.04,
+                  ),
                 ),
               ),
- 
             ],
           ),
-
           16.h.verticalSpace,
         ],
       ),

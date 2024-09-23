@@ -1,13 +1,12 @@
-import 'package:get/get.dart';
-import 'widgets/functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
+import 'widgets/functions.dart';
 
 class ServiceProviderSettings extends StatelessWidget {
   const ServiceProviderSettings({super.key});
@@ -26,13 +25,12 @@ class ServiceProviderSettings extends StatelessWidget {
               image: 'assets/icons/add_member.svg',
               label: 'Team Member',
               trailingText: '3'),
-          
           settingOption(
               onTap: () {
                 selectDefaultTime(context: context);
               },
               image: 'assets/icons/clock_1.svg',
-              label: 'Priority Time',
+              label: 'Custom Time',
               trailingText: '20min'),
         ],
       ),
@@ -54,9 +52,8 @@ class ServiceProviderSettings extends StatelessWidget {
           border: Border.all(color: AppColors.kcGreyColor),
         ),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           SvgPicture.asset(
             image,
             color: AppColors.kcPrimaryBlueColor,

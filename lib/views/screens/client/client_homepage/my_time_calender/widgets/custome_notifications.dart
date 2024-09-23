@@ -130,24 +130,36 @@ Widget dayContainer({
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            day,
-            style: GoogleFonts.inter(
-                textStyle: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white)),
+          Expanded(
+            flex: 2,
+            child: Text(
+              day,
+              style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+            ),
           ),
           24.w.horizontalSpace,
           Expanded(
+              flex: 4,
               child: ListView.builder(
                   itemCount: dailySchedule.length,
                   scrollDirection: Axis.horizontal,
+                  reverse: true,
                   itemBuilder: (context, index) {
+                    // [].reversed;
                     final time = dailySchedule[index];
                     return SizedBox(
+                      // color: index == 0
+                      //     ? Colors.green
+                      //     : index == 1
+                      //         ? Colors.black12
+                      //         : Colors.pink,
                       width: size.width * 0.165,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(

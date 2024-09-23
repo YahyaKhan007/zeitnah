@@ -62,12 +62,7 @@ class AddProviderHome extends StatelessWidget {
                                                 BorderRadius.circular(24.r),
                                             color: AppColors.kcPrimaryBlueColor,
                                           ),
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                    right: 8.w,
-                                                    left: size.width * 0.15,
-                                                    top: size.height * 0.02)
-                                                .w,
+                                          child: Center(
                                             child: Text(
                                               AppConstants
                                                   .srviceProviderList[index]
@@ -129,10 +124,11 @@ class AddProviderHome extends StatelessWidget {
                               color: AppColors.kcPrimaryBlackColor,
                               fontWeight: FontWeight.normal,
                               fontSize: 12.sp),
-                        )
+                        ),
+                        16.h.verticalSpace,
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
       ),

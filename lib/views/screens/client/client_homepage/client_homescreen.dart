@@ -77,6 +77,9 @@ class ClientsHomeScreen extends StatelessWidget {
                       label: AppConstants.clientBottomBarLables[index],
                       onTap: () {
                         controller.selectedClientPageIndex.value = index;
+                        if (controller.selectedClientPageIndex.value != 0) {
+                          controller.selectClientMessagetab.value = 0;
+                        }
                         log("Page index is ${controller.selectedClientPageIndex.value + 1}");
                       },
                       size: size);
@@ -127,7 +130,7 @@ class ClientsHomeScreen extends StatelessWidget {
                 Image.asset(
                   icon,
                   // scale: 1.67,
-                  height: size.height * 0.04,
+                  height: size.height * 0.035,
                   color: index == controller.selectedClientPageIndex.value
                       ? AppColors.kcPrimaryBlueColor
                       : AppColors.kcPrimaryBlackColor,

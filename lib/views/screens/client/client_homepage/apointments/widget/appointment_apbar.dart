@@ -33,7 +33,7 @@ PreferredSizeWidget appointmentAppbar(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                width: 20.w,
+                width: 40.w,
               ),
               Text(
                 "Appointments".tr,
