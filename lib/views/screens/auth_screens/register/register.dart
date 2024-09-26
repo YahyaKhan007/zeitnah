@@ -1,22 +1,15 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import '../widgets/common_widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zeitnah/services/router_service/router_helper_service.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:zeitnah/views/screens/auth_screens/register/register_controller/register_Controller.dart';
 
+import '../widgets/common_widgets.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends GetView<RegisterController> {
   final bool isProvider;
-  RegisterScreen({super.key, required this.isProvider});
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
-  TextEditingController confirmPassController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController surNameController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
+  const RegisterScreen({super.key, required this.isProvider});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +23,9 @@ class RegisterScreen extends StatelessWidget {
               onTap: () {
                 Get.back();
               },
-              child: SvgPicture.asset("assets/icons/back.svg",)),
+              child: SvgPicture.asset(
+                "assets/icons/back.svg",
+              )),
         ),
       ),
       extendBodyBehindAppBar: true,
@@ -47,7 +42,7 @@ class RegisterScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            (size.height * 0.12).h.verticalSpace,
+            (size.height * 0.075).h.verticalSpace,
             Padding(
               padding: EdgeInsets.only(left: 24.w),
               child: Text(
@@ -58,7 +53,7 @@ class RegisterScreen extends StatelessWidget {
                     fontSize: 26.sp),
               ),
             ),
-              24.h.verticalSpace,
+            16.h.verticalSpace,
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -78,48 +73,47 @@ class RegisterScreen extends StatelessWidget {
                           context: context,
                           image: 'assets/icons/person.svg',
                           title: 'Name',
-                          controller: nameController),
+                          controller: controller.firstNameController),
                       16.h.verticalSpace,
                       commonField(
                           context: context,
                           image: 'assets/icons/person.svg',
                           title: 'Surname',
-                          controller: surNameController),
+                          controller: controller.lastNameController),
                       16.h.verticalSpace,
                       commonField(
                           context: context,
                           image: 'assets/icons/email.svg',
                           title: 'E-Mail',
-                          controller: emailController),
+                          controller: controller.emailController),
                       16.h.verticalSpace,
                       commonField(
                           context: context,
                           image: 'assets/icons/lock.svg',
                           title: 'Password',
-                          controller: passController),
+                          controller: controller.passwordController),
                       16.h.verticalSpace,
-
-                          commonField(
+                      commonField(
                           context: context,
                           image: 'assets/icons/lock.svg',
-                          title: 'Password',
-                          controller: confirmPassController),
+                          title: 'Confirm Password',
+                          controller: controller.confirmPasswordController),
                       16.h.verticalSpace,
                       commonField(
                           context: context,
                           image: 'assets/icons/phone.svg',
                           title: 'Phone Number',
-                          controller: phoneNumberController),
+                          controller: controller.phoneNumberController),
                       16.h.verticalSpace,
-                      commonButton(
-                          backGroundColor: AppColors.kcPrimaryBlueColor,
-                          textColor: Colors.white,
-                          text: "Registrieren",
-                          size: size,
-                          borderRadius: 100.w,
-                          onTap: () {
-                            isProvider ? Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen) : Get.offAllNamed(RouterHelperService.sharePhone);
-                          }),
+                      customFunctionalButton(
+                        backGroundColor: AppColors.kcPrimaryBlueColor,
+                        textColor: Colors.white,
+                        text: "Registrieren",
+                        size: size,
+                        borderRadius: 100.w,
+                        isLoading: controller.isLoading,
+                        onTap: controller.registerUser,
+                      ),
                     ],
                   ),
                 ),

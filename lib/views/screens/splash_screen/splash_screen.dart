@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zeitnah/blocs/blocs.dart';
+import 'package:get/get.dart';
+import 'package:zeitnah/views/screens/splash_screen/splashController.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-
-    context.read<SplashBloc>().add(const SplashInitialEvent());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +21,6 @@ class _SplashScreenState extends State<SplashScreen> {
             Image.asset("assets/icons/splash_icon.png"),
             SvgPicture.asset("assets/icons/splash_icon_2.svg"),
             SvgPicture.asset("assets/icons/splash_icon_1.svg"),
-            // Text(
-            //   'Zeit',
-            //   style: GoogleFonts.odorMeanChey(
-            //       textStyle: TextStyle(fontSize: 100.sp, color: Colors.black)),
-            // ),
-            // Text(
-            //   'Nah',
-
-            //   style: GoogleFonts.odorMeanChey(
-            //     height: ,
-            //       textStyle: TextStyle(fontSize: 100.sp, color: Colors.black)),
-            // ),
           ],
         ),
       ),

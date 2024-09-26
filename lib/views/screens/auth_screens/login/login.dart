@@ -1,17 +1,15 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import '../widgets/common_widgets.dart';
-import '../../../../services/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zeitnah/views/screens/auth_screens/login/login_controller.dart';
 
+import '../../../../services/services.dart';
+import '../widgets/common_widgets.dart';
 
-class Login extends StatelessWidget {
-  Login({super.key});
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+class Login extends GetView<LoginController> {
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +31,7 @@ class Login extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                (size.height * 0.12).h.verticalSpace,
+                (size.height * 0.075).h.verticalSpace,
                 Padding(
                   padding: EdgeInsets.only(left: 24.w),
                   child: Text(
@@ -44,7 +42,7 @@ class Login extends StatelessWidget {
                         fontSize: 26.sp),
                   ),
                 ),
-                24.h.verticalSpace,
+                16.h.verticalSpace,
                 Expanded(
                   child: Container(
                     height: double.maxFinite,
@@ -63,13 +61,13 @@ class Login extends StatelessWidget {
                               context: context,
                               image: 'assets/icons/email.svg',
                               title: 'E-Mail',
-                              controller: emailController),
+                              controller: controller.emailController),
                           16.h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/lock.svg',
                               title: 'Password',
-                              controller: passController),
+                              controller: controller.passController),
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
@@ -92,15 +90,15 @@ class Login extends StatelessWidget {
                             ),
                           ),
                           16.h.verticalSpace,
-                          commonButton(
-                              backGroundColor: AppColors.kcPrimaryBlueColor,
-                              textColor: Colors.white,
-                              text: "Log In",
-                              size: size,
-                              borderRadius: 100.w,
-                              onTap: () {
-                                showRoleDialog(context);
-                              }),
+                          customFunctionalButton(
+                            backGroundColor: AppColors.kcPrimaryBlueColor,
+                            textColor: Colors.white,
+                            text: "Log In",
+                            size: size,
+                            borderRadius: 100.w,
+                            isLoading: controller.isLoading,
+                            onTap: controller.loginUser,
+                          ),
                           (size.height * 0.05).h.verticalSpace,
                           Center(
                             child: Text(
@@ -119,27 +117,28 @@ class Login extends StatelessWidget {
                               text: "Sign Up",
                               borderRadius: 100.w,
                               onTap: () {
-                                Get.toNamed('/register' ,arguments: {'isProvider': false});
+                                Get.toNamed('/register',
+                                    arguments: {'isProvider': false});
                               }),
-                              (size.height * 0.05).verticalSpace,
-                              Padding(
-                              padding: EdgeInsets.only(right: 0.w),
-                              child: TextButton(
-                                child: Text(
-                                  "Register Your Clinic ".tr,
-                                  style: const TextStyle(
-                                      color: AppColors.kcPrimaryBlueColor,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.underline),
-                                ),
-                                onPressed: () {
-                                  // Get.toNamed(
-                                  // RouterHelperService.createNewPassword);
-                                 Get.toNamed(RouterHelperService.register ,arguments: {'isProvider': true});
-                                },
+                          (size.height * 0.05).verticalSpace,
+                          Padding(
+                            padding: EdgeInsets.only(right: 0.w),
+                            child: TextButton(
+                              child: Text(
+                                "Register Your Clinic ".tr,
+                                style: const TextStyle(
+                                    color: AppColors.kcPrimaryBlueColor,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline),
                               ),
+                              onPressed: () {
+                                // Get.toNamed(
+                                // RouterHelperService.createNewPassword);
+                                Get.toNamed(RouterHelperService.register,
+                                    arguments: {'isProvider': true});
+                              },
                             ),
-                          
+                          ),
                         ],
                       ),
                     ),

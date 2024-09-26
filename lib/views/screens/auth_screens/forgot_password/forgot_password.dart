@@ -1,15 +1,14 @@
-import 'package:get/get.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import '../widgets/common_widgets.dart';
-import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:zeitnah/utils/app_colors/app_colors.dart';
 
+import '../widgets/common_widgets.dart';
+import 'forgot_password_controller.dart';
 
-class ForgotPassword extends StatelessWidget {
-  ForgotPassword({super.key});
-
-  TextEditingController emailController = TextEditingController();
+class ForgotPassword extends GetView<ForgotPasswordController> {
+  const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,6 @@ class ForgotPassword extends StatelessWidget {
         width: size.width,
         child: Stack(
           children: [
-           
             Image.asset(
               'assets/images/backImage.png',
               height: size.height,
@@ -55,7 +53,7 @@ class ForgotPassword extends StatelessWidget {
                         fontSize: 26.sp),
                   ),
                 ),
-                  24.h.verticalSpace,
+                24.h.verticalSpace,
                 Expanded(
                   child: Container(
                     height: double.maxFinite,
@@ -69,31 +67,35 @@ class ForgotPassword extends StatelessWidget {
                         // crossAxisAlignment: CrossAxisAlignment.center,
                         // mainAxisSize: MainAxisSize.max,
                         children: [
-                         (size.height * 0.03).h.verticalSpace,
+                          (size.height * 0.03).h.verticalSpace,
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 72).w,
-                            child: Text("Insert your Email to create a new password",
-                            textAlign: TextAlign.center,
-                            
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 16.sp),),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 72).w,
+                            child: Text(
+                              "Insert your Email to create a new password",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 16.sp),
+                            ),
                           ),
                           16.h.verticalSpace,
                           commonField(
                               context: context,
                               image: 'assets/icons/email.svg',
                               title: 'E-Mail',
-                              controller: emailController),
+                              controller: controller.emailController),
                           16.h.verticalSpace,
-                         
-                          commonButton(
-                              backGroundColor: AppColors.kcPrimaryBlueColor,
-                              textColor: Colors.white,
-                              size: size,
-                              text: "Bestätigen",
-                              borderRadius: 100.w,
-                              onTap: () {
-                                Get.toNamed('/register', arguments: {'isProvider' : true});
-                              }),
+                          customFunctionalButton(
+                            backGroundColor: AppColors.kcPrimaryBlueColor,
+                            textColor: Colors.white,
+                            size: size,
+                            text: "Bestätigen",
+                            isLoading: controller.isSending,
+                            borderRadius: 100.w,
+                            onTap: controller.sendForgetEmail,
+                          ),
                         ],
                       ),
                     ),

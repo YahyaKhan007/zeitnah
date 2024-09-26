@@ -1,15 +1,17 @@
-import '../../../views.dart';
-import 'package:get/get.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../../utils/app_colors/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../client/account_settings/widgets/ui_functions.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/personal_info_service_provider/personal_info_service_provider.dart';
 
+import '../../../../utils/app_colors/app_colors.dart';
+import '../../../views.dart';
+import '../../client/account_settings/widgets/ui_functions.dart';
+import 'account_setting_home_service_provider_model.dart';
 
-class ServiceProviderAccountSettingsHome extends StatelessWidget {
+class ServiceProviderAccountSettingsHome
+    extends GetView<AccountSettingHomeServiceProviderModel> {
   const ServiceProviderAccountSettingsHome({super.key});
 
   @override
@@ -46,16 +48,17 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
               image: "assets/icons/personal_info.svg",
               label: "Clinic Info",
               onTap: () {
-                Get.to(() => const PersonalInfoServiceProviderScreen(),
-                  
-                   );
+                Get.to(
+                  () => const PersonalInfoServiceProviderScreen(),
+                );
               }),
           settingoption(
               image: "assets/icons/qr_code.svg",
               label: "My QR-Code",
               onTap: () {
-                Get.to(() => const MyQrCode(),
-                    );
+                Get.to(
+                  () => const MyQrCode(),
+                );
               }),
           settingoption(
               image: "assets/icons/help.svg",
@@ -67,7 +70,7 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
               image: "assets/icons/logout.svg",
               label: "Logout",
               onTap: () {
-                logoutDialog(context: context);
+                logoutDialog(context: context, controller: controller);
               }),
         ],
       ),
@@ -84,7 +87,7 @@ class ServiceProviderAccountSettingsHome extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w),
-          padding: EdgeInsets.symmetric(vertical:12.h),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(48.r),
               border: Border.all(color: AppColors.kcGreyTextColor)),

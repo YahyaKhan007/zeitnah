@@ -1,10 +1,10 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:zeitnah/services/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../auth_screens/widgets/common_widgets.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import '../../../service_provider/provider_account_settings.dart/account_setting_home_service_provider_model.dart';
 
 deleteAccount({required BuildContext context}) {
   Size size = MediaQuery.of(context).size;
@@ -69,7 +69,9 @@ deleteAccount({required BuildContext context}) {
       });
 }
 
-logoutDialog({required BuildContext context}) {
+logoutDialog(
+    {required BuildContext context,
+    required AccountSettingHomeServiceProviderModel controller}) {
   Size size = MediaQuery.of(context).size;
   return showDialog(
       context: context,
@@ -108,8 +110,7 @@ logoutDialog({required BuildContext context}) {
                             size: size,
                             borderRadius: 48.r,
                             onTap: () {
-                              // Get.back();
-                              Get.toNamed(RouterHelperService.login);
+                              controller.logout();
                             }),
                         commonButtonWithLowWidth(
                             backGroundColor: AppColors.kcPrimaryBlueColor,

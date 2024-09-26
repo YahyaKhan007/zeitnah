@@ -1,18 +1,20 @@
-import '../../../views.dart';
-import 'package:get/get.dart';
-import 'widgets/ui_functions.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../../../../utils/app_colors/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/account_setting_home_service_provider_model.dart';
 
+import '../../../../utils/app_colors/app_colors.dart';
+import '../../../views.dart';
+import 'widgets/ui_functions.dart';
 
 class AccountSettingHomeForClient extends StatelessWidget {
   const AccountSettingHomeForClient({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<AccountSettingHomeServiceProviderModel>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.kcPrimaryBackgrundColor,
@@ -45,7 +47,9 @@ class AccountSettingHomeForClient extends StatelessWidget {
               image: "assets/icons/personal_info.svg",
               label: "Personal Info",
               onTap: () {
-                Get.to(() => const PersonalInfoScreen(),);
+                Get.to(
+                  () => const PersonalInfoScreen(),
+                );
               }),
           settingoption(
               image: "assets/icons/help.svg",
@@ -57,7 +61,7 @@ class AccountSettingHomeForClient extends StatelessWidget {
               image: "assets/icons/logout.svg",
               label: "Logout",
               onTap: () {
-                logoutDialog(context: context);
+                logoutDialog(context: context, controller: controller);
               }),
         ],
       ),
