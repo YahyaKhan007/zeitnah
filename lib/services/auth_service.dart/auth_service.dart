@@ -14,15 +14,16 @@ class AuthService {
   final DataBaseService _dbService = DataBaseService();
   final SnackBarService _snackBarService = SnackBarService();
 
-  Future<({bool isSuccess, UserModel? userModel})> signupUserWithEmailPassword({
+  Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
+      signupUserWithEmailPassword({
     required String userEmail,
     required String userRole,
     required String userPassword,
     required String confirmPassword,
     required String firstName,
-    required String lastName,
+    required String? lastName,
     required bool isPriority,
-    required String phoneNumber,
+    required String? phoneNumber,
     required String profilePicture,
   }) async {
     // Validate input
@@ -33,7 +34,7 @@ class AuthService {
         message: 'Please Enter Correct Credentials',
         title: "Invalid Input",
       );
-      return (isSuccess: false, userModel: null);
+      return (isSuccess: false, userModel: null, clinicModel: null);
     }
 
     try {
@@ -48,7 +49,7 @@ class AuthService {
           message: 'Failed to create user. Try again.',
           title: 'Signup Failed',
         );
-        return (isSuccess: false, userModel: null);
+        return (isSuccess: false, userModel: null, clinicModel: null);
       }
 
       // Create UserModel based on role
@@ -60,61 +61,87 @@ class AuthService {
             user: user,
             userRole: 'Patient',
             firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
+            lastName: lastName!,
+            phoneNumber: phoneNumber!,
             isPriority: isPriority,
           );
-          break;
+          bool dbResult =
+              await _dbService.addPatientToFireStore(userData: newUserModel);
+          if (!dbResult) {
+            _showErrorSnackBar(
+              message: 'Failed to save user data to FireStore',
+              title: 'Database Error',
+            );
+            return (isSuccess: false, userModel: null, clinicModel: null);
+          }
 
-        case 'provider':
-          break;
+          _showSuccessSnackBar(
+            message: "Signup Successful",
+            title: 'Success',
+          );
+
+          return (isSuccess: true, userModel: newUserModel, clinicModel: null);
+
+        case 'clinic':
+          late ClinicModel clinicModel;
+          clinicModel = _createClinicModel(
+            user: user,
+            address: "",
+            clinicName: firstName,
+            email: userEmail.toLowerCase(),
+            isPriority: isPriority,
+            isVerified: false,
+            phoneNumber: "",
+            profilePicture: profilePicture,
+            userId: "",
+            userRole: userRole,
+          );
+
+          bool dbResult =
+              await _dbService.addClinicToFireStore(userData: clinicModel);
+          if (!dbResult) {
+            _showErrorSnackBar(
+              message: 'Failed to save user data to FireStore',
+              title: 'Database Error',
+            );
+          }
+
+          _showSuccessSnackBar(
+              message: "Welcome Onboard $userEmail", title: "Account created");
+          return (isSuccess: true, userModel: null, clinicModel: clinicModel);
 
         default:
           _showErrorSnackBar(
             message: 'Invalid user role provided',
             title: 'Signup Failed',
           );
-          return (isSuccess: false, userModel: null);
+          return (isSuccess: false, userModel: null, clinicModel: null);
       }
 
-      // Add user to Firestore
-      bool dbResult =
-          await _dbService.addUserToFireStore(userData: newUserModel);
-      if (!dbResult) {
-        _showErrorSnackBar(
-          message: 'Failed to save user data to Firestore',
-          title: 'Database Error',
-        );
-        return (isSuccess: false, userModel: null);
-      }
-
-      _snackBarService.showSnackbar(
-        message: "Signup Successful",
-        duration: 3,
-        color: Colors.black,
-        title: 'Success',
-      );
-
-      return (isSuccess: true, userModel: newUserModel);
+      // Add user to FireStore
     } on FirebaseAuthException catch (e) {
       _showErrorSnackBar(
         message: e.message ?? 'Firebase Authentication Error',
         title: 'Signup Failed',
       );
-      return (isSuccess: false, userModel: null);
+      return (isSuccess: false, userModel: null, clinicModel: null);
     } catch (e, stackTrace) {
       log('Error: $e');
       log('StackTrace: $stackTrace');
-      return (isSuccess: false, userModel: null);
+      return (isSuccess: false, userModel: null, clinicModel: null);
     }
   }
 
   //  Login User
 
-  Future<({bool isSuccess, UserModel? userModel})> loginUser(
-      {required String email, required String password}) async {
+  Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
+      loginUser({
+    required String email,
+    required String password,
+    required String from,
+  }) async {
     if (email.isEmpty || password.isEmpty) {
-      return (isSuccess: false, userModel: null);
+      return (isSuccess: false, userModel: null, clinicModel: null);
     }
 
     try {
@@ -125,12 +152,33 @@ class AuthService {
 
       if (user == null) {
         log("user is null");
-        return (isSuccess: false, userModel: null);
+        return (isSuccess: false, userModel: null, clinicModel: null);
       }
 
-      final loggedUserModel = await _dbService.getUserByUid(user.uid);
+      switch (from) {
+        case 'patient':
+          final loggedUserModel =
+              await _dbService.getPatientUserByUid(user.uid);
 
-      return (isSuccess: true, userModel: loggedUserModel);
+          return (
+            isSuccess: true,
+            userModel: loggedUserModel,
+            clinicModel: null
+          );
+
+        case 'clinic':
+          final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
+
+          _showSuccessSnackBar(
+              message:
+                  "Welcome Onboard ${loggedClinicModel?.clinicName.toString()}",
+              title: "Login Successful");
+          return (
+            isSuccess: true,
+            userModel: null,
+            clinicModel: loggedClinicModel
+          );
+      }
     } catch (e, stackTrace) {
       _showErrorSnackBar(
           message: "Please check your email and password, then try again",
@@ -138,7 +186,7 @@ class AuthService {
       log("stackTrace : $stackTrace");
     }
 
-    return (isSuccess: false, userModel: null);
+    return (isSuccess: false, userModel: null, clinicModel: null);
   }
 
   // Forget Password
@@ -174,21 +222,50 @@ class AuthService {
     );
   }
 
+  ClinicModel _createClinicModel({
+    required User user,
+    required String address,
+    required String clinicName,
+    required String email,
+    required String phoneNumber,
+    required String profilePicture,
+    required String userId,
+    required String userRole,
+    required bool isVerified,
+    required bool isPriority,
+  }) {
+    return ClinicModel(
+        address: address,
+        clinicName: clinicName,
+        email: user.email ?? '',
+        isPriority: isPriority,
+        isVerified: isVerified,
+        phoneNumber: phoneNumber,
+        profilePicture: profilePicture,
+        userId: user.uid,
+        userRole: userRole);
+  }
+
   // checking for isUserLogIn
 
-  Future<({bool isSuccess, UserModel? userModel})> isUserLogin() async {
-    if (_auth.currentUser == null) return (isSuccess: false, userModel: null);
+  Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
+      isUserLogin() async {
+    if (_auth.currentUser == null) {
+      return (isSuccess: false, userModel: null, clinicModel: null);
+    }
 
     try {
       final userUid = _auth.currentUser!.uid;
-      final loggedUserModel = await _dbService.getUserByUid(userUid);
+      final loggedUserModel = await _dbService.getPatientUserByUid(userUid);
 
-      return (isSuccess: true, userModel: loggedUserModel);
+      // final loggedProviderModel = await _dbService.getClinicByUid(userUid);
+
+      return (isSuccess: true, userModel: loggedUserModel, clinicModel: null);
     } catch (e, stackTrace) {
       log("stackTrace : $stackTrace");
     }
 
-    return (isSuccess: false, userModel: null);
+    return (isSuccess: false, userModel: null, clinicModel: null);
   }
 
   // Logout User
@@ -197,9 +274,9 @@ class AuthService {
     Get.offAllNamed(RouterHelperService.login);
   }
 
-  // Centralized Snackbar Error Display
+  // Centralized Snack bar Error Display
   void _showErrorSnackBar({required String message, required String title}) {
-    _snackBarService.showSnackbar(
+    _snackBarService.showSnackBar(
       message: message,
       duration: 2,
       color: Colors.red,
@@ -208,7 +285,7 @@ class AuthService {
   }
 
   void _showSuccessSnackBar({required String message, required String title}) {
-    _snackBarService.showSnackbar(
+    _snackBarService.showSnackBar(
       message: message,
       duration: 2,
       color: Colors.green,

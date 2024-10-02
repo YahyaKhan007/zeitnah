@@ -1,16 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/utils/app_strings.dart';
+import 'package:zeitnah/views/mobile_layout/splash_screen/splash_screen.dart';
 
-import 'blocs/blocs.dart';
 import 'controller_bindings.dart';
 import 'firebase_options.dart';
 import 'services/services.dart';
+import 'views/web_layout/screens/service_provider/auth_screens/auth_screen_home.dart';
+
+var uuid = const Uuid();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,38 +32,56 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-        designSize: const Size(360, 690),
-        minTextAdapt: true,
-        splitScreenMode: true,
-        builder: (_, child) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(create: ((context) => SplashBloc())),
-            ],
-            child: GetMaterialApp(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        Size designSize = constraints.maxWidth < 600
+            ? const Size(360, 690)
+            : const Size(1024, 768);
+
+        return ScreenUtilInit(
+          designSize: designSize,
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, child) {
+            return GetMaterialApp(
               translations: AppStrings(),
-              // locale: const Locale('de'),
               locale: const Locale('en_US'),
-              // fallbackLocale: const Locale('de'),
               fallbackLocale: const Locale('en_US'),
               initialBinding: ControllerBinding(),
-              debugShowCheckedModeBanner: false,
-              initialRoute: RouterHelperService.splash,
               getPages: RouterHelperService.routes,
-              navigatorKey: Get.key,
-              title: 'Chat Bridge',
+              debugShowCheckedModeBanner: false,
+              home: const ResponsiveLayout(),
               theme: ThemeData(
                 primarySwatch: Colors.blue,
                 scaffoldBackgroundColor: AppColors.kcPrimaryBackgrundColor,
                 textTheme: Typography.englishLike2018
                     .apply(fontSizeFactor: 1.sp, fontFamily: 'poppins'),
               ),
-            ),
-          );
-        });
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class ResponsiveLayout extends StatelessWidget {
+  const ResponsiveLayout({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
+          print("Showing Mobile View");
+          return const SplashScreen();
+        } else {
+          print("Showing Web View");
+          return const AuthScreenHome();
+        }
+      },
+    );
   }
 }

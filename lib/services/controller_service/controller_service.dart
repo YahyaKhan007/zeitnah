@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:zeitnah/views/screens/client/client_homepage/my_time_calender/widgets/ui_functions.dart';
+
+import '../../views/mobile_layout/client/client_homepage/my_time_calender/widgets/ui_functions.dart';
 
 class ZeitnahController extends GetxController {
   RxInt selectedPageIndex = RxInt(0);
@@ -22,6 +23,8 @@ class ZeitnahController extends GetxController {
 
 //
   RxList<AddTime> notificationTime = RxList<AddTime>();
+
+  RxBool isMobile = true.obs;
 
 //
   RxBool always = RxBool(true);

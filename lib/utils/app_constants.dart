@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zeitnah/views/views.dart';
 
-import '../views/screens/client/client_homepage/add_service_provider/add_pro_views.dart';
+import '../views/mobile_layout/client/client_homepage/add_service_provider/add_pro_views.dart';
+
 
 class AppConstants {
   static final List bottomBarImages = [

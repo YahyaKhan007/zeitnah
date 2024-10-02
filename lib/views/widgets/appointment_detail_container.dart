@@ -44,26 +44,23 @@ Widget appointmentDetailsContainer({
               mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(
-                    child: Container(
-                  // color: Colors.red,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      tileOption(
-                        image: 'assets/icons/calender.svg',
-                        title: "Today (05.08)",
-                      ),
-                      tileOption(
-                        image: 'assets/icons/clock.svg',
-                        title: "09:00 - 09:20",
-                      ),
-                      tileOption(
-                        image: 'assets/icons/user_box.svg',
-                        title: "Peter Weiß",
-                      ),
-                    ],
-                  ),
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    tileOption(
+                      image: 'assets/icons/calender.svg',
+                      title: "Today (05.08)",
+                    ),
+                    tileOption(
+                      image: 'assets/icons/clock.svg',
+                      title: "09:00 - 09:20",
+                    ),
+                    tileOption(
+                      image: 'assets/icons/user_box.svg',
+                      title: "Peter Weiß",
+                    ),
+                  ],
                 )),
                 CircleAvatar(
                   backgroundColor: Colors.white,

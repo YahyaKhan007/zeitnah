@@ -1,15 +1,21 @@
 import 'package:get/get.dart';
-import 'package:zeitnah/views/screens/auth_screens/forgot_password/forgot_password_controller.dart';
-import 'package:zeitnah/views/screens/auth_screens/login/login_controller.dart';
-import 'package:zeitnah/views/screens/auth_screens/register/register_controller/register_Controller.dart';
-import 'package:zeitnah/views/screens/service_provider/provider_account_settings.dart/account_setting_home_service_provider_model.dart';
-import 'package:zeitnah/views/screens/splash_screen/splashController.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/appointments/create/controller/create_appointment_controller.dart';
+import 'package:zeitnah/views/web_layout/screens/service_provider/auth_screens/login/controller/web_login_controller.dart';
+import 'package:zeitnah/views/web_layout/screens/service_provider/auth_screens/registration/controller/web_register_controller.dart';
+import 'package:zeitnah/views/web_layout/screens/service_provider/service_provider_home/appointment_pages/appointment_free_slot_widgets/controller/appoint_slot_controller.dart';
 
+import 'services/controller_service/zeitnah_admin_controller.dart';
 import 'services/services.dart';
+import 'views/mobile_layout/auth_screens/forgot_password/forgot_password_controller.dart';
+import 'views/mobile_layout/auth_screens/login/login_controller.dart';
+import 'views/mobile_layout/auth_screens/register/register_controller/register_Controller.dart';
+import 'views/mobile_layout/service_provider/provider_account_settings.dart/account_setting_home_service_provider_model.dart';
+import 'views/mobile_layout/splash_screen/splashController.dart';
 
 class ControllerBinding implements Bindings {
   @override
   void dependencies() {
+    Get.put(ZeitnahAdminController());
     // Use lazyPut for lazy initialization
     Get.lazyPut<ZeitnahController>(() => ZeitnahController(), fenix: true);
     Get.lazyPut<RegisterController>(() => RegisterController(), fenix: true);
@@ -22,5 +28,13 @@ class ControllerBinding implements Bindings {
     Get.lazyPut<AccountSettingHomeServiceProviderModel>(
         () => AccountSettingHomeServiceProviderModel(),
         fenix: true);
+    Get.lazyPut<WebLoginController>(() => WebLoginController(), fenix: true);
+    Get.lazyPut<AppointmentFreeSlotController>(
+        () => AppointmentFreeSlotController(),
+        fenix: true);
+    Get.lazyPut<CreateAppointmentController>(
+        () => CreateAppointmentController(),
+        fenix: true);
+    Get.put(WebRegisterController());
   }
 }
