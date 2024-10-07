@@ -63,8 +63,7 @@ Widget labelTextFieldColumnForRegister(
                         () => Expanded(
                           child: TextFormField(
                             controller: controller,
-                            obscureText: trailingIcon != null &&
-                                registerController.showPassword.value,
+                            obscureText: registerController.showPassword.value,
                             style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.kcgreyFieldColor,
@@ -157,8 +156,7 @@ Widget labelTextFieldColumnForLogin(
                         () => Expanded(
                           child: TextFormField(
                             controller: controller,
-                            obscureText: trailingIcon != null &&
-                                loginController.showPassword.value,
+                            obscureText: loginController.showPassword.value,
                             style: const TextStyle(
                               fontSize: 14,
                               color: AppColors.kcgreyFieldColor,

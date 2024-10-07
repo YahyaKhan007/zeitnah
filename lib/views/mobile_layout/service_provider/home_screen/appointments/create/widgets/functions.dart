@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/utils/app_constants.dart';
 
@@ -125,8 +127,10 @@ void pickTime(
     {required BuildContext context,
     required String label,
     required CreateAppointmentController controller}) async {
+  final dataController = Get.find<ZeitnahDataController>();
   Size size = MediaQuery.of(context).size;
-  DateTime initialTime = DateTime.now();
+  // DateTime initialTime = DateTime.now();
+  DateTime initialTime = controller.appointmentDate.value;
   DateTime? pickedTime = await showCupertinoModalPopup<DateTime>(
     context: context,
     builder: (BuildContext context) {
@@ -186,7 +190,11 @@ void pickTime(
                           case 'Start Time':
                             controller.appointmentStartTime.value = initialTime;
                             controller.appointmentEndTime.value =
-                                initialTime.add(const Duration(minutes: 30));
+                                initialTime.add(Duration(
+                                    minutes: dataController
+                                        .currentLoggedInClinic
+                                        .value!
+                                        .customTimeForAppointment));
                             log("Start Time");
                             break;
                           case 'End Time':

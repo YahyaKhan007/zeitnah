@@ -35,7 +35,7 @@ class ProfileSectionWidget extends StatelessWidget {
           children: [
             const Padding(
               padding: EdgeInsets.only(left: 16),
-              child: const Text(
+              child: Text(
                 "Profile",
                 style: TextStyle(
                     color: AppColors.kcPrimaryTextColor,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/appointments/create/controller/create_appointment_controller.dart';
 
@@ -72,6 +73,7 @@ class AppointmentCreated extends StatelessWidget {
   Widget appointmentDetailsContainer({
     required BuildContext context,
   }) {
+    final dataController = Get.find<ZeitnahDataController>();
     Size size = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16).h,
@@ -86,7 +88,7 @@ class AppointmentCreated extends StatelessWidget {
           ),
           width: size.width,
           margin: EdgeInsets.symmetric(horizontal: 24.w),
-          padding: EdgeInsets.only(bottom: 0.h, left: 16.w, right: 16.w),
+          padding: EdgeInsets.only(bottom: 8.h, left: 16.w, right: 16.w),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -94,7 +96,8 @@ class AppointmentCreated extends StatelessWidget {
             children: [
               8.h.verticalSpace,
               Text(
-                "Bilal Hospital",
+                dataController.currentLoggedInClinic.value!.clinicName
+                    .toString(),
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 14.sp,

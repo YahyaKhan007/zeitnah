@@ -103,7 +103,12 @@ class ServiceProviderHomeScreen extends StatelessWidget {
                     icon: AppConstants.bottomBarImages[index],
                     label: AppConstants.bottomBarLables[index],
                     onTap: () {
+                      if (controller.selectedPageIndex.value != 0) {
+                        controller.selectedTabIndex.value = 0;
+                      }
+
                       controller.selectedPageIndex.value = index;
+
                       controller.clientAppBarText.value =
                           AppConstants.bottomBarLables[index];
                     },

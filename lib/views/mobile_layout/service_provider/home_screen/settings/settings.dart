@@ -3,43 +3,49 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/settings/controller/provider_setting_controller.dart';
 
-class ServiceProviderSettings extends StatelessWidget {
+import '../../../../../services/services.dart';
+import '../../../../views.dart';
+
+class ServiceProviderSettings extends GetView<ProviderSettingController> {
   const ServiceProviderSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
+    controller.customPriorityTimeForClinicAppointment.value = controller
+        .dataController.currentLoggedInClinic.value!.customTimeForAppointment;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
           (size.height * 0.05).verticalSpace,
           settingOption(
-              onTap: () {
-                Get.toNamed(RouterHelperService.addTeamMember);
-              },
-              image: 'assets/icons/add_member.svg',
-              label: 'Team Member',
-              trailingText: '3'),
+            onTap: () {
+              Get.toNamed(RouterHelperService.addTeamMember);
+            },
+            image: 'assets/icons/add_member.svg',
+            label: 'Team Member',
+          ),
           settingOption(
-              onTap: () {
-                // selectDefaultTime(context: context);
-              },
-              image: 'assets/icons/clock_1.svg',
-              label: 'Custom Time',
-              trailingText: '20min'),
+            onTap: () {
+              selectCustomTimeForClinicAppointment(
+                  context: context, controller: controller);
+            },
+            image: 'assets/icons/clock_1.svg',
+            label: 'Custom Time',
+          ),
         ],
       ),
     );
   }
 
-  Widget settingOption(
-      {required String image,
-      required String label,
-      required VoidCallback onTap,
-      required String trailingText}) {
+  Widget settingOption({
+    required String image,
+    required String label,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -76,12 +82,7 @@ class ServiceProviderSettings extends StatelessWidget {
           SizedBox(
             width: 40.w,
             child: Center(
-              child: Text(trailingText,
-                  style: GoogleFonts.inter(
-                      textStyle: TextStyle(
-                          fontSize: 12.sp,
-                          color: AppColors.kcPrimaryBlueColor,
-                          fontWeight: FontWeight.bold))),
+              child: controller.showTrailingText(label),
             ),
           )
         ]),

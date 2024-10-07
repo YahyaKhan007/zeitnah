@@ -3,7 +3,6 @@ class AppointmentModel {
   String? acceptedBy;
   String? clinicId;
   DateTime? startTime;
-  DateTime? createdDate;
   DateTime? endTime;
   String? notificationStatus;
   List<String>? patientsIds;
@@ -13,7 +12,6 @@ class AppointmentModel {
   AppointmentModel({
     required this.acceptedBy,
     required this.endTime,
-    required this.createdDate,
     required this.clinicId,
     required this.uid,
     required this.startTime,
@@ -29,7 +27,6 @@ class AppointmentModel {
         clinicId: json["clinicId"],
         uid: json["uid"],
         endTime: DateTime.parse(json["endTime"]),
-        createdDate: DateTime.parse(json["createdDate"]),
         startTime: DateTime.parse(json["startTime"]),
         notificationStatus: json["notificationStatus"],
         patientsIds: List<String>.from(json["patientsIds"].map((x) => x)),
@@ -43,7 +40,6 @@ class AppointmentModel {
         "uid": uid,
         "endTime": endTime?.toIso8601String(),
         "startTime": startTime?.toIso8601String(),
-        "createdDate": createdDate?.toIso8601String(),
         "notificationStatus": notificationStatus,
         "patientsIds": List<dynamic>.from(patientsIds!.map((x) => x)),
         "workerName": workerName,

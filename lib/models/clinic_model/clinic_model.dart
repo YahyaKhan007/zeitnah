@@ -2,14 +2,15 @@ class ClinicModel {
   final String address;
   final String clinicName;
   final String email;
-
   final bool isPriority;
   final bool isVerified;
-
   final String phoneNumber;
   final String profilePicture;
-  final String userId;
+  final String uid;
+  List<String> favouriteBy;
+  List<String> requestForFavourite;
   final String userRole;
+  int customTimeForAppointment;
 
   ClinicModel({
     required this.address,
@@ -19,36 +20,45 @@ class ClinicModel {
     required this.isVerified,
     required this.phoneNumber,
     required this.profilePicture,
-    required this.userId,
+    required this.uid,
+    required this.favouriteBy,
+    required this.requestForFavourite,
     required this.userRole,
+    required this.customTimeForAppointment,
   });
 
-  // Method to convert JSON into UserModel
-  factory ClinicModel.fromJson(Map<String, dynamic> json) {
+  // Factory constructor to create a ClinicModel from a Map (like Firestore data)
+  factory ClinicModel.fromMap(Map<String, dynamic> map) {
     return ClinicModel(
-      address: json['address'] ?? '',
-      clinicName: json['clinicName'] ?? '',
-      email: json['email'] ?? '',
-      isPriority: json['isPriority'] ?? false,
-      isVerified: json['isVerified'] ?? false,
-      phoneNumber: json['phoneNumber'] ?? '',
-      profilePicture: json['profilePicture'] ?? '',
-      userId: json['userId'] ?? '',
-      userRole: json['userRole'] ?? '',
+      address: map['address'] ?? '',
+      customTimeForAppointment: map['customTimeForAppointment'] ?? '',
+      clinicName: map['clinicName'] ?? '',
+      email: map['email'] ?? '',
+      isPriority: map['isPriority'] ?? false,
+      isVerified: map['isVerified'] ?? false,
+      phoneNumber: map['phoneNumber'] ?? '',
+      profilePicture: map['profilePicture'] ?? '',
+      uid: map['uid'] ?? '',
+      favouriteBy: List<String>.from(map['favouriteBy'] ?? []),
+      requestForFavourite: List<String>.from(map['requestForFavourite'] ?? []),
+      userRole: map['userRole'] ?? '',
     );
   }
 
-  // Method to convert UserModel into JSON
-  Map<String, dynamic> toJson() {
+  // Method to convert a ClinicModel to a Map (for Firestore or other storage)
+  Map<String, dynamic> toMap() {
     return {
       'address': address,
       'clinicName': clinicName,
+      'customTimeForAppointment': customTimeForAppointment,
       'email': email,
       'isPriority': isPriority,
       'isVerified': isVerified,
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
-      'userId': userId,
+      'uid': uid,
+      'favouriteBy': favouriteBy,
+      'requestForFavourite': requestForFavourite,
       'userRole': userRole,
     };
   }

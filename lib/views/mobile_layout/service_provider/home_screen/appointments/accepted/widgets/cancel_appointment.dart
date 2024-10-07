@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/models/appointment_model/appointment_model.dart';
 
 import '../../../../../../../utils/app_colors/app_colors.dart';
+import '../../../../../../widgets/formatting.dart';
 import '../../../../../auth_screens/widgets/common_widgets.dart';
+import '../controller/accepted_appointment_controller.dart';
 
-confirmCancelAppointment({required BuildContext context}) {
+confirmCancelAppointment(
+    {required BuildContext context,
+    required AppointmentModel appointment,
+    required AcceptedAppointmentController controller}) {
   Size size = MediaQuery.of(context).size;
   return showDialog(
       context: context,
@@ -35,9 +41,10 @@ confirmCancelAppointment({required BuildContext context}) {
                     ),
                     (size.height * 0.03).h.verticalSpace,
                     cancelAppointment2(
-                        drName: "drName",
-                        time: "time",
-                        date: "date",
+                        drName: appointment.workerName.toString(),
+                        time:
+                            '${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}',
+                        date: formatDate(date: appointment.startTime!),
                         size: size,
                         onCancel: () {}),
                     (size.height * 0.02).h.verticalSpace,
@@ -51,6 +58,9 @@ confirmCancelAppointment({required BuildContext context}) {
                             size: size,
                             borderRadius: 48.r,
                             onTap: () {
+                              controller.cancelAppointment(
+                                  appointment: appointment);
+
                               Get.back();
                             }),
                         commonButtonWithLowWidth(
@@ -73,6 +83,7 @@ confirmCancelAppointment({required BuildContext context}) {
         );
       });
 }
+
 Widget cancelAppointment2({
   required String drName,
   required String time,
@@ -138,7 +149,6 @@ Widget cancelAppointment2({
               )
             ],
           ),
-          
         ],
       ),
     ),

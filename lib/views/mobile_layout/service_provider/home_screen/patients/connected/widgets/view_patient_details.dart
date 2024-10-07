@@ -1,18 +1,26 @@
-import 'notify_widget.dart';
-import 'delete_patient.dart';
-import 'package:get/get.dart';
-import 'profile_info_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../../../../models/models.dart';
+import '../../patient_controller.dart';
+import 'delete_patient.dart';
+import 'notify_widget.dart';
+import 'profile_info_tile.dart';
 
 class ViewPatientDetails extends StatelessWidget {
-  final String name;
-  ViewPatientDetails({super.key, required this.name});
+  final UserModel user;
+  final bool? isConnected;
+  final PatientScreenController? connectedController;
+  ViewPatientDetails(
+      {super.key,
+      required this.user,
+      this.isConnected,
+      this.connectedController});
   final controller = Get.find<ZeitnahController>();
 
   @override
@@ -34,7 +42,7 @@ class ViewPatientDetails extends StatelessWidget {
             ),
           ),
           centerTitle: true,
-          title: Text(name,
+          title: Text("${user.firstName} ${user.lastName}",
               style: GoogleFonts.openSans(
                   textStyle: TextStyle(
                       fontSize: 18.sp,
@@ -47,16 +55,27 @@ class ViewPatientDetails extends StatelessWidget {
           child: Column(
             children: [
               (size.height * 0.05).verticalSpace,
-              profileInfoTile(label: "Phone Number", data: "+4912341234123"),
-              profileInfoTile(label: "E-Mail", data: "abcdefg@gmail.com"),
+              profileInfoTile(label: "Phone Number", data: user.phoneNumber),
+              profileInfoTile(label: "E-Mail", data: user.email),
               (size.height * 0.02).verticalSpace,
-              notifyClient(label: "Client gets notified"),
+              Visibility(
+                  visible:
+                      isConnected != null && isConnected == true ? true : false,
+                  child: notifyClient(label: "Client gets notified")),
               (size.height * 0.02).verticalSpace,
-              priorPatient(label: "Priority Client"),
+              Visibility(
+                  visible:
+                      isConnected != null && isConnected == true ? true : false,
+                  child: priorPatient(label: "Priority Client")),
               const Spacer(),
-              deletePatient(
-                context,
-                name: name,
+              Visibility(
+                visible:
+                    isConnected != null && isConnected == true ? true : false,
+                child: deletePatient(
+                  context,
+                  user: user,
+                  controller: connectedController,
+                ),
               ),
               (size.height * 0.05).verticalSpace,
             ],

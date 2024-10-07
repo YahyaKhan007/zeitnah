@@ -5,7 +5,7 @@ import '../../views/mobile_layout/client/client_homepage/my_time_calender/widget
 class ZeitnahController extends GetxController {
   RxInt selectedPageIndex = RxInt(0);
   RxInt selectedClientPageIndex = RxInt(1);
-  RxInt selectedClientPatientPageIndex = RxInt(1);
+
   RxInt selectedTabIndex = RxInt(0);
   RxInt selectPateientTab = RxInt(0);
   RxInt setPriorityTime = RxInt(3);

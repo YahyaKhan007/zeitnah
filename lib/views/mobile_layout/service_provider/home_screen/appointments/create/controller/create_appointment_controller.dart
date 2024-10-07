@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:zeitnah/models/appointment_model/appointment_model.dart';
+import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/services/database_service.dart/db_service.dart';
 import 'package:zeitnah/services/snackbar_service/snackbar_service.dart';
 
@@ -15,6 +16,8 @@ import '../../../../../../../utils/app_colors/app_colors.dart';
 class CreateAppointmentController extends GetxController {
   final SnackBarService _snackBarService = SnackBarService();
   final DataBaseService _dbService = DataBaseService();
+
+  final controller = Get.find<ZeitnahDataController>();
   // For showing data
 
   RxString showAppointmentDate = RxString('Today');
@@ -43,9 +46,8 @@ class CreateAppointmentController extends GetxController {
       final uid = uuid.v4();
       AppointmentModel appointmentModel = _createAppointmentModel(
           acceptedBy: '',
-          clinicId: '',
+          clinicId: controller.currentLoggedInClinic.value!.uid,
           uid: uid,
-          createdTime: appointmentDate.value,
           startTime: appointmentStartTime.value!,
           endTime: appointmentEndTime.value!,
           notificationStatus: '',
@@ -83,7 +85,6 @@ class CreateAppointmentController extends GetxController {
     required String acceptedBy,
     required String clinicId,
     required DateTime startTime,
-    required DateTime createdTime,
     required DateTime endTime,
     required String notificationStatus,
     required String workerName,
@@ -95,8 +96,7 @@ class CreateAppointmentController extends GetxController {
         acceptedBy: acceptedBy,
         endTime: endTime,
         clinicId: clinicId,
-        startTime: createdTime,
-        createdDate: startTime,
+        startTime: startTime,
         notificationStatus: notificationStatus,
         patientsIds: patientIds,
         workerName: workerName,

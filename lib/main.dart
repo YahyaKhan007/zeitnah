@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        Size designSize = constraints.maxWidth < 600
+        Size designSize = constraints.maxWidth < 500
             ? const Size(360, 690)
             : const Size(1024, 768);
 

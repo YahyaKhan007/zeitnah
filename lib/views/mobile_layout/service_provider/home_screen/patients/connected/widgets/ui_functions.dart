@@ -1,9 +1,9 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 import '../../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../auth_screens/widgets/common_widgets.dart';
-
 
 confirmDelete(
     {required BuildContext context,
@@ -103,6 +103,7 @@ deletedPatient({required BuildContext context, required String name}) {
                         size: size,
                         borderRadius: 24.r,
                         onTap: () {
+                          Get.back();
                           Get.back();
                         }),
                     (size.height * 0.02).h.verticalSpace,

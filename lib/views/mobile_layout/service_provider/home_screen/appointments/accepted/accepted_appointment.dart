@@ -1,39 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/appointments/accepted/controller/accepted_appointment_controller.dart';
+import 'package:zeitnah/views/widgets/formatting.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../app_view.dart';
 
-class AcceptedAppointments extends StatelessWidget {
+class AcceptedAppointments extends GetView<AcceptedAppointmentController> {
   const AcceptedAppointments({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SizedBox(
-        child: Column(
-          children: [
-            cancelAppointment(
-                date: "Today (05.08)",
-                drName: "Chris Beyers",
-                time: "9:00 - 9:20",
-                onCancel: () {
-                  confirmCancelAppointment(context: context);
-                },
-                size: size),
-            cancelAppointment(
-                date: "Today (05.08)",
-                drName: "Chris Beyers",
-                time: "9:00 - 9:20",
-                onCancel: () {
-                  confirmCancelAppointment(context: context);
-                },
-                size: size)
-          ],
-        ),
-      ),
-    );
+        body: Obx(
+      () => controller.dataController.providerAcceptedAppointment.isEmpty
+          ? Center(
+              child: Text(
+                'No Accepted Appointments',
+                style: TextStyle(
+                    fontSize: 12.sp, color: AppColors.kcPrimaryBlackColor),
+              ),
+            )
+          : ListView.builder(
+              itemCount:
+                  controller.dataController.providerAcceptedAppointment.length,
+              itemBuilder: (context, index) {
+                final appointment = controller
+                    .dataController.providerAcceptedAppointment[index];
+
+                return cancelAppointment(
+                    date: formatDate(date: appointment.startTime!),
+                    drName: appointment.workerName.toString(),
+                    time:
+                        '${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}',
+                    onCancel: () {
+                      confirmCancelAppointment(
+                          context: context,
+                          appointment: appointment,
+                          controller: controller);
+                    },
+                    size: size);
+              }),
+    )
+
+        // Column(
+        //   children: [
+        //     cancelAppointment(
+        //         date: "Today (05.08)",
+        //         drName: "Chris Beyers",
+        //         time: "9:00 - 9:20",
+        //         onCancel: () {
+        //           confirmCancelAppointment(context: context);
+        //         },
+        //         size: size),
+        //     cancelAppointment(
+        //         date: "Today (05.08)",
+        //         drName: "Chris Beyers",
+        //         time: "9:00 - 9:20",
+        //         onCancel: () {
+        //           confirmCancelAppointment(context: context);
+        //         },
+        //         size: size)
+        //   ],
+        // ),
+
+        );
   }
 }
 

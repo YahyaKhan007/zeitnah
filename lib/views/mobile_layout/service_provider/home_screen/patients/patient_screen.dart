@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/patients/patient_controller.dart';
 
 import '../../../../../services/services.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
@@ -10,27 +12,125 @@ class PatientScreen extends StatefulWidget {
   const PatientScreen({super.key});
 
   @override
-  State<PatientScreen> createState() => _PatientScreenState();
+  _PatientScreenState createState() => _PatientScreenState();
 }
 
 class _PatientScreenState extends State<PatientScreen> {
-  TextEditingController searchController = TextEditingController();
-  PageController pageController = PageController();
-  final zeitnahControler = Get.find<ZeitnahController>();
+  final PatientScreenController controller =
+      Get.find<PatientScreenController>();
+  final zeitnahController = Get.find<ZeitnahController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize searchController listener on widget initialization
+    controller.searchController.value.addListener(() {
+      controller.searchQuery(controller.searchController.value.text);
+    });
+
+    // Trigger initial searchQuery to populate the list on first load
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.searchQuery("");
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         children: [
-          topBar(pageController: pageController, size: size),
+          topBar(pageController: controller.pageController, size: size),
           16.h.verticalSpace,
           Obx(
             () => Expanded(
-              child: zeitnahControler.selectedClientPatientPageIndex.value == 0
-                  ? PatientConnected()
-                  : const PatientRequests(),
+              child: controller.searchController.value.text.isNotEmpty
+                  ? SizedBox(
+                      child: controller.selectedClientPatientPageIndex.value ==
+                              0
+                          ? SizedBox(
+                              child: controller.searchConnectedUsers.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        'No Connected Patients',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color:
+                                                AppColors.kcPrimaryBlackColor),
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8).w,
+                                      child: CupertinoScrollbar(
+                                        thickness: 4.w,
+                                        radius: Radius.circular(40.r),
+                                        thumbVisibility: true,
+                                        child: ListView.builder(
+                                          itemCount: controller
+                                              .searchConnectedUsers.length,
+                                          itemBuilder: (context, index) {
+                                            final user = controller
+                                                .searchConnectedUsers[index];
+                                            return patientName(
+                                              drName:
+                                                  "${user.firstName} ${user.lastName}",
+                                              index: index,
+                                              onTap: () {
+                                                Get.to(
+                                                  () => ViewPatientDetails(
+                                                    user: user,
+                                                    isConnected: true,
+                                                    connectedController:
+                                                        controller,
+                                                  ),
+                                                  duration: const Duration(
+                                                      milliseconds: 300),
+                                                  transition:
+                                                      Transition.rightToLeft,
+                                                );
+                                              },
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                            )
+                          : SizedBox(
+                              child: controller.searchRequestUsers.isEmpty
+                                  ? Center(
+                                      child: Text(
+                                        'No Requests',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            color:
+                                                AppColors.kcPrimaryBlackColor),
+                                      ),
+                                    )
+                                  : CupertinoScrollbar(
+                                      thickness: 4.w,
+                                      radius: Radius.circular(40.r),
+                                      thumbVisibility: true,
+                                      child: ListView.builder(
+                                        itemCount: controller
+                                            .searchRequestUsers.length,
+                                        itemBuilder: (context, index) {
+                                          final user = controller
+                                              .searchRequestUsers[index];
+                                          return AcceptDeclineRequest(
+                                            requestedUser: user,
+                                            controller: controller,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                            ),
+                    )
+                  : controller.selectedClientPatientPageIndex.value == 0
+                      ? const PatientConnected()
+                      : const PatientRequests(),
             ),
           ),
         ],
@@ -39,7 +139,6 @@ class _PatientScreenState extends State<PatientScreen> {
   }
 
   Widget topBar({required Size size, required PageController pageController}) {
-    final controller = Get.find<ZeitnahController>();
     return Container(
       decoration: BoxDecoration(color: Colors.white, boxShadow: [
         BoxShadow(
@@ -88,14 +187,14 @@ class _PatientScreenState extends State<PatientScreen> {
                   children: [
                     selectedTab(
                       size: size,
-                      controller: controller,
+                      // controller: zeitnahController,
                       label: "Connected",
                       pageController: pageController,
                       tabIndex: 0,
                     ),
                     selectedTab(
                       size: size,
-                      controller: controller,
+                      // controller: zeitnahController,
                       pageController: pageController,
                       label: "Requests",
                       tabIndex: 1,
@@ -106,56 +205,6 @@ class _PatientScreenState extends State<PatientScreen> {
             ),
           ),
           20.h.verticalSpace,
-          // LayoutBuilder(
-          //   builder: (context, constraints) {
-          //     final containerWidth =
-          //         constraints.maxWidth - 64.w; // Subtracting horizontal margin
-          //     final containerHeight =
-          //         36.h; // Increased height for better touch target
-          //     final iconSize = containerHeight * 0.47;
-          //     final fontSize = containerHeight * 0.28;
-          //
-          //     return Container(
-          //       margin: EdgeInsets.symmetric(horizontal: 16.w),
-          //       width: containerWidth,
-          //       height: containerHeight,
-          //       decoration: BoxDecoration(
-          //         borderRadius: BorderRadius.circular(12.r),
-          //         color: AppColors.kcGreyColor.withOpacity(0.5),
-          //       ),
-          //       child: Center(
-          //         child: TextFormField(
-          //           style: TextStyle(
-          //             color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-          //             fontWeight: FontWeight.normal,
-          //             fontSize: fontSize,
-          //           ),
-          //           textAlignVertical: TextAlignVertical.center,
-          //           decoration: InputDecoration(
-          //             border: InputBorder.none,
-          //             contentPadding:
-          //                 EdgeInsets.symmetric(vertical: containerHeight * 0.2),
-          //             prefixIcon: Padding(
-          //               padding: EdgeInsets.only(left: containerWidth * 0.05),
-          //               child: Icon(
-          //                 Icons.search,
-          //                 size: iconSize,
-          //                 color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-          //               ),
-          //             ),
-          //             hintText: "Search",
-          //             hintStyle: TextStyle(
-          //               color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-          //               fontWeight: FontWeight.normal,
-          //               fontSize: fontSize,
-          //             ),
-          //             alignLabelWithHint: true, // Ensures hint is aligned
-          //           ),
-          //         ),
-          //       ),
-          //     );
-          //   },
-          // ),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24.r),
@@ -171,7 +220,12 @@ class _PatientScreenState extends State<PatientScreen> {
                 //   image,
                 //   height: size.height * 0.03,
                 // ),
-                const Icon(Icons.search),
+                InkWell(
+                    onTap: () {
+                      controller
+                          .searchQuery(controller.searchController.value.text);
+                    },
+                    child: const Icon(Icons.search)),
                 16.w.horizontalSpace,
                 Expanded(
                   child: TextFormField(
@@ -180,7 +234,7 @@ class _PatientScreenState extends State<PatientScreen> {
                       fontSize: 12.sp,
                       color: const Color(0xff64748B),
                     ),
-                    controller: searchController,
+                    controller: controller.searchController.value,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Search".tr,
@@ -204,7 +258,7 @@ class _PatientScreenState extends State<PatientScreen> {
   Widget selectedTab({
     required Size size,
     required int tabIndex,
-    required ZeitnahController controller,
+    // required ZeitnahController controller,
     required String label,
     required PageController pageController,
   }) {
@@ -234,75 +288,6 @@ class _PatientScreenState extends State<PatientScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
-  }
-}
-
-class ResponsiveSearchWidget extends StatelessWidget {
-  const ResponsiveSearchWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
-        final height = constraints.maxHeight;
-
-        // Calculate responsive sizes
-        final containerHeight = height * 0.07; // Adjust as needed
-        final horizontalMargin = width * 0.08; // Equivalent to 32.w
-        final borderRadius = width * 0.03; // Equivalent to 12.r
-        final iconSize = width * 0.055; // Equivalent to 22.r
-        final fontSize = width * 0.03; // Equivalent to 12.sp
-
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: horizontalMargin),
-          height: containerHeight,
-          width: width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
-            color: AppColors.kcGreyColor.withOpacity(0.5),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: containerHeight,
-                child: TextFormField(
-                  style: TextStyle(
-                    color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                    fontWeight: FontWeight.normal,
-                    fontSize: fontSize,
-                  ),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(top: 0),
-                      child: Icon(
-                        Icons.search,
-                        size: iconSize,
-                        color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                      ),
-                    ),
-                    hintText: "Search",
-                    hintStyle: TextStyle(
-                      color: AppColors.kcPrimaryBlackColor.withOpacity(0.6),
-                      fontWeight: FontWeight.normal,
-                      fontSize: fontSize,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

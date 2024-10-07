@@ -3,10 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/appointments/open/controller/open_appointment_controller.dart';
 
+import '../../../../../../../models/appointment_model/appointment_model.dart';
+import '../../../../../../widgets/formatting.dart';
 import '../../../../../auth_screens/widgets/common_widgets.dart';
 
-deleteAppointment({required BuildContext context}) {
+deleteAppointment({
+  required BuildContext context,
+  required int index,
+  required AppointmentModel appointment,
+  required OpenAppointmentController controller,
+}) {
   Size size = MediaQuery.of(context).size;
   return showDialog(
       context: context,
@@ -51,15 +59,16 @@ deleteAppointment({required BuildContext context}) {
                             children: [
                               tileOption(
                                 image: 'assets/icons/calender.svg',
-                                title: "Today (05.08)",
+                                title: formatDate(date: appointment.startTime!),
                               ),
                               tileOption(
                                 image: 'assets/icons/clock.svg',
-                                title: "09:00 - 09:20",
+                                title:
+                                    '${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}',
                               ),
                               tileOption(
                                 image: 'assets/icons/calender.svg',
-                                title: "Peter Weiß",
+                                title: appointment.workerName.toString(),
                               ),
                             ],
                           )),
@@ -82,6 +91,8 @@ deleteAppointment({required BuildContext context}) {
                             size: size,
                             borderRadius: 48.r,
                             onTap: () {
+                              controller.deleteAppointment(
+                                  appointment: appointment);
                               Get.back();
                             }),
                         commonButtonWithLowWidth(

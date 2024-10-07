@@ -3,7 +3,6 @@ import 'package:zeitnah/views/views.dart';
 
 import '../views/mobile_layout/client/client_homepage/add_service_provider/add_pro_views.dart';
 
-
 class AppConstants {
   static final List bottomBarImages = [
     'assets/pngs/appointment.png',
@@ -26,7 +25,7 @@ class AppConstants {
 
   static final List<Widget> providerPages = [
     const Appointments(),
-    const PatientScreen(),
+    PatientScreen(),
     const ServiceProviderSettings(),
   ];
   static final List<Widget> clientPages = [

@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/settings/controller/provider_setting_controller.dart';
 
+import '../../../../../../services/database_service.dart/db_service.dart';
 import '../../../../../../services/services.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../../utils/app_constants.dart';
@@ -86,6 +88,108 @@ void selectDefaultTime(
                     borderRadius: 40,
                     onTap: () {
                       controller.priorityTime.value = initialTime;
+                      Navigator.of(context).pop<int>();
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
+
+  if (selectedTime != null) {
+    // Do something with the selected time
+    print("Selected time: $selectedTime");
+  }
+}
+
+void selectCustomTimeForClinicAppointment(
+    {required BuildContext context,
+    String? label,
+    required ProviderSettingController controller}) async {
+  Size size = MediaQuery.of(context).size;
+  int? selectedTime;
+  int initialTime = AppConstants.defaultAppointmentTime[0];
+
+  selectedTime = await showCupertinoModalPopup<int>(
+    context: context,
+    builder: (BuildContext context) {
+      return Material(
+        type: MaterialType.transparency,
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: CupertinoColors.systemBackground.resolveFrom(context),
+              borderRadius: BorderRadius.circular(24.r),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                24.h.verticalSpace,
+                Text(
+                  label ?? "Time Settings",
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.kcPrimaryBlackColor,
+                  ),
+                ),
+                16.h.verticalSpace,
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 16.w),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.r),
+                    border: Border.all(color: AppColors.kcGreyColor, width: 1),
+                  ),
+                  height: 200,
+                  child: CupertinoPicker(
+                    itemExtent: 32.0,
+                    selectionOverlay: Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.kcGreyColor.withOpacity(0.2)),
+                    ),
+                    scrollController: FixedExtentScrollController(
+                      initialItem: AppConstants.defaultAppointmentTime
+                          .indexOf(initialTime),
+                    ),
+                    onSelectedItemChanged: (int index) {
+                      initialTime = AppConstants.defaultAppointmentTime[index];
+                    },
+                    children:
+                        AppConstants.defaultAppointmentTime.map((int worker) {
+                      return Center(
+                        child: Text(
+                          "$worker min",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            color: AppColors.kcPrimaryBlackColor,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 24.h),
+                  child: commonButton(
+                    backGroundColor: AppColors.kcPrimaryBlueColor,
+                    textColor: Colors.white,
+                    text: "Set",
+                    size: size,
+                    borderRadius: 40,
+                    onTap: () {
+                      controller.customPriorityTimeForClinicAppointment.value =
+                          initialTime;
+
+                      controller.dataController.currentLoggedInClinic.value!
+                          .customTimeForAppointment = initialTime;
+
+                      final DataBaseService dbService = DataBaseService();
+                      dbService.changeCustomTimeForProviderAppointment();
                       Navigator.of(context).pop<int>();
                     },
                   ),

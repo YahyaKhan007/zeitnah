@@ -5,10 +5,10 @@ import '../../utils/app_colors/app_colors.dart';
 
 Widget openAppointmentContainerWidget(
     {required String date,
-      required Size size,
-      required String time,
-       VoidCallback? onShowDetails,
-      required VoidCallback onDelete}) {
+    required Size size,
+    required String time,
+    VoidCallback? onShowDetails,
+    required VoidCallback onDelete}) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 24).h,
     child: Container(

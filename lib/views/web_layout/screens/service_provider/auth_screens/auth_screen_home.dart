@@ -37,7 +37,7 @@ class _AuthScreenHomeState extends State<AuthScreenHome> {
                     child:
                         adminController.authScreen.value == AuthScreenEnum.login
                             ? LoginScreen()
-                            : Center(child: RegisterationScreen()))),
+                            : const Center(child: RegisterationScreen()))),
           ),
           Expanded(
               child: Container(

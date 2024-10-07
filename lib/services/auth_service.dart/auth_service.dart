@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/services/router_service/router_helper_service.dart';
 
 import '../../models/models.dart';
@@ -13,6 +14,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final DataBaseService _dbService = DataBaseService();
   final SnackBarService _snackBarService = SnackBarService();
+  final dataController = Get.find<ZeitnahDataController>();
 
   Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
       signupUserWithEmailPassword({
@@ -154,16 +156,16 @@ class AuthService {
         log("user is null");
         return (isSuccess: false, userModel: null, clinicModel: null);
       }
-
       switch (from) {
-        case 'patient':
+        case 'mobile_view':
           final loggedUserModel =
               await _dbService.getPatientUserByUid(user.uid);
+          final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
 
           return (
             isSuccess: true,
             userModel: loggedUserModel,
-            clinicModel: null
+            clinicModel: loggedClinicModel
           );
 
         case 'clinic':
@@ -238,34 +240,54 @@ class AuthService {
         address: address,
         clinicName: clinicName,
         email: user.email ?? '',
+        customTimeForAppointment: 20,
         isPriority: isPriority,
         isVerified: isVerified,
         phoneNumber: phoneNumber,
         profilePicture: profilePicture,
-        userId: user.uid,
+        favouriteBy: [],
+        requestForFavourite: [],
+        uid: user.uid,
         userRole: userRole);
   }
 
   // checking for isUserLogIn
 
-  Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
-      isUserLogin() async {
+  ({bool isSuccess, String userUid}) isUserLogin() {
     if (_auth.currentUser == null) {
-      return (isSuccess: false, userModel: null, clinicModel: null);
-    }
-
-    try {
+      return (isSuccess: false, userUid: '');
+    } else {
       final userUid = _auth.currentUser!.uid;
-      final loggedUserModel = await _dbService.getPatientUserByUid(userUid);
+      return (isSuccess: true, userUid: userUid);
+    }
+  }
 
-      // final loggedProviderModel = await _dbService.getClinicByUid(userUid);
+  Future<ClinicModel?> isClinic({required String userUid}) async {
+    try {
+      final loggedProviderModel = await _dbService.getClinicByUid(userUid);
 
-      return (isSuccess: true, userModel: loggedUserModel, clinicModel: null);
+      dataController.currentLoggedInClinic.value = loggedProviderModel;
+
+      return loggedProviderModel;
     } catch (e, stackTrace) {
       log("stackTrace : $stackTrace");
     }
 
-    return (isSuccess: false, userModel: null, clinicModel: null);
+    return null;
+  }
+
+  Future<UserModel?> isPatient({required String userUid}) async {
+    try {
+      final loggedUserModel = await _dbService.getPatientUserByUid(userUid);
+
+      dataController.currentLoggedInPatent.value = loggedUserModel;
+
+      return loggedUserModel;
+    } catch (e, stackTrace) {
+      log("stackTrace : $stackTrace");
+    }
+
+    return null;
   }
 
   // Logout User

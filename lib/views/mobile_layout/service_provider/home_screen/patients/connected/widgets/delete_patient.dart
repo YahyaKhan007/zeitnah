@@ -2,21 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../../models/models.dart';
 import '../../../../../../../utils/app_colors/app_colors.dart';
+import '../../patient_controller.dart';
 import '../../patient_views.dart';
 
-Widget deletePatient(
-  BuildContext context, {
-  required String name,
-}) {
+Widget deletePatient(BuildContext context,
+    {required UserModel user, PatientScreenController? controller}) {
   return GestureDetector(
     onTap: () {
       confirmDelete(
           context: context,
-          name: name,
+          name: "${user.firstName} ${user.lastName}",
           yes: () {
             Get.back();
-            deletedPatient(context: context, name: name);
+            controller!.deleteConnectedUser(user);
+            deletedPatient(
+                context: context, name: "${user.firstName} ${user.lastName}");
           },
           no: () {
             Get.back();

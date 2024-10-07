@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/patients/patient_controller.dart';
 
-import '../../../../../../../utils/app_constants.dart';
+import '../../../../../../../models/models.dart';
 import '../../connected/widgets/view_patient_details.dart';
 import 'ui_functions.dart';
 
 class AcceptDeclineRequest extends StatelessWidget {
-  final int index;
-  const AcceptDeclineRequest({super.key, required this.index});
+  final UserModel requestedUser;
+  final PatientScreenController controller;
+  const AcceptDeclineRequest(
+      {super.key, required this.requestedUser, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,11 @@ class AcceptDeclineRequest extends StatelessWidget {
         children: [
           optionButton(
               onTap: () {
-                patientRequestAccepted(context: context, name: "Alex Bright");
+                controller.acceptUserRequest(user: requestedUser);
+                patientRequestAccepted(
+                    context: context,
+                    name:
+                        "${requestedUser.firstName} ${requestedUser.lastName}");
               },
               backColor: AppColors.kcPrimaryBlueColor,
               iconColor: Colors.white,
@@ -37,7 +44,7 @@ class AcceptDeclineRequest extends StatelessWidget {
               onTap: () {
                 Get.to(
                   () => ViewPatientDetails(
-                    name: AppConstants.workersList[index],
+                    user: requestedUser,
                   ),
                   duration: const Duration(milliseconds: 300),
                   transition: Transition.rightToLeft,
@@ -45,7 +52,7 @@ class AcceptDeclineRequest extends StatelessWidget {
               },
               child: Center(
                 child: Text(
-                  "Alex Bright",
+                  "${requestedUser.firstName} ${requestedUser.lastName}",
                   style: TextStyle(
                       fontSize: 12.sp,
                       fontWeight: FontWeight.bold,
@@ -58,11 +65,13 @@ class AcceptDeclineRequest extends StatelessWidget {
               onTap: () {
                 rejectPatientRequest(
                     context: context,
-                    name: "Alex Bright",
+                    name:
+                        "${requestedUser.firstName} ${requestedUser.lastName}",
                     no: () {
                       Get.back();
                     },
                     yes: () {
+                      controller.rejectUserRequest(user: requestedUser);
                       Get.back();
                     });
               },
