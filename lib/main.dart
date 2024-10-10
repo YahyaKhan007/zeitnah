@@ -10,6 +10,7 @@ import 'package:zeitnah/views/mobile_layout/splash_screen/splash_screen.dart';
 
 import 'controller_bindings.dart';
 import 'firebase_options.dart';
+import 'get_storage_keys.dart';
 import 'services/services.dart';
 import 'views/web_layout/screens/service_provider/auth_screens/auth_screen_home.dart';
 
@@ -24,7 +25,10 @@ void main() async {
 
   await GetStorage.init();
   final box = GetStorage();
-  box.read('isFirstTime') ?? box.write('isFirstTime', true);
+
+  // box.write(GetStorageKeys.acceptedAppointmentsForClinic, 0);
+  box.read(GetStorageKeys.acceptedAppointmentsForClinic) ??
+      box.write(GetStorageKeys.acceptedAppointmentsForClinic, 0);
 
   runApp(const MyApp());
 }

@@ -9,34 +9,60 @@ class SplashController extends GetxController {
   final _authService = AuthService();
   final DataBaseService _dbService = DataBaseService();
 
+  // this will on start of the splash screen to check for user login
+
   checkingForUserAuthentication() async {
     final userAuthenticated = _authService.isUserLogin();
 
     if (userAuthenticated.isSuccess == false) {
+      // if user is null
+      //  go to login
       Get.offAllNamed(RouterHelperService.login);
     } else {
+      // if user is not null
+      //  check for patient or clinic
       await getUserDetails(userAuthenticated.userUid);
     }
   }
 
-  Future<void> getAllData(ClinicModel clinicModel) async {
-    await getAppointment();
-    await getPatientsData(clinicModel);
-    return;
-  }
-
   // getting user details
   Future<void> getUserDetails(String userId) async {
-    final isClinic = await _authService.isClinic(userUid: userId);
     final isPatient = await _authService.isPatient(userUid: userId);
 
     if (isPatient != null) {
+      // if user is Patient
+      //  get patient required Data
+
+      await getPatientData();
       Get.offAllNamed(RouterHelperService.clientHomeScreen);
-    } else if (isClinic != null) {
-      await getAllData(isClinic);
+    } else {
+      // if user is clinic
+      //  get Clinic required Data
+
+      final isClinic = await _authService.isClinic(userUid: userId);
+
+      await getAllData(isClinic!);
 
       Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
     }
+  }
+
+  Future<void> getAllData(ClinicModel clinicModel) async {
+    getPatientsData(clinicModel);
+    await getAppointment();
+
+    await getProviderTeamMember();
+    return;
+  }
+
+  Future<void> getProviderTeamMember() async {
+    _dbService.getProviderTeamMembers();
+  }
+
+  Future<void> getPatientData() async {
+    _dbService.getAllClinics();
+
+    await _dbService.getAllFollowedClinicByPatient();
   }
 
   getPatientsData(ClinicModel clinicModel) async {

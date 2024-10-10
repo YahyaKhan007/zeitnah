@@ -140,6 +140,53 @@ Widget commonButtonWithLowWidth(
   );
 }
 
+Widget customFunctionalButtonWithLowWidth(
+    {required Color backGroundColor,
+    required Color textColor,
+    double? width,
+    required RxBool isLoading,
+    required String text,
+    required Size size,
+    required double borderRadius,
+    required VoidCallback onTap}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      // width: ScreenUtil().screenWidth,
+      // height: 48.h,
+      width: size.width * 0.35,
+
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+      decoration: BoxDecoration(
+          color: backGroundColor,
+          borderRadius: BorderRadius.circular(borderRadius),
+          boxShadow: const <BoxShadow>[
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 2,
+              blurStyle: BlurStyle.outer,
+              offset: Offset(0, 0),
+              spreadRadius: -4,
+            )
+          ]),
+      child: Center(
+        child: Obx(
+          () => isLoading.value
+              ? loadingWidgetInkDrop(
+                  size: 16.r, color: AppColors.kcPrimaryWhite)
+              : Text(
+                  text.tr,
+                  style: TextStyle(
+                      color: textColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.bold),
+                ),
+        ),
+      ),
+    ),
+  );
+}
+
 Widget commonFullSizeButton(
     {required Color backGroundColor,
     required Color textColor,

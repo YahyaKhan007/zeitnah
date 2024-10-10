@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:zeitnah/get_storage_keys.dart';
+import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/services/services.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/utils/app_constants.dart';
@@ -15,6 +20,9 @@ class Appointments extends StatefulWidget {
 
 class _AppointmentsState extends State<Appointments> {
   PageController pageController = PageController();
+  final ZeitnahDataController dataController =
+      Get.find<ZeitnahDataController>();
+  final box = GetStorage();
 
   @override
   void dispose() {
@@ -54,73 +62,12 @@ class _AppointmentsState extends State<Appointments> {
     );
   }
 
-  // Widget topBar({required Size size, required PageController pageController}) {
-  //   final controller = Get.find<ZeitnahController>();
-  //   return Container(
-  //     height: 32.h,
-  //     width: size.width,
-  //     margin: EdgeInsets.symmetric(vertical: 32.h, horizontal: 24.w),
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(50.r),
-  //       color: Colors.grey.shade400.withOpacity(0.7),
-  //     ),
-  //     child: Row(
-  //       children: [
-  //         selectedTab(controller: controller, label: "Create", tabIndex: 0),
-  //         selectedTab(controller: controller, label: "Open", tabIndex: 1),
-  //         selectedTab(controller: controller, label: "Accepted", tabIndex: 2),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget selectedTab({
-  //   required int tabIndex,
-  //   required ZeitnahController controller,
-  //   required String label,
-  // }) {
-  //   return Expanded(
-  //     child: GestureDetector(
-  //       onTap: () {
-  //         controller.selectedTabIndex.value = tabIndex;
-  //         pageController.jumpToPage(tabIndex);
-  //       },
-  //       child: Obx(
-  //         () => AnimatedContainer(
-  //           duration: const Duration(milliseconds: 400),
-  //           margin: EdgeInsets.all(4.r),
-  //           decoration: BoxDecoration(
-  //             color: controller.selectedTabIndex.value == tabIndex
-  //                 ? AppColors.kcPrimaryBackgrundColor
-  //                 : Colors.transparent,
-  //             borderRadius: BorderRadius.circular(50.r),
-  //             boxShadow: [
-  //               BoxShadow(
-  //                 color: controller.selectedTabIndex.value == tabIndex
-  //                     ? Colors.grey.shade900
-  //                     : Colors.transparent,
-  //                 blurRadius: 6,
-  //                 offset: const Offset(0, 0),
-  //               ),
-  //             ],
-  //           ),
-  //           child: Center(
-  //             child: Text(
-  //               label.tr,
-  //               style: TextStyle(
-  //                 fontSize: 14.sp,
-  //                 color: AppColors.kcPrimaryBlackColor,
-  //                 fontWeight: FontWeight.bold,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   Widget topBar({required Size size, required PageController pageController}) {
     final controller = Get.find<ZeitnahController>();
+    var box = GetStorage();
+    log("Displaying length from  Get Storage : ${box.read(GetStorageKeys.acceptedAppointmentsForClinic)}");
+    log("Displaying length data controller : ${dataController.providerAcceptedAppointment.length}");
+
     return Container(
       height: 32.h,
       width: size.width,
@@ -153,38 +100,45 @@ class _AppointmentsState extends State<Appointments> {
               ),
             ),
           ),
-          badges.Badge(
-            // showBadge: controller.selectedTabIndex.value == 2,
-            badgeStyle: const badges.BadgeStyle(
-                badgeColor: AppColors.kcPrimaryBlueColor),
-            badgeContent: Text(
-              '+2',
-              style: TextStyle(fontSize: 10.sp),
-            ),
-            child: Row(
-              children: [
-                selectedTab(
-                  controller: controller,
-                  label: "Create",
-                  tabIndex: 0,
-                  pageController: pageController,
-                  size: size,
-                ),
-                selectedTab(
-                  controller: controller,
-                  label: "Open",
-                  tabIndex: 1,
-                  pageController: pageController,
-                  size: size,
-                ),
-                selectedTab(
-                  controller: controller,
-                  label: "Accepted",
-                  tabIndex: 2,
-                  pageController: pageController,
-                  size: size,
-                ),
-              ],
+          Visibility(
+            // visible:
+            child: badges.Badge(
+              showBadge:
+                  box.read(GetStorageKeys.acceptedAppointmentsForClinic) ==
+                          dataController.providerAcceptedAppointment.length
+                      ? false
+                      : true,
+              badgeStyle: const badges.BadgeStyle(
+                  badgeColor: AppColors.kcPrimaryBlueColor),
+              badgeContent: Text(
+                '${dataController.providerAcceptedAppointment.length - box.read(GetStorageKeys.acceptedAppointmentsForClinic)}',
+                style: TextStyle(fontSize: 10.sp),
+              ),
+              child: Row(
+                children: [
+                  selectedTab(
+                    controller: controller,
+                    label: "Create",
+                    tabIndex: 0,
+                    pageController: pageController,
+                    size: size,
+                  ),
+                  selectedTab(
+                    controller: controller,
+                    label: "Open",
+                    tabIndex: 1,
+                    pageController: pageController,
+                    size: size,
+                  ),
+                  selectedTab(
+                    controller: controller,
+                    label: "Accepted",
+                    tabIndex: 2,
+                    pageController: pageController,
+                    size: size,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -201,6 +155,13 @@ class _AppointmentsState extends State<Appointments> {
   }) {
     return GestureDetector(
       onTap: () {
+        if (tabIndex == 2) {
+          var box = GetStorage();
+          box.write(GetStorageKeys.acceptedAppointmentsForClinic,
+              dataController.providerAcceptedAppointment.length);
+          setState(() {});
+        }
+        log("");
         controller.selectedTabIndex.value = tabIndex;
         pageController.jumpToPage(tabIndex);
       },

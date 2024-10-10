@@ -36,7 +36,7 @@ class ServiceProviderHomeScreen extends StatelessWidget {
           actions: [
             GestureDetector(
               onTap: () {
-                Get.to(() => const ServiceProviderAccountSettingsHome());
+                Get.to(() => ServiceProviderAccountSettingsHome());
               },
               child: SvgPicture.asset(
                 'assets/icons/three_bar.svg',

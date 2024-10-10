@@ -1,27 +1,25 @@
-import 'package:get/get.dart';
-import 'widgets/ui_functions.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/utils/app_constants.dart';
-import '../../../../../utils/app_colors/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/models/clinic_model/clinic_model.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_provider/controller/add_service_providercontroller.dart';
 import 'package:zeitnah/views/widgets/custome_button_with_icon.dart';
 
+import '../../../../../utils/app_colors/app_colors.dart';
+import 'widgets/ui_functions.dart';
 
-class HospitalProfileFromPatientSide extends StatefulWidget {
-  final ProviderModel model;
+class HospitalProfileFromPatientSide extends StatelessWidget {
+  final ClinicModel model;
   final bool isAdd;
-  const HospitalProfileFromPatientSide(
-      {super.key, required this.model, required this.isAdd});
+  final AddServiceProvideController controller;
+  HospitalProfileFromPatientSide(
+      {super.key,
+      required this.model,
+      required this.isAdd,
+      required this.controller});
 
-  @override
-  State<HospitalProfileFromPatientSide> createState() =>
-      _HospitalProfileFromPatientSideState();
-}
-
-class _HospitalProfileFromPatientSideState
-    extends State<HospitalProfileFromPatientSide> {
   bool isSend = false;
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,7 @@ class _HospitalProfileFromPatientSideState
           ),
         ),
         title: Text(
-          widget.model.name,
+          model.clinicName,
           style: GoogleFonts.inter(
             textStyle: TextStyle(
                 color: AppColors.kcPrimaryBlackColor,
@@ -66,41 +64,59 @@ class _HospitalProfileFromPatientSideState
                 child: CircleAvatar(
                   radius: 46.r,
                   backgroundColor: AppColors.kcPrimaryBlueColor,
-                  backgroundImage: AssetImage(widget.model.image),
+                  // backgroundImage: AssetImage(widget.model.image),
                 ),
               ),
               24.h.verticalSpace,
               profileFieldOption(
-                  label: "Address", data: "4 Pitras , H 8/4 H-8, , Islamabad"),
-              profileFieldOption(label: "Phone Number", data: "+4912341234123"),
-              profileFieldOption(label: "E-Mail", data: "abcdefg@gmail.com"),
+                  label: "Address",
+                  data: model.address.isEmpty
+                      ? "No Address"
+                      : model.address.replaceAll("*", "/")),
+              profileFieldOption(
+                  label: "Phone Number",
+                  data: model.phoneNumber.isEmpty
+                      ? "No Phone Number"
+                      : model.phoneNumber),
+              profileFieldOption(label: "E-Mail", data: model.email),
               32.h.verticalSpace,
-              widget.isAdd
+              isAdd
                   ? GestureDetector(
                       onTap: () {
-                        deleteHospital(context: context);
+                        deleteClinic(context: context, controller: controller);
                       },
                       child: SvgPicture.asset(
                         "assets/icons/delet.svg",
-
                       ),
                     )
-                  : customeButtonWithIcon(
-                      backGroundColor: isSend
-                          ? AppColors.kcGreyTextColor
-                          : AppColors.kcPrimaryBlueColor,
-                      textColor: Colors.white,
-                      text: "Add Service Provider",
-                      size: size,
-                      image: isSend
-                          ? null
-                          : "assets/icons/add_member.svg",
-                      imageColor: Colors.white,
-                      borderRadius: 40.r,
-                      onTap: () {
-                        isSend = !isSend;
-                        setState(() {});
-                      })
+                  : Obx(
+                      () => customButtonWithIconForSendRequest(
+                          controller: controller,
+                          backGroundColor: controller.isSend.value
+                              ? AppColors.kcGreyTextColor
+                              : AppColors.kcPrimaryBlueColor,
+                          textColor: Colors.white,
+                          text: "Add Service Provider",
+                          size: size,
+                          image: controller.isSend.value
+                              ? null
+                              : "assets/icons/add_member.svg",
+                          imageColor: Colors.white,
+                          borderRadius: 40.r,
+                          onTap: () {
+                            controller.isSend.value = !controller.isSend.value;
+                            switch (controller.isSend.value) {
+                              case true:
+                                controller.sendRequest(model);
+                                break;
+                              case false:
+                                controller.cancelRequest(model);
+
+                                break;
+                            }
+                            // setState(() {});
+                          }),
+                    )
             ],
           ),
         ),

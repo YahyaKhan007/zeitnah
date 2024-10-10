@@ -25,7 +25,7 @@ class AppConstants {
 
   static final List<Widget> providerPages = [
     const Appointments(),
-    PatientScreen(),
+    const PatientScreen(),
     const ServiceProviderSettings(),
   ];
   static final List<Widget> clientPages = [

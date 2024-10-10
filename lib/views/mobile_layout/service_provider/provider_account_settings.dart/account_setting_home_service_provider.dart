@@ -7,12 +7,13 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../utils/app_colors/app_colors.dart';
 import '../../../views.dart';
 import '../../client/account_settings/widgets/ui_functions.dart';
-import 'account_setting_home_service_provider_model.dart';
+import 'controller/account_setting_for_provider_controller.dart';
 import 'personal_info_service_provider/personal_info_service_provider.dart';
 
-class ServiceProviderAccountSettingsHome
-    extends GetView<AccountSettingHomeServiceProviderModel> {
-  const ServiceProviderAccountSettingsHome({super.key});
+class ServiceProviderAccountSettingsHome extends StatelessWidget {
+  ServiceProviderAccountSettingsHome({super.key});
+
+  final controller = Get.find<AccountSettingForProviderController>();
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,9 @@ class ServiceProviderAccountSettingsHome
               label: "Clinic Info",
               onTap: () {
                 Get.to(
-                  () => const PersonalInfoServiceProviderScreen(),
+                  () => PersonalInfoServiceProviderScreen(
+                    controller: controller,
+                  ),
                 );
               }),
           settingoption(
@@ -57,14 +60,18 @@ class ServiceProviderAccountSettingsHome
               label: "My QR-Code",
               onTap: () {
                 Get.to(
-                  () => const MyQrCode(),
+                  () => MyQrCode(
+                    controller: controller,
+                  ),
                 );
               }),
           settingoption(
               image: "assets/icons/help.svg",
               label: "Help & Support",
               onTap: () {
-                Get.to(() => const HelpSupportProvider());
+                Get.to(() => HelpSupportProvider(
+                      controller: controller,
+                    ));
               }),
           settingoption(
               image: "assets/icons/logout.svg",

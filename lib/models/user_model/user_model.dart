@@ -1,15 +1,16 @@
-class UserModel {
+class PatientUserModel {
   final String email;
   final String firstName;
   final bool isPriority;
   // final bool isVerified;
   final String lastName;
   final String phoneNumber;
+  List<String> followedClinics;
   final String profilePicture;
   final String userId;
   final String userRole;
 
-  UserModel({
+  PatientUserModel({
     required this.email,
     required this.firstName,
     required this.isPriority,
@@ -19,24 +20,26 @@ class UserModel {
     required this.profilePicture,
     required this.userId,
     required this.userRole,
+    required this.followedClinics,
   });
 
-  // Method to convert JSON into UserModel
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      email: json['email'] ?? '',
-      firstName: json['firstName'] ?? '',
-      isPriority: json['isPriority'] ?? false,
-      // isVerified: json['isVerified'] ?? false,
-      lastName: json['lastName'] ?? '',
-      phoneNumber: json['phoneNumber'] ?? '',
-      profilePicture: json['profilePicture'] ?? '',
-      userId: json['userId'] ?? '',
-      userRole: json['userRole'] ?? '',
+  // Factory method to create an instance of PatientUserModel from JSON
+  factory PatientUserModel.fromJson(Map<String, dynamic> json) {
+    return PatientUserModel(
+      email: json['email'] as String,
+      firstName: json['firstName'] as String,
+      isPriority: json['isPriority'] as bool,
+      // isVerified: json['isVerified'] as bool,
+      lastName: json['lastName'] as String,
+      phoneNumber: json['phoneNumber'] as String,
+      profilePicture: json['profilePicture'] as String,
+      userId: json['userId'] as String,
+      userRole: json['userRole'] as String,
+      followedClinics: List<String>.from(json['followedClinics'] ?? []),
     );
   }
 
-  // Method to convert UserModel into JSON
+  // Method to convert the instance to JSON
   Map<String, dynamic> toJson() {
     return {
       'email': email,
@@ -48,6 +51,70 @@ class UserModel {
       'profilePicture': profilePicture,
       'userId': userId,
       'userRole': userRole,
+      'followedClinics': followedClinics,
     };
+  }
+
+  // CopyWith method to create a new instance with some fields changed
+  PatientUserModel copyWith({
+    String? email,
+    String? firstName,
+    bool? isPriority,
+    // bool? isVerified,
+    String? lastName,
+    String? phoneNumber,
+    String? profilePicture,
+    String? userId,
+    String? userRole,
+    List<String>? followedClinics,
+  }) {
+    return PatientUserModel(
+      email: email ?? this.email,
+      firstName: firstName ?? this.firstName,
+      isPriority: isPriority ?? this.isPriority,
+      // isVerified: isVerified ?? this.isVerified,
+      lastName: lastName ?? this.lastName,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      profilePicture: profilePicture ?? this.profilePicture,
+      userId: userId ?? this.userId,
+      userRole: userRole ?? this.userRole,
+      followedClinics: followedClinics ?? this.followedClinics,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'PatientUserModel(email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, isPriority: $isPriority, profilePicture: $profilePicture, userId: $userId, userRole: $userRole, followedClinics: $followedClinics)';
+  }
+
+  // Equality operator and hashCode
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! PatientUserModel) return false;
+    return other.email == email &&
+        other.firstName == firstName &&
+        other.isPriority == isPriority &&
+        // other.isVerified == isVerified &&
+        other.lastName == lastName &&
+        other.phoneNumber == phoneNumber &&
+        other.profilePicture == profilePicture &&
+        other.userId == userId &&
+        other.userRole == userRole &&
+        other.followedClinics == followedClinics;
+  }
+
+  @override
+  int get hashCode {
+    return email.hashCode ^
+        firstName.hashCode ^
+        isPriority.hashCode ^
+        // isVerified.hashCode ^
+        lastName.hashCode ^
+        phoneNumber.hashCode ^
+        profilePicture.hashCode ^
+        userId.hashCode ^
+        userRole.hashCode ^
+        followedClinics.hashCode;
   }
 }

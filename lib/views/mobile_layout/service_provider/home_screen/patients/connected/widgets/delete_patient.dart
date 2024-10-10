@@ -8,7 +8,7 @@ import '../../patient_controller.dart';
 import '../../patient_views.dart';
 
 Widget deletePatient(BuildContext context,
-    {required UserModel user, PatientScreenController? controller}) {
+    {required PatientUserModel user, PatientScreenController? controller}) {
   return GestureDetector(
     onTap: () {
       confirmDelete(

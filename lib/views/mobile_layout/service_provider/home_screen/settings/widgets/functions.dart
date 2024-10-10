@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/settings/controller/provider_setting_controller.dart';
 
 import '../../../../../../services/database_service.dart/db_service.dart';
-import '../../../../../../services/services.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../../utils/app_constants.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
@@ -351,7 +351,6 @@ void addMember(
     required TextEditingController nameController}) async {
   Size size = MediaQuery.of(context).size;
   int? selectedTime;
-  int initialTime = AppConstants.defaultAppointmentTime[0];
 
   selectedTime = await showCupertinoModalPopup<int>(
     context: context,
@@ -411,9 +410,13 @@ void addMember(
                     size: size,
                     borderRadius: 40,
                     onTap: () {
-                      final controller = Get.find<ZeitnahController>();
-                      controller.memberList.add(nameController.text);
-                      Navigator.of(context).pop<int>(initialTime);
+                      final DataBaseService dbService = DataBaseService();
+                      final dataController = Get.find<ZeitnahDataController>();
+                      dataController.memberList.add(nameController.text);
+
+                      dbService.addClinicMember(nameController.text);
+
+                      Navigator.of(context).pop<int>();
                     },
                   ),
                 )

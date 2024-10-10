@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/services/database_service.dart/db_service.dart';
 
+import '../../../../models/models.dart';
 import '../../../../services/auth_service.dart/auth_service.dart';
 import '../../../../services/router_service/router_helper_service.dart';
 
@@ -26,7 +27,8 @@ class LoginController extends GetxController {
       if (result.isSuccess) {
         if (result.clinicModel != null) {
           _dbService.getAllClinicAppointments();
-          await _dbService.getAllPatientsData(clinicModel: result.clinicModel!);
+          getPatientsData(result.clinicModel!);
+
           Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
         } else {
           Get.offAllNamed(RouterHelperService.clientHomeScreen);
@@ -37,6 +39,10 @@ class LoginController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  getPatientsData(ClinicModel clinicModel) async {
+    await _dbService.getAllPatientsData(clinicModel: clinicModel);
   }
 
   @override

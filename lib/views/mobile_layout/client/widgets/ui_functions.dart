@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zeitnah/services/services.dart';
+import 'package:zeitnah/services/auth_service.dart/auth_service.dart';
 
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../auth_screens/widgets/common_widgets.dart';
@@ -71,6 +71,7 @@ deleteAccount({required BuildContext context}) {
 
 logoutDialog({required BuildContext context}) {
   Size size = MediaQuery.of(context).size;
+  final AuthService _auth = AuthService();
   return showDialog(
       context: context,
       builder: (context) {
@@ -108,8 +109,7 @@ logoutDialog({required BuildContext context}) {
                             size: size,
                             borderRadius: 48.r,
                             onTap: () {
-                              // Get.back();
-                              Get.toNamed(RouterHelperService.login);
+                              _auth.logoutUser();
                             }),
                         commonButtonWithLowWidth(
                             backGroundColor: AppColors.kcPrimaryBlueColor,

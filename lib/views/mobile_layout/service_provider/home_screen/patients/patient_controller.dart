@@ -12,44 +12,60 @@ class PatientScreenController extends GetxController {
   final DataBaseService _dbService = DataBaseService();
   Rx<TextEditingController> searchController = TextEditingController().obs;
 
+  final RxString searchText = ''.obs;
+
   RxInt selectedClientPatientPageIndex = RxInt(1);
   PageController pageController = PageController();
 
-  RxList<UserModel> searchRequestUsers = RxList<UserModel>();
-  RxList<UserModel> searchConnectedUsers = RxList<UserModel>();
+  RxList<PatientUserModel> searchRequestUsers = RxList<PatientUserModel>();
+  RxList<PatientUserModel> searchConnectedUsers = RxList<PatientUserModel>();
 
-  acceptUserRequest({required UserModel user}) async {
+  acceptUserRequest({required PatientUserModel user}) async {
     await _dbService.acceptUserRequestForToSubscribe(user: user);
   }
 
-  rejectUserRequest({required UserModel user}) async {
+  rejectUserRequest({required PatientUserModel user}) async {
     await _dbService.rejectUserRequestForToSubscribe(user: user);
   }
 
-  deleteConnectedUser(UserModel user) async {
+  deleteConnectedUser(PatientUserModel user) async {
     await _dbService.deleteConnectedFirebase(user: user);
   }
 
-  searchQuery(String query) {
-    log(query);
+  // void updateSearchText(String value) {
+  //   searchText.value = value;
+  //
+  //
+  // }
+
+  updateSearchText(String query) {
+    searchText.value = query;
+
     searchRequestUsers.clear();
     searchConnectedUsers.clear();
 
     switch (selectedClientPatientPageIndex.value) {
       case 0:
+        log("Connected");
+        log(dataController.favouriteClinicUserList.length.toString());
         for (var user in dataController.favouriteClinicUserList) {
           if ("${user.firstName} ${user.lastName}".contains(query)) {
             log("Found one");
 
             if (!searchConnectedUsers.contains(user)) {
+              log("adding the value");
               searchConnectedUsers.add(user);
             }
           }
         }
 
+        log("The length of connected user search is :  ${searchConnectedUsers.length}");
+
         break;
 
       case 1:
+        log("Requested");
+        log(dataController.requestToSubscribeClinicUserList.length.toString());
         for (var user in dataController.requestToSubscribeClinicUserList) {
           if ("${user.firstName} ${user.lastName}".contains(query)) {
             if (!searchRequestUsers.contains(user)) {
@@ -61,19 +77,19 @@ class PatientScreenController extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    // Add listener to search controller to call searchQuery
-    searchController.value.addListener(() {
-      searchQuery(searchController.value.text);
-    });
-    log("Init called");
-
-    // Call the initial search query to trigger update
-    searchQuery("");
-
-    // Force an initial update
-    update();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // Add listener to search controller to call searchQuery
+  //   // searchController.value.addListener(() {
+  //   //   searchQuery(searchController.value.text);
+  //   // });
+  //   log("Init called");
+  //
+  //   // Call the initial search query to trigger update
+  //   searchQuery("");
+  //
+  //   // Force an initial update
+  //   update();
+  // }
 }

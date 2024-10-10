@@ -21,7 +21,7 @@ class ProviderSettingController extends GetxController {
     switch (label) {
       case 'Custom Time':
         return Obx(
-          () => Text('${customPriorityTimeForClinicAppointment.value}min',
+          () => Text('${customPriorityTimeForClinicAppointment.value} min',
               style: GoogleFonts.inter(
                   textStyle: TextStyle(
                       fontSize: 12.sp,
@@ -31,7 +31,7 @@ class ProviderSettingController extends GetxController {
 
       case 'Team Member':
         return Obx(
-          () => Text('${customPriorityTimeForClinicAppointment.value}',
+          () => Text('${dataController.providerTeamMembers.length}',
               style: GoogleFonts.inter(
                   textStyle: TextStyle(
                       fontSize: 12.sp,

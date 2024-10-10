@@ -13,7 +13,7 @@ import 'notify_widget.dart';
 import 'profile_info_tile.dart';
 
 class ViewPatientDetails extends StatelessWidget {
-  final UserModel user;
+  final PatientUserModel user;
   final bool? isConnected;
   final PatientScreenController? connectedController;
   ViewPatientDetails(

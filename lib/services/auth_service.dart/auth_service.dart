@@ -16,8 +16,14 @@ class AuthService {
   final SnackBarService _snackBarService = SnackBarService();
   final dataController = Get.find<ZeitnahDataController>();
 
-  Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
-      signupUserWithEmailPassword({
+  final currentUser = FirebaseAuth.instance.currentUser;
+
+  Future<
+      ({
+        bool isSuccess,
+        PatientUserModel? userModel,
+        ClinicModel? clinicModel
+      })> signupUserWithEmailPassword({
     required String userEmail,
     required String userRole,
     required String userPassword,
@@ -55,7 +61,7 @@ class AuthService {
       }
 
       // Create UserModel based on role
-      late UserModel newUserModel;
+      late PatientUserModel newUserModel;
       switch (userRole) {
         case 'patient':
           newUserModel = _createUserModel(
@@ -136,8 +142,12 @@ class AuthService {
 
   //  Login User
 
-  Future<({bool isSuccess, UserModel? userModel, ClinicModel? clinicModel})>
-      loginUser({
+  Future<
+      ({
+        bool isSuccess,
+        PatientUserModel? userModel,
+        ClinicModel? clinicModel
+      })> loginUser({
     required String email,
     required String password,
     required String from,
@@ -161,6 +171,9 @@ class AuthService {
           final loggedUserModel =
               await _dbService.getPatientUserByUid(user.uid);
           final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
+
+          dataController.currentLoggedInClinic.value = loggedClinicModel;
+          dataController.currentLoggedInPatient.value = loggedUserModel;
 
           return (
             isSuccess: true,
@@ -204,7 +217,7 @@ class AuthService {
 
   // Helper function to create UserModel based on role
 
-  UserModel _createUserModel(
+  PatientUserModel _createUserModel(
       {required User user,
       required String userRole,
       required String firstName,
@@ -212,7 +225,8 @@ class AuthService {
       required String phoneNumber,
       required bool isPriority,
       required String profilePicture}) {
-    return UserModel(
+    return PatientUserModel(
+      followedClinics: [],
       email: user.email ?? '',
       firstName: firstName,
       lastName: lastName,
@@ -237,6 +251,7 @@ class AuthService {
     required bool isPriority,
   }) {
     return ClinicModel(
+        teamMembers: [],
         address: address,
         clinicName: clinicName,
         email: user.email ?? '',
@@ -248,7 +263,8 @@ class AuthService {
         favouriteBy: [],
         requestForFavourite: [],
         uid: user.uid,
-        userRole: userRole);
+        userRole: userRole,
+        totalAcceptedAppointments: 0);
   }
 
   // checking for isUserLogIn
@@ -276,11 +292,11 @@ class AuthService {
     return null;
   }
 
-  Future<UserModel?> isPatient({required String userUid}) async {
+  Future<PatientUserModel?> isPatient({required String userUid}) async {
     try {
       final loggedUserModel = await _dbService.getPatientUserByUid(userUid);
 
-      dataController.currentLoggedInPatent.value = loggedUserModel;
+      dataController.currentLoggedInPatient.value = loggedUserModel;
 
       return loggedUserModel;
     } catch (e, stackTrace) {

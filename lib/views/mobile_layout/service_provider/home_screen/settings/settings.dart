@@ -82,7 +82,7 @@ class ServiceProviderSettings extends GetView<ProviderSettingController> {
           SizedBox(
             width: 40.w,
             child: Center(
-              child: controller.showTrailingText(label),
+              child: FittedBox(child: controller.showTrailingText(label)),
             ),
           )
         ]),

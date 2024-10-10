@@ -6,7 +6,7 @@ import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/patient
 
 import '../../../../../services/services.dart';
 import '../../../../../utils/app_colors/app_colors.dart';
-import 'patient_views.dart';
+import '../../../../views.dart';
 
 class PatientScreen extends StatefulWidget {
   const PatientScreen({super.key});
@@ -21,21 +21,6 @@ class _PatientScreenState extends State<PatientScreen> {
   final zeitnahController = Get.find<ZeitnahController>();
 
   @override
-  void initState() {
-    super.initState();
-
-    // Initialize searchController listener on widget initialization
-    controller.searchController.value.addListener(() {
-      controller.searchQuery(controller.searchController.value.text);
-    });
-
-    // Trigger initial searchQuery to populate the list on first load
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.searchQuery("");
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
@@ -44,90 +29,91 @@ class _PatientScreenState extends State<PatientScreen> {
         children: [
           topBar(pageController: controller.pageController, size: size),
           16.h.verticalSpace,
-          Obx(
-            () => Expanded(
-              child: controller.searchController.value.text.isNotEmpty
-                  ? SizedBox(
-                      child: controller.selectedClientPatientPageIndex.value ==
-                              0
-                          ? SizedBox(
-                              child: controller.searchConnectedUsers.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                        'No Connected Patients',
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color:
-                                                AppColors.kcPrimaryBlackColor),
-                                      ),
-                                    )
-                                  : Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8).w,
-                                      child: CupertinoScrollbar(
-                                        thickness: 4.w,
-                                        radius: Radius.circular(40.r),
-                                        thumbVisibility: true,
-                                        child: ListView.builder(
-                                          itemCount: controller
-                                              .searchConnectedUsers.length,
-                                          itemBuilder: (context, index) {
-                                            final user = controller
-                                                .searchConnectedUsers[index];
-                                            return patientName(
-                                              drName:
-                                                  "${user.firstName} ${user.lastName}",
-                                              index: index,
-                                              onTap: () {
-                                                Get.to(
-                                                  () => ViewPatientDetails(
-                                                    user: user,
-                                                    isConnected: true,
-                                                    connectedController:
-                                                        controller,
-                                                  ),
-                                                  duration: const Duration(
-                                                      milliseconds: 300),
-                                                  transition:
-                                                      Transition.rightToLeft,
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ),
+          // Obx(
+          //   () => controller.searchText.value.isEmpty
+          //       ? const Text(
+          //           "Search is Empty",
+          //           style: TextStyle(color: Colors.black, fontSize: 30),
+          //         )
+          //       : const Text(
+          //           "Not Empty",
+          //           style: TextStyle(color: Colors.black, fontSize: 30),
+          //         ),
+          // ),
+          Expanded(
+            child: Obx(
+              () => controller.searchText.value.isNotEmpty
+                  ? controller.selectedClientPatientPageIndex.value == 0
+                      ? controller.searchConnectedUsers.isEmpty
+                          ? Center(
+                              child: Text(
+                                'No Connected Patients',
+                                style: TextStyle(
+                                    fontSize: 12.sp,
+                                    color: AppColors.kcPrimaryBlackColor),
+                              ),
                             )
-                          : SizedBox(
-                              child: controller.searchRequestUsers.isEmpty
-                                  ? Center(
-                                      child: Text(
-                                        'No Requests',
-                                        style: TextStyle(
-                                            fontSize: 12.sp,
-                                            color:
-                                                AppColors.kcPrimaryBlackColor),
-                                      ),
-                                    )
-                                  : CupertinoScrollbar(
-                                      thickness: 4.w,
-                                      radius: Radius.circular(40.r),
-                                      thumbVisibility: true,
-                                      child: ListView.builder(
-                                        itemCount: controller
-                                            .searchRequestUsers.length,
-                                        itemBuilder: (context, index) {
-                                          final user = controller
-                                              .searchRequestUsers[index];
-                                          return AcceptDeclineRequest(
-                                            requestedUser: user,
-                                            controller: controller,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                            ),
-                    )
+                          : Padding(
+                              padding: const EdgeInsets.only(right: 8).w,
+                              child: CupertinoScrollbar(
+                                thickness: 4.w,
+                                radius: Radius.circular(40.r),
+                                thumbVisibility: true,
+                                child: ListView.builder(
+                                  itemCount:
+                                      controller.searchConnectedUsers.length,
+                                  itemBuilder: (context, index) {
+                                    final user =
+                                        controller.searchConnectedUsers[index];
+                                    return patientName(
+                                      drName:
+                                          "${user.firstName} ${user.lastName}",
+                                      index: index,
+                                      onTap: () {
+                                        Get.to(
+                                          () => ViewPatientDetails(
+                                            user: user,
+                                            isConnected: true,
+                                            connectedController: controller,
+                                          ),
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          transition: Transition.rightToLeft,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            )
+                      : Container(
+                          child: controller.searchRequestUsers.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    'No Requests Found',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: AppColors.kcPrimaryBlackColor),
+                                  ),
+                                )
+                              : CupertinoScrollbar(
+                                  thickness: 4.w,
+                                  radius: Radius.circular(40.r),
+                                  thumbVisibility: true,
+                                  child: ListView.builder(
+                                    itemCount:
+                                        controller.searchRequestUsers.length,
+                                    itemBuilder: (context, index) {
+                                      final user =
+                                          controller.searchRequestUsers[index];
+                                      return AcceptDeclineRequest(
+                                        requestedUser: user,
+                                        controller: controller,
+                                      );
+                                    },
+                                  ),
+                                ),
+                        )
                   : controller.selectedClientPatientPageIndex.value == 0
                       ? const PatientConnected()
                       : const PatientRequests(),
@@ -222,13 +208,23 @@ class _PatientScreenState extends State<PatientScreen> {
                 // ),
                 InkWell(
                     onTap: () {
-                      controller
-                          .searchQuery(controller.searchController.value.text);
+                      // controller
+                      //     .searchQuery(controller.searchController.value.text);
                     },
                     child: const Icon(Icons.search)),
                 16.w.horizontalSpace,
                 Expanded(
                   child: TextFormField(
+                    onChanged: controller.updateSearchText,
+
+                    //     (val) {
+                    //   if (val.isEmpty) {
+                    //     controller.searchRequestUsers.clear();
+                    //     controller.searchConnectedUsers.clear();
+                    //   } else {
+                    //     controller.searchQuery(val);
+                    //   }
+                    // },
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 12.sp,

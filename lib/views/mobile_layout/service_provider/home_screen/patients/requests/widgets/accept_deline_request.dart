@@ -9,7 +9,7 @@ import '../../connected/widgets/view_patient_details.dart';
 import 'ui_functions.dart';
 
 class AcceptDeclineRequest extends StatelessWidget {
-  final UserModel requestedUser;
+  final PatientUserModel requestedUser;
   final PatientScreenController controller;
   const AcceptDeclineRequest(
       {super.key, required this.requestedUser, required this.controller});

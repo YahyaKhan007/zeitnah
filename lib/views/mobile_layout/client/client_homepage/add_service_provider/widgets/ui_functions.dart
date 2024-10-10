@@ -7,11 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../../utils/app_constants.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
-import '../add_pro_views.dart';
+import '../controller/add_service_providercontroller.dart';
+import '../hospital_profile.dart';
 
-addProviderDialog({required BuildContext context}) {
-  TextEditingController searchController = TextEditingController();
-
+addProviderDialog(
+    {required BuildContext context,
+    required AddServiceProvideController controller}) {
   Size size = MediaQuery.of(context).size;
   return showDialog(
       context: context,
@@ -65,20 +66,22 @@ addProviderDialog({required BuildContext context}) {
                       padding: EdgeInsets.symmetric(horizontal: 16.w),
                       child: Row(
                         children: [
-                          // SvgPicture.asset(
-                          //   image,
-                          //   height: size.height * 0.03,
-                          // ),
                           const Icon(Icons.search),
                           16.w.horizontalSpace,
                           Expanded(
                             child: TextFormField(
+                              onChanged: (val) {
+                                controller.searchClinic(val);
+                                if (val.isEmpty) {
+                                  controller.searchClinics.clear();
+                                }
+                              },
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 12.sp,
                                 color: const Color(0xff64748B),
                               ),
-                              controller: searchController,
+                              controller: controller.searchController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 hintText: "Search".tr,
@@ -96,75 +99,78 @@ addProviderDialog({required BuildContext context}) {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 16).h,
-                        child: SizedBox(
-                          child: ListView.builder(
-                              itemCount: AppConstants.srviceProviderList.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12).h,
-                                  child: SizedBox(
-                                    height: size.height * 0.07,
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Get.to(
-                                            () =>
-                                                HospitalProfileFromPatientSide(
-                                                  isAdd: false,
-                                                  model: AppConstants
-                                                          .srviceProviderList[
-                                                      index],
-                                                ),
-                                            transition: Transition.rightToLeft,
-                                            duration: const Duration(
-                                                milliseconds: 300));
-                                      },
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            left: 16.w,
-                                            right: 20.w,
-                                            top: 5.h,
-                                            child: Center(
-                                              child: Container(
-                                                height: size.height * 0.055,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          24.r),
-                                                  color: AppColors
-                                                      .kcPrimaryBlueColor,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    AppConstants
-                                                        .srviceProviderList[
-                                                            index]
-                                                        .name,
-                                                    style: TextStyle(
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white),
+                        child: Obx(
+                          () => SizedBox(
+                            child: ListView.builder(
+                                itemCount: controller.searchClinics.length,
+                                itemBuilder: (context, index) {
+                                  final clinic =
+                                      controller.searchClinics[index];
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 12).h,
+                                    child: SizedBox(
+                                      height: size.height * 0.07,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Get.to(
+                                              () =>
+                                                  HospitalProfileFromPatientSide(
+                                                    isAdd: false,
+                                                    model: controller
+                                                        .searchClinics[index],
+                                                    controller: controller,
+                                                  ),
+                                              transition:
+                                                  Transition.rightToLeft,
+                                              duration: const Duration(
+                                                  milliseconds: 300));
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                              left: 16.w,
+                                              right: 20.w,
+                                              top: 5.h,
+                                              child: Center(
+                                                child: Container(
+                                                  height: size.height * 0.055,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24.r),
+                                                    color: AppColors
+                                                        .kcPrimaryBlueColor,
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      clinic.clinicName,
+                                                      style: TextStyle(
+                                                          fontSize: 12.sp,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          CircleAvatar(
-                                            radius: 28.r,
-                                            backgroundColor:
-                                                AppColors.kcPrimaryBlueColor,
-                                            backgroundImage: AssetImage(
-                                                AppConstants
-                                                    .srviceProviderList[index]
-                                                    .image),
-                                          ),
-                                        ],
+                                            CircleAvatar(
+                                              radius: 28.r,
+                                              backgroundColor:
+                                                  AppColors.kcPrimaryBlueColor,
+                                              backgroundImage: AssetImage(
+                                                  AppConstants
+                                                      .srviceProviderList[index]
+                                                      .image),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              }),
+                                  );
+                                }),
+                          ),
                         ),
                       ),
                     ),
@@ -175,15 +181,21 @@ addProviderDialog({required BuildContext context}) {
                       ),
                     ),
                     8.h.verticalSpace,
-                    Row(
-                      children: [
-                        SvgPicture.asset("assets/icons/qr_text.svg",
-                            height: 32.h),
-                        SvgPicture.asset(
-                          "assets/icons/qr.svg",
-                          height: 56.h,
-                        )
-                      ],
+                    InkWell(
+                      onTap: () {
+                        controller.scanQrCode();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset("assets/icons/qr_text.svg",
+                              height: 32.h),
+                          SvgPicture.asset(
+                            "assets/icons/qr.svg",
+                            height: 56.h,
+                          )
+                        ],
+                      ),
                     ),
                     16.h.verticalSpace,
                   ],
@@ -195,7 +207,9 @@ addProviderDialog({required BuildContext context}) {
       });
 }
 
-deleteHospital({required BuildContext context}) {
+deleteClinic(
+    {required BuildContext context,
+    required AddServiceProvideController controller}) {
   Size size = MediaQuery.of(context).size;
   return showDialog(
       context: context,

@@ -225,6 +225,8 @@ void pickWorker(
     required CreateAppointmentController controller}) async {
   Size size = MediaQuery.of(context).size;
 
+  final dataController = Get.find<ZeitnahDataController>();
+
   String initialWorker = AppConstants.workersList[0];
 
   await showCupertinoModalPopup<String>(
@@ -263,20 +265,21 @@ void pickWorker(
                   child: CupertinoPicker(
                     itemExtent: 32.0,
                     scrollController: FixedExtentScrollController(
-                      initialItem:
-                          AppConstants.workersList.indexOf(initialWorker),
+                      initialItem: dataController.providerTeamMembers
+                          .indexOf(initialWorker),
                     ),
                     onSelectedItemChanged: (int index) {
-                      initialWorker = AppConstants.workersList[index];
+                      initialWorker = dataController.providerTeamMembers[index];
                     },
                     selectionOverlay: Container(
                       decoration: BoxDecoration(
                           color: AppColors.kcGreyColor.withOpacity(0.2)),
                     ),
-                    children: AppConstants.workersList.map((String worker) {
+                    children:
+                        dataController.providerTeamMembers.map((String worker) {
                       return Center(
                         child: Text(
-                          worker,
+                          "$worker ",
                           style: TextStyle(
                             fontSize: 18.sp,
                             color: AppColors.kcPrimaryBlackColor,

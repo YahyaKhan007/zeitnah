@@ -9,8 +9,6 @@ import 'package:zeitnah/services/controller_service/controller_service.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/patients/patient_controller.dart';
 
-import '../patient_views.dart';
-
 class PatientConnected extends GetView<PatientScreenController> {
   const PatientConnected({super.key});
 
@@ -45,15 +43,15 @@ class PatientConnected extends GetView<PatientScreenController> {
                         drName: "${user.firstName} ${user.lastName}",
                         index: index,
                         onTap: () {
-                          Get.to(
-                            () => ViewPatientDetails(
-                              user: user,
-                              isConnected: true,
-                              connectedController: controller,
-                            ),
-                            duration: const Duration(milliseconds: 300),
-                            transition: Transition.rightToLeft,
-                          );
+                          // Get.to(
+                          //   () => ViewPatientDetails(
+                          //     user: user,
+                          //     isConnected: true,
+                          //     connectedController: controller,
+                          //   ),
+                          //   duration: const Duration(milliseconds: 300),
+                          //   transition: Transition.rightToLeft,
+                          // );
                         },
                       );
                     },

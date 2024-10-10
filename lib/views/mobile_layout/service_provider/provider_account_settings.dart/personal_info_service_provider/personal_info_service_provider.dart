@@ -1,36 +1,19 @@
-import 'package:get/get.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../../widgets/profile_option_edit.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/provider_account_settings.dart/controller/account_setting_for_provider_controller.dart';
+
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../widgets/custome_button_with_icon.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../widgets/profile_option_edit.dart';
 import '../../../client/account_settings/widgets/ui_functions.dart';
 
-
-class PersonalInfoServiceProviderScreen extends StatefulWidget {
-  const PersonalInfoServiceProviderScreen({super.key});
-
-  @override
-  State<PersonalInfoServiceProviderScreen> createState() =>
-      _PersonalInfoServiceProviderScreenState();
-}
-
-class _PersonalInfoServiceProviderScreenState
-    extends State<PersonalInfoServiceProviderScreen> {
-  late TextEditingController nameController;
-  late TextEditingController surName;
-  late TextEditingController phoneNumer;
-
-  @override
-  void initState() {
-    super.initState();
-    nameController = TextEditingController();
-    phoneNumer = TextEditingController();
-    surName = TextEditingController();
-  }
+class PersonalInfoServiceProviderScreen extends StatelessWidget {
+  final AccountSettingForProviderController controller;
+  const PersonalInfoServiceProviderScreen(
+      {super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +24,7 @@ class _PersonalInfoServiceProviderScreenState
           leading: Padding(
             padding: const EdgeInsets.only(left: 16).w,
             child: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
+              onTap: controller.onBack,
               child: SvgPicture.asset(
                 "assets/icons/back.svg",
                 color: AppColors.kcPrimaryBlueColor,
@@ -86,31 +67,32 @@ class _PersonalInfoServiceProviderScreenState
                     onTap: () {},
                     label: "Clinic Name",
                     data: "Eduard",
-                    controller: nameController),
+                    controller: controller.nameController),
                 profileOptionEdit(
                     size: size,
                     onTap: () {},
                     label: "City",
-                    data: "Ott",
-                    controller: surName),
+                    data: "city",
+                    controller: controller.cityController),
                 profileOptionEdit(
                     size: size,
                     onTap: () {},
                     label: "Street",
-                    data: "Ott",
-                    controller: surName),
-                profileOptionEdit(
-                    size: size,
-                    onTap: () {},
-                    label: "E-Mail",
-                    data: "abc@gmail.com",
-                    controller: nameController),
+                    data: "street",
+                    controller: controller.streetController),
+                profileOptionWithNoEdit(
+                  size: size,
+                  onTap: () {},
+                  label: "E-Mail",
+                  data: controller
+                      .dataController.currentLoggedInClinic.value!.email,
+                ),
                 profileOptionEdit(
                     size: size,
                     onTap: () {},
                     label: "Phone Number",
                     data: "+4912312312312",
-                    controller: phoneNumer),
+                    controller: controller.phoneNumberController),
                 24.h.verticalSpace,
                 customeButtonWithIcon(
                     backGroundColor: Colors.white,
@@ -121,10 +103,9 @@ class _PersonalInfoServiceProviderScreenState
                     // imageColor: Colors.transparent,
                     borderRadius: 48.r,
                     onTap: () {
-                      deleteAccount(context: context);
+                      deleteAccount(context: context, controller: controller);
                     }),
                 24.h.verticalSpace,
-            
               ],
             ),
           ),

@@ -43,30 +43,7 @@ class AcceptedAppointments extends GetView<AcceptedAppointmentController> {
                     },
                     size: size);
               }),
-    )
-
-        // Column(
-        //   children: [
-        //     cancelAppointment(
-        //         date: "Today (05.08)",
-        //         drName: "Chris Beyers",
-        //         time: "9:00 - 9:20",
-        //         onCancel: () {
-        //           confirmCancelAppointment(context: context);
-        //         },
-        //         size: size),
-        //     cancelAppointment(
-        //         date: "Today (05.08)",
-        //         drName: "Chris Beyers",
-        //         time: "9:00 - 9:20",
-        //         onCancel: () {
-        //           confirmCancelAppointment(context: context);
-        //         },
-        //         size: size)
-        //   ],
-        // ),
-
-        );
+    ));
   }
 }
 
