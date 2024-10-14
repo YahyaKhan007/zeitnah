@@ -38,6 +38,8 @@ class OpenClientAppointments extends StatelessWidget {
                                 final appointment = controller.dataController
                                     .openAppointmentForPatient[index];
 
+                                // controller.dataController.allClinic.forEach(action)
+
                                 return appointmentDetailsContainer(
                                     controller: controller,
                                     context: context,

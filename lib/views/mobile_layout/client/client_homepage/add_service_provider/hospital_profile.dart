@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,7 @@ import 'package:zeitnah/models/clinic_model/clinic_model.dart';
 import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_provider/controller/add_service_providercontroller.dart';
 
 import '../../../../../utils/app_colors/app_colors.dart';
+import '../../../../widgets/loading_widget.dart';
 
 class HospitalProfileFromPatientSide extends StatelessWidget {
   final ClinicModel model;
@@ -63,10 +65,29 @@ class HospitalProfileFromPatientSide extends StatelessWidget {
               CircleAvatar(
                 radius: 48.r,
                 backgroundColor: AppColors.kcPrimaryBlackColor,
-                child: CircleAvatar(
-                  radius: 46.r,
-                  backgroundColor: AppColors.kcPrimaryBlueColor,
-                  // backgroundImage: AssetImage(widget.model.image),
+                child: Container(
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  height: size.height * 0.13,
+                  width: size.height * 0.13,
+                  // backgroundColor:
+                  //     AppColors.kcPrimaryBlueColor,
+
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: CachedNetworkImage(
+                      imageUrl: model.profilePicture.isEmpty
+                          ? 'https://www.iconfinder.com/icons/8581109/unknown_user_avatar_profile_person_account_human_icon'
+                          : model.profilePicture,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Center(
+                        child: loadingWidgetInkDrop(
+                            size: 20, color: Colors.black), // Loading indicator
+                      ),
+                    ),
+                  ),
+                  // backgroundImage:
+                  // AssetImage(AppConstants
+                  //     .srviceProviderList[index].image),
                 ),
               ),
               24.h.verticalSpace,

@@ -70,29 +70,35 @@ class PersonalInfoServiceProviderScreen extends StatelessWidget {
                             width: size.height * 0.15,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
-                              child:
-                                  controller.dataController.imageLoading.value
-                                      ? loadingWidgetInkDrop(
-                                          size: 20, color: Colors.black)
-                                      : controller
+                              child: controller
+                                      .dataController.imageLoading.value
+                                  ? loadingWidgetInkDrop(
+                                      size: 20, color: Colors.black)
+                                  : controller
+                                          .dataController
+                                          .currentLoggedInClinic
+                                          .value!
+                                          .profilePicture
+                                          .isEmpty
+                                      ? Image.asset(
+                                          'assets/icons/hospital.png',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : CachedNetworkImage(
+                                          useOldImageOnUrlChange: true,
+                                          placeholder: (context, url) => Center(
+                                            child: loadingWidgetInkDrop(
+                                                size: 20,
+                                                color: Colors
+                                                    .black), // Loading indicator
+                                          ),
+                                          imageUrl: controller
                                               .dataController
-                                              .currentLoggedInClinic!
+                                              .currentLoggedInClinic
                                               .value!
-                                              .profilePicture
-                                              .isEmpty
-                                          ? Image.asset(
-                                              'assets/icons/hospital.png',
-                                              fit: BoxFit.cover,
-                                            )
-                                          : CachedNetworkImage(
-                                              useOldImageOnUrlChange: true,
-                                              imageUrl: controller
-                                                  .dataController
-                                                  .currentLoggedInClinic!
-                                                  .value!
-                                                  .profilePicture,
-                                              fit: BoxFit.cover,
-                                            ),
+                                              .profilePicture,
+                                          fit: BoxFit.cover,
+                                        ),
                             ),
                           ),
                         ),

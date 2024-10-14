@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_provider/controller/add_service_providercontroller.dart';
+import 'package:zeitnah/views/widgets/loading_widget.dart';
 
 import 'add_pro_views.dart';
 import 'widgets/add_pro_appbar.dart';
@@ -109,10 +111,32 @@ class AddProviderHome extends GetView<AddServiceProvideController> {
                                           ),
                                         ),
                                       ),
-                                      CircleAvatar(
-                                        radius: 32.r,
-                                        backgroundColor:
-                                            AppColors.kcPrimaryBlueColor,
+                                      Container(
+                                        decoration: const BoxDecoration(
+                                            shape: BoxShape.circle),
+                                        height: size.height * 0.1,
+                                        width: size.width * 0.15,
+                                        // backgroundColor:
+                                        //     AppColors.kcPrimaryBlueColor,
+
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          child: CachedNetworkImage(
+                                            imageUrl: clinic
+                                                    .profilePicture.isEmpty
+                                                ? 'https://www.iconfinder.com/icons/8581109/unknown_user_avatar_profile_person_account_human_icon'
+                                                : clinic.profilePicture,
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                Center(
+                                              child: loadingWidgetInkDrop(
+                                                  size: 20,
+                                                  color: Colors
+                                                      .black), // Loading indicator
+                                            ),
+                                          ),
+                                        ),
                                         // backgroundImage:
                                         // AssetImage(AppConstants
                                         //     .srviceProviderList[index].image),

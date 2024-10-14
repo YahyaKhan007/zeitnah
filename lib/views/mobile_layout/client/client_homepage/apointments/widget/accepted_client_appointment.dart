@@ -86,7 +86,7 @@ class AcceptedClientAppointment extends StatelessWidget {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return SizedBox(
-                        height: 24.h,
+                        height: 16.h,
                         child: Center(
                           child: loadingWidgetInkDrop(
                             size: 16.r,
@@ -103,46 +103,48 @@ class AcceptedClientAppointment extends StatelessWidget {
                           fontWeight: FontWeight.w600),
                     );
                   }),
-              8.h.verticalSpace,
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                      child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      tileOption(
-                        image: 'assets/icons/calender.svg',
-                        title: formatDate(date: appointment.startTime!),
-                      ),
-                      tileOption(
-                        image: 'assets/icons/clock.svg',
-                        title:
-                            "${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}",
-                      ),
-                      tileOption(
-                        image: 'assets/icons/user_box.svg',
-                        title: appointment.workerName.toString(),
-                      ),
-                    ],
-                  )),
-                  CircleAvatar(
-                    radius: 32.r,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 28.r,
-                      backgroundColor: AppColors.kcPrimaryBlueColor,
-                      child: Icon(
-                        Icons.check,
-                        color: Colors.white,
-                        size: 48.r,
+              SizedBox(
+                height: 90.h,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        tileOption(
+                          image: 'assets/icons/calender.svg',
+                          title: formatDate(date: appointment.startTime!),
+                        ),
+                        tileOption(
+                          image: 'assets/icons/clock.svg',
+                          title:
+                              "${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}",
+                        ),
+                        tileOption(
+                          image: 'assets/icons/user_box.svg',
+                          title: appointment.workerName.toString(),
+                        ),
+                      ],
+                    )),
+                    CircleAvatar(
+                      radius: 32.r,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 28.r,
+                        backgroundColor: AppColors.kcPrimaryBlueColor,
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                          size: 48.r,
+                        ),
                       ),
                     ),
-                  ),
-                  8.w.horizontalSpace,
-                ],
+                    8.w.horizontalSpace,
+                  ],
+                ),
               ),
             ],
           ),
