@@ -163,31 +163,50 @@ class AuthService {
       final user = userCredentials.user;
 
       if (user == null) {
-        log("user is null");
+        log("User is null");
         return (isSuccess: false, userModel: null, clinicModel: null);
       }
+
+      // Handle login based on the 'from' parameter
       switch (from) {
         case 'mobile_view':
-          final loggedUserModel =
-              await _dbService.getPatientUserByUid(user.uid);
-          final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
+          try {
+            // Fetch both patient user and clinic user data
+            final loggedUserModel =
+                await _dbService.getPatientUserByUid(user.uid);
+            final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
 
-          dataController.currentLoggedInClinic.value = loggedClinicModel;
-          dataController.currentLoggedInPatient.value = loggedUserModel;
+            // Update the corresponding controllers based on which model is not null
+            if (loggedUserModel != null) {
+              dataController.currentLoggedInPatient.value = loggedUserModel;
+            }
 
-          return (
-            isSuccess: true,
-            userModel: loggedUserModel,
-            clinicModel: loggedClinicModel
-          );
+            if (loggedClinicModel != null) {
+              dataController.currentLoggedInClinic.value = loggedClinicModel;
+            }
+
+            // Return appropriate models based on what's available
+            return (
+              isSuccess: true,
+              userModel: loggedUserModel,
+              clinicModel: loggedClinicModel
+            );
+          } catch (e, stackTrace) {
+            log("Error fetching user/clinic data: $e");
+            log("StackTrace: $stackTrace");
+          }
+          break;
 
         case 'clinic':
+          // Specifically handle clinic login
           final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
 
-          _showSuccessSnackBar(
-              message:
-                  "Welcome Onboard ${loggedClinicModel?.clinicName.toString()}",
-              title: "Login Successful");
+          if (loggedClinicModel != null) {
+            _showSuccessSnackBar(
+                message: "Welcome Onboard ${loggedClinicModel.clinicName}",
+                title: "Login Successful");
+          }
+
           return (
             isSuccess: true,
             userModel: null,
@@ -198,11 +217,78 @@ class AuthService {
       _showErrorSnackBar(
           message: "Please check your email and password, then try again",
           title: "Email Password not matched");
-      log("stackTrace : $stackTrace");
+      log("Login Error: $e");
+      log("StackTrace: $stackTrace");
     }
 
     return (isSuccess: false, userModel: null, clinicModel: null);
   }
+
+  // Future<
+  //     ({
+  //       bool isSuccess,
+  //       PatientUserModel? userModel,
+  //       ClinicModel? clinicModel
+  //     })> loginUser({
+  //   required String email,
+  //   required String password,
+  //   required String from,
+  // }) async {
+  //   if (email.isEmpty || password.isEmpty) {
+  //     return (isSuccess: false, userModel: null, clinicModel: null);
+  //   }
+  //
+  //   try {
+  //     final userCredentials = await _auth.signInWithEmailAndPassword(
+  //         email: email, password: password);
+  //
+  //     final user = userCredentials.user;
+  //
+  //     if (user == null) {
+  //       log("user is null");
+  //       return (isSuccess: false, userModel: null, clinicModel: null);
+  //     }
+  //     switch (from) {
+  //       case 'mobile_view':
+  //         try {
+  //           final loggedUserModel =
+  //               await _dbService.getPatientUserByUid(user.uid);
+  //           final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
+  //
+  //           dataController.currentLoggedInClinic.value = loggedClinicModel;
+  //           dataController.currentLoggedInPatient.value = loggedUserModel;
+  //
+  //           return (
+  //             isSuccess: true,
+  //             userModel: loggedUserModel,
+  //             clinicModel: loggedClinicModel
+  //           );
+  //         } catch (e, stackTrace) {
+  //           log("stackTrace : $stackTrace");
+  //         }
+  //
+  //       case 'clinic':
+  //         final loggedClinicModel = await _dbService.getClinicByUid(user.uid);
+  //
+  //         _showSuccessSnackBar(
+  //             message:
+  //                 "Welcome Onboard ${loggedClinicModel?.clinicName.toString()}",
+  //             title: "Login Successful");
+  //         return (
+  //           isSuccess: true,
+  //           userModel: null,
+  //           clinicModel: loggedClinicModel
+  //         );
+  //     }
+  //   } catch (e, stackTrace) {
+  //     _showErrorSnackBar(
+  //         message: "Please check your email and password, then try again",
+  //         title: "Email Password not matched");
+  //     log("stackTrace : $stackTrace");
+  //   }
+  //
+  //   return (isSuccess: false, userModel: null, clinicModel: null);
+  // }
 
   // Forget Password
 
@@ -226,6 +312,7 @@ class AuthService {
       required bool isPriority,
       required String profilePicture}) {
     return PatientUserModel(
+      requestedClinics: [],
       followedClinics: [],
       email: user.email ?? '',
       firstName: firstName,

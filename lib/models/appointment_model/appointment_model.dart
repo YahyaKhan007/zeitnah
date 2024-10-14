@@ -5,7 +5,7 @@ class AppointmentModel {
   DateTime? startTime;
   DateTime? endTime;
   String? notificationStatus;
-  List<String>? patientsIds;
+  List<String>? cancelBy;
   String? workerName;
   int? priorityTime;
 
@@ -16,7 +16,7 @@ class AppointmentModel {
     required this.uid,
     required this.startTime,
     required this.notificationStatus,
-    required this.patientsIds,
+    required this.cancelBy,
     required this.workerName,
     required this.priorityTime,
   });
@@ -29,7 +29,7 @@ class AppointmentModel {
         endTime: DateTime.parse(json["endTime"]),
         startTime: DateTime.parse(json["startTime"]),
         notificationStatus: json["notificationStatus"],
-        patientsIds: List<String>.from(json["patientsIds"].map((x) => x)),
+        cancelBy: List<String>.from(json["cancelBy"].map((x) => x)),
         workerName: json["workerName"],
         priorityTime: json["priorityTime"],
       );
@@ -41,7 +41,7 @@ class AppointmentModel {
         "endTime": endTime?.toIso8601String(),
         "startTime": startTime?.toIso8601String(),
         "notificationStatus": notificationStatus,
-        "patientsIds": List<dynamic>.from(patientsIds!.map((x) => x)),
+        "cancelBy": List<dynamic>.from(cancelBy!.map((x) => x)),
         "workerName": workerName,
         "priorityTime": priorityTime,
       };

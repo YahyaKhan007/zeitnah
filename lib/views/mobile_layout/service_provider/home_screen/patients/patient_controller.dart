@@ -29,14 +29,8 @@ class PatientScreenController extends GetxController {
   }
 
   deleteConnectedUser(PatientUserModel user) async {
-    await _dbService.deleteConnectedFirebase(user: user);
+    await _dbService.deleteConnectedPatient(user: user);
   }
-
-  // void updateSearchText(String value) {
-  //   searchText.value = value;
-  //
-  //
-  // }
 
   updateSearchText(String query) {
     searchText.value = query;

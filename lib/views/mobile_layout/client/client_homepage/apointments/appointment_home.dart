@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 
 import 'appointment_views.dart';
 
-class AppointmentHome extends StatelessWidget {
+class AppointmentHome extends GetView<AppointmentControllerForClient> {
   AppointmentHome({super.key});
 
   PageController pageController = PageController();
@@ -15,9 +17,13 @@ class AppointmentHome extends StatelessWidget {
       body: PageView(
         controller: pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
-          OpenClientAppointments(),
-          AcceptedClientAppointment(),
+        children: [
+          OpenClientAppointments(
+            controller: controller,
+          ),
+          AcceptedClientAppointment(
+            controller: controller,
+          ),
         ],
       ),
     );

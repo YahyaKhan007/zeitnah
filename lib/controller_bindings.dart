@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_provider/controller/add_service_providercontroller.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/appointments/create/controller/create_appointment_controller.dart';
 import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/patients/patient_controller.dart';
 import 'package:zeitnah/views/web_layout/screens/service_provider/auth_screens/login/controller/web_login_controller.dart';
@@ -28,6 +29,9 @@ class ControllerBinding implements Bindings {
     // Use lazyPut for lazy initialization
 
     Get.lazyPut<PatientScreenController>(() => PatientScreenController(),
+        fenix: true);
+    Get.lazyPut<AppointmentControllerForClient>(
+        () => AppointmentControllerForClient(),
         fenix: true);
     Get.lazyPut<ZeitnahController>(() => ZeitnahController(), fenix: true);
     Get.lazyPut<ProviderSettingController>(() => ProviderSettingController(),

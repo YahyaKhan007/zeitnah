@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,10 +7,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/models/clinic_model/clinic_model.dart';
 import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_provider/controller/add_service_providercontroller.dart';
-import 'package:zeitnah/views/widgets/custome_button_with_icon.dart';
 
 import '../../../../../utils/app_colors/app_colors.dart';
-import 'widgets/ui_functions.dart';
 
 class HospitalProfileFromPatientSide extends StatelessWidget {
   final ClinicModel model;
@@ -23,6 +23,8 @@ class HospitalProfileFromPatientSide extends StatelessWidget {
   bool isSend = false;
   @override
   Widget build(BuildContext context) {
+    log('already Requested : ${controller.dataController.requestedClinicIds.contains(model.uid)}');
+    log('Liked : ${controller.dataController.followedClinicIds.contains(model.uid)}');
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -73,50 +75,21 @@ class HospitalProfileFromPatientSide extends StatelessWidget {
                   data: model.address.isEmpty
                       ? "No Address"
                       : model.address.replaceAll("*", "/")),
-              profileFieldOption(
-                  label: "Phone Number",
-                  data: model.phoneNumber.isEmpty
-                      ? "No Phone Number"
-                      : model.phoneNumber),
+              InkWell(
+                onTap: () {
+                  log(controller.dataController.requestedClinicIds.length
+                      .toString());
+                },
+                child: profileFieldOption(
+                    label: "Phone Number",
+                    data: model.phoneNumber.isEmpty
+                        ? "No Phone Number"
+                        : model.phoneNumber),
+              ),
               profileFieldOption(label: "E-Mail", data: model.email),
               32.h.verticalSpace,
-              isAdd
-                  ? GestureDetector(
-                      onTap: () {
-                        deleteClinic(context: context, controller: controller);
-                      },
-                      child: SvgPicture.asset(
-                        "assets/icons/delet.svg",
-                      ),
-                    )
-                  : Obx(
-                      () => customButtonWithIconForSendRequest(
-                          controller: controller,
-                          backGroundColor: controller.isSend.value
-                              ? AppColors.kcGreyTextColor
-                              : AppColors.kcPrimaryBlueColor,
-                          textColor: Colors.white,
-                          text: "Add Service Provider",
-                          size: size,
-                          image: controller.isSend.value
-                              ? null
-                              : "assets/icons/add_member.svg",
-                          imageColor: Colors.white,
-                          borderRadius: 40.r,
-                          onTap: () {
-                            controller.isSend.value = !controller.isSend.value;
-                            switch (controller.isSend.value) {
-                              case true:
-                                controller.sendRequest(model);
-                                break;
-                              case false:
-                                controller.cancelRequest(model);
-
-                                break;
-                            }
-                            // setState(() {});
-                          }),
-                    )
+              Obx(() => controller.multipleFunctionalButtonForClinicProfile(
+                  clinicModel: model, context: context, size: size)),
             ],
           ),
         ),

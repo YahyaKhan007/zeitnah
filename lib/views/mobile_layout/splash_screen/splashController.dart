@@ -41,13 +41,15 @@ class SplashController extends GetxController {
 
       final isClinic = await _authService.isClinic(userUid: userId);
 
-      await getAllData(isClinic!);
+      await getAllDataForClinic(isClinic!);
 
       Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
     }
   }
 
-  Future<void> getAllData(ClinicModel clinicModel) async {
+  // Getting data for clinic user
+
+  Future<void> getAllDataForClinic(ClinicModel clinicModel) async {
     getPatientsData(clinicModel);
     await getAppointment();
 
@@ -61,7 +63,7 @@ class SplashController extends GetxController {
 
   Future<void> getPatientData() async {
     _dbService.getAllClinics();
-
+    await _dbService.getAppointmentDataForPatient();
     await _dbService.getAllFollowedClinicByPatient();
   }
 

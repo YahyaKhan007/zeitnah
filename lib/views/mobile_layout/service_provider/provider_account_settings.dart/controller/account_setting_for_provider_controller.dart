@@ -6,6 +6,7 @@ import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart
 import 'package:zeitnah/services/database_service.dart/db_service.dart';
 import 'package:zeitnah/services/router_service/router_helper_service.dart';
 import 'package:zeitnah/services/snackbar_service/snackbar_service.dart';
+import 'package:zeitnah/utils/image_picker_utils/image_picker_utils.dart';
 
 import '../../../../../services/auth_service.dart/auth_service.dart';
 
@@ -15,6 +16,8 @@ class AccountSettingForProviderController extends GetxController {
   final DataBaseService _dbService = DataBaseService();
 
   final SnackBarService snackBarService = SnackBarService();
+
+  final pickerUtils = ImagePickerUtils();
 
   RxBool isLoading = RxBool(false);
 
@@ -85,21 +88,10 @@ class AccountSettingForProviderController extends GetxController {
     }
   }
 
-  // Future<void> openEmailApp() async {
-  //   final Uri emailAppUri = Uri(scheme: 'mailto');
-  //
-  //   try {
-  //     if (await canLaunchUrl(emailAppUri)) {
-  //       await launchUrl(emailAppUri, mode: LaunchMode.externalApplication);
-  //     } else {
-  //       print('Cannot open email app');
-  //       // Handle the inability to open email app
-  //     }
-  //   } catch (e) {
-  //     print('Error opening email app: $e');
-  //     // Handle the error
-  //   }
-  // }
+  Future<void> pickImage() async {
+    pickerUtils.pickImageFromGallery(
+        clinicModel: dataController.currentLoggedInClinic!.value!);
+  }
 
   @override
   void onInit() {

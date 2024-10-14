@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/models/appointment_model/appointment_model.dart';
-import 'package:zeitnah/services/snackbar_service/snackbar_service.dart';
 import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_provider/controller/add_service_providercontroller.dart';
 
 import '../../models/models.dart';
@@ -15,8 +14,6 @@ class DataBaseService {
   final FirebaseFirestore _fireStoreAuth = FirebaseFirestore.instance;
 
   final dataController = Get.find<ZeitnahDataController>();
-
-  final SnackBarService _snackBarService = SnackBarService();
 
   // ^   Adding User to FireStore Database
 
@@ -202,87 +199,118 @@ class DataBaseService {
   }
 
   // accept User Request For To Subscribe
-  Future<bool> acceptUserRequestForToSubscribe(
-      {required PatientUserModel user}) async {
+  Future<bool> acceptUserRequestForToSubscribe({
+    required PatientUserModel user,
+  }) async {
     try {
+      // Move the user from the requestToSubscribe list to the favouriteClinicUserList
       dataController.requestToSubscribeClinicUserList.remove(user);
       dataController.favouriteClinicUserList.add(user);
 
-      List<String> updateRequestedUsers = [];
-      List<String> updateFavouriteUsers = [];
-      var updatedUser = dataController.currentLoggedInClinic.value;
-
-      // updateUser!.requestForFavourite =
-      for (var user in dataController.requestToSubscribeClinicUserList) {
-        updateRequestedUsers.add(user.userId);
-      }
-
-      for (var user in dataController.favouriteClinicUserList) {
-        updateFavouriteUsers.add(user.userId);
-      }
-
-      updatedUser!.requestForFavourite = updateRequestedUsers;
-      updatedUser.favouriteBy = updateFavouriteUsers;
+      await _fireStoreAuth.collection('users').doc(user.userId).update({
+        'requestedClinics': FieldValue.arrayRemove(
+            [dataController.currentLoggedInClinic.value!.uid]),
+        'followedClinics': FieldValue.arrayUnion(
+            [dataController.currentLoggedInClinic.value!.uid])
+      });
 
       await _fireStoreAuth
           .collection('clinics')
           .doc(dataController.currentLoggedInClinic.value!.uid)
-          .update(updatedUser.toMap());
+          .update({
+        'requestForFavourite': FieldValue.arrayRemove([user.userId]),
+        'favouriteBy': FieldValue.arrayUnion([user.userId])
+      });
+
+      log("User request accepted and clinic updated successfully.");
     } catch (e, stackTrace) {
-      log("StackTrace : $stackTrace");
+      // Log error and stack trace
+      log("Error occurred: $e");
+      log("StackTrace: $stackTrace");
+      return false;
     }
 
     return true;
   }
 
-  // reject User Request For To Subscribe
-
-  Future<bool> rejectUserRequestForToSubscribe(
-      {required PatientUserModel user}) async {
+  Future<void> removeTeamMemberFromProvider({
+    required String member,
+  }) async {
     try {
-      dataController.requestToSubscribeClinicUserList.remove(user);
+      final clinicId = dataController.currentLoggedInClinic.value?.uid;
 
-      List<String> updateRequestedUsers = [];
-      var updatedUser = dataController.currentLoggedInClinic.value;
-
-      // updateUser!.requestForFavourite =
-      for (var user in dataController.requestToSubscribeClinicUserList) {
-        updateRequestedUsers.add(user.userId);
+      if (clinicId == null) {
+        log("Clinic ID not found.");
+        return;
       }
 
-      updatedUser!.requestForFavourite = updateRequestedUsers;
+      // Update Firestore to remove the member from the teamMembers array
+      await _fireStoreAuth.collection('clinics').doc(clinicId).update({
+        'teamMembers': FieldValue.arrayRemove([member]),
+      });
 
+      log("Team member $member removed successfully.");
+    } catch (e, stackTrace) {
+      // Log error and stack trace for debugging
+      log("Error removing team member: $e");
+      log("StackTrace: $stackTrace");
+    }
+  }
+
+  // reject User Request For To Subscribe
+
+  Future<bool> rejectUserRequestForToSubscribe({
+    required PatientUserModel user,
+  }) async {
+    try {
+      // Remove the user from the request to subscribe list
+      dataController.requestToSubscribeClinicUserList.remove(user);
+
+      // Update the clinic document in FireStore with the modified requestForFavourite list
       await _fireStoreAuth
           .collection('clinics')
           .doc(dataController.currentLoggedInClinic.value!.uid)
-          .update(updatedUser.toMap());
+          .update({
+        'requestForFavourite': FieldValue.arrayRemove([user.userId])
+      });
+
+      await _fireStoreAuth.collection('users').doc(user.userId).update({
+        'requestedClinics': FieldValue.arrayRemove(
+            [dataController.currentLoggedInClinic.value!.uid])
+      });
+
+      log("User request rejected and clinic updated successfully.");
     } catch (e, stackTrace) {
-      log("StackTrace : $stackTrace");
+      // Log error and stack trace
+      log("Error occurred: $e");
+      log("StackTrace: $stackTrace");
+      return false;
     }
 
     return true;
   }
 
   // delete connection patient from clinic
-  Future<bool> deleteConnectedFirebase({required PatientUserModel user}) async {
+  Future<bool> deleteConnectedPatient({required PatientUserModel user}) async {
     try {
+      // Remove the user from the favourite list
       dataController.favouriteClinicUserList.remove(user);
-
-      List<String> updateFavouriteUsers = [];
-      var updatedUser = dataController.currentLoggedInClinic.value;
-
-      for (var user in dataController.favouriteClinicUserList) {
-        updateFavouriteUsers.add(user.userId);
-      }
-
-      updatedUser!.favouriteBy = updateFavouriteUsers;
 
       await _fireStoreAuth
           .collection('clinics')
           .doc(dataController.currentLoggedInClinic.value!.uid)
-          .update(updatedUser.toMap());
+          .update({
+        'favouriteBy': FieldValue.arrayRemove([user.userId]),
+      });
+
+      await _fireStoreAuth.collection('users').doc(user.userId).update({
+        'followedClinics': FieldValue.arrayRemove(
+            [dataController.currentLoggedInClinic.value!.uid]),
+      });
     } catch (e, stackTrace) {
-      log("StackTrace : $stackTrace");
+      log("Error occurred: $e");
+      log("StackTrace: $stackTrace");
+      return false;
     }
 
     return true;
@@ -305,6 +333,20 @@ class DataBaseService {
           .collection('clinics')
           .doc(dataController.currentLoggedInClinic.value!.uid)
           .update(dataController.currentLoggedInClinic.value!.toMap());
+
+      return;
+    } catch (e, stackTrace) {
+      log("stackTrace : $stackTrace");
+      return;
+    }
+  }
+
+  Future<void> updatePhotoForClinic(String imageUrl) async {
+    try {
+      await _fireStoreAuth
+          .collection('clinics')
+          .doc(dataController.currentLoggedInClinic.value!.uid)
+          .update({'profilePicture': imageUrl});
 
       return;
     } catch (e, stackTrace) {
@@ -348,6 +390,7 @@ class DataBaseService {
   }
 
   Future<void> getProviderTeamMembers() async {
+    dataController.currentLoggedInClinic.value!.teamMembers.clear();
     try {
       for (var workerId
           in dataController.currentLoggedInClinic.value!.teamMembers) {
@@ -363,13 +406,21 @@ class DataBaseService {
 
   Future<void> getAllFollowedClinicByPatient() async {
     dataController.patientFollowedClinic.clear();
+    dataController.requestedClinicIds.clear();
+    dataController.followedClinicIds.clear();
     try {
       log("Total followed Clinic are   :  ${dataController.currentLoggedInPatient.value!.followedClinics.length}");
       for (var workerId
           in dataController.currentLoggedInPatient.value!.followedClinics) {
         final clinicModel = await getClinicByUid(workerId);
+        dataController.followedClinicIds.add(workerId);
         dataController.patientFollowedClinic.add(clinicModel!);
-        dataController.sentRequestToClinicForFavourite.add(clinicModel.uid);
+      }
+
+      for (var workerId
+          in dataController.currentLoggedInPatient.value!.requestedClinics) {
+        final clinicModel = await getClinicByUid(workerId);
+        dataController.requestedClinicIds.add(clinicModel!.uid);
       }
 
       log("Clinic captured  :  ${dataController.patientFollowedClinic.length}");
@@ -379,6 +430,7 @@ class DataBaseService {
   }
 
   Future<void> getAllClinics() async {
+    dataController.allClinic.clear();
     try {
       final querySnapshot = await _fireStoreAuth.collection("clinics").get();
 
@@ -405,7 +457,7 @@ class DataBaseService {
       if (clinic.uid == qrCode) {
         log("Clinic Name is : ${clinic.clinicName}");
 
-        if (dataController.sentRequestToClinicForFavourite.contains(qrCode)) {
+        if (dataController.requestedClinicIds.contains(qrCode)) {
           dataController.scannedQrCodeValue.value = '';
 
           final clinicModel = await getClinicByUid(qrCode);
@@ -441,65 +493,137 @@ class DataBaseService {
     }
   }
 
-  Future<void> sendRequestToClinicForFavourite(
-      {required ClinicModel clinicModel,
-      required String label,
-      String? scannedValue,
-      required PatientUserModel currentUser}) async {
-    switch (label) {
-      case 'cancel':
-        dataController.sentRequestToClinicForFavourite.remove(clinicModel.uid);
+  Future<void> sendRequestToClinicForFavourite({
+    required ClinicModel clinicModel,
+    required String label,
+    String? scannedValue,
+    required PatientUserModel currentUser,
+  }) async {
+    try {
+      switch (label) {
+        case 'cancel':
+          log('cancel called');
+          dataController.requestedClinicIds.remove(clinicModel.uid);
 
-        dataController.currentLoggedInPatient.value!.followedClinics =
-            dataController.sentRequestToClinicForFavourite;
+          _fireStoreAuth.collection('users').doc(currentUser.userId).update({
+            'requestedClinics': FieldValue.arrayRemove([clinicModel.uid])
+          });
 
-        await _fireStoreAuth
-            .collection('users')
-            .doc(currentUser.userId)
-            .update(dataController.currentLoggedInPatient.value!.toJson());
-        break;
+          await _fireStoreAuth
+              .collection('clinics')
+              .doc(clinicModel.uid)
+              .update({
+            'requestForFavourite': FieldValue.arrayRemove([currentUser.userId])
+          });
 
-      case 'request':
-        dataController.sentRequestToClinicForFavourite.add(clinicModel.uid);
+          break;
 
-        dataController.currentLoggedInPatient.value!.followedClinics =
-            dataController.sentRequestToClinicForFavourite;
+        case 'request':
+          log('request called');
 
-        _fireStoreAuth
-            .collection('users')
-            .doc(currentUser.userId)
-            .update(dataController.currentLoggedInPatient.value!.toJson());
+          dataController.requestedClinicIds.add(clinicModel.uid);
 
-        if (scannedValue == null) return;
+          _fireStoreAuth.collection('users').doc(currentUser.userId).update({
+            'requestedClinics': FieldValue.arrayUnion([clinicModel.uid])
+          });
 
-        _fireStoreAuth.collection('clinics').doc(scannedValue).update({
-          'favouriteBy': FieldValue.arrayUnion([currentUser.userId]),
-        });
+          await _fireStoreAuth
+              .collection('clinics')
+              .doc(clinicModel.uid)
+              .update({
+            'requestForFavourite': FieldValue.arrayUnion([currentUser.userId])
+          });
 
-        await Future.delayed((const Duration(seconds: 1)));
-
-        dataController.patientFollowedClinic.add(clinicModel);
-
-        dataController.scannedQrCodeValue.value = '';
-
-        Get.back();
-        Get.back();
-        Get.back();
-
-        break;
+          break;
+      }
+    } catch (e, stackTrace) {
+      log("Error occurred: $e");
+      log("StackTrace: $stackTrace");
     }
   }
 
   Future<void> addClinicMember(String memberName) async {
-    _fireStoreAuth
-        .collection('clinics')
-        .doc(dataController.currentLoggedInClinic.value!.uid)
-        .update(
-      {
-        'teamMembers': FieldValue.arrayUnion(
-          [memberName],
-        ),
-      },
-    );
+    try {
+      _fireStoreAuth
+          .collection('clinics')
+          .doc(dataController.currentLoggedInClinic.value!.uid)
+          .update(
+        {
+          'teamMembers': FieldValue.arrayUnion(
+            [memberName],
+          ),
+        },
+      );
+    } catch (e, stackTrace) {
+      log('stackTrace : $stackTrace');
+    }
+  }
+
+//   getting appointment data for a patient
+  Future<void> getAppointmentDataForPatient() async {
+    dataController.acceptedAppointmentForPatient.clear();
+    dataController.openAppointmentForPatient.clear();
+    final appointmentData =
+        await _fireStoreAuth.collection('appointments').get();
+
+    final data = appointmentData.docs;
+
+    for (var doc in data) {
+      final appointmentDoc = AppointmentModel.fromJson(doc.data());
+
+      // checking if the clinic if followed by the user or not
+      if (!dataController.currentLoggedInPatient.value!.followedClinics
+          .contains(appointmentDoc.clinicId)) continue;
+
+      // checking if the appointment is accepted by any other user or not
+
+      if (appointmentDoc.acceptedBy !=
+              dataController.currentLoggedInPatient.value!.userId &&
+          appointmentDoc.acceptedBy!.isNotEmpty) continue;
+
+      // if it is not accepted by current patient then it is accepted
+
+      if (appointmentDoc.acceptedBy ==
+          dataController.currentLoggedInPatient.value!.userId) {
+        dataController.acceptedAppointmentForPatient.add(appointmentDoc);
+      }
+
+      if (appointmentDoc.cancelBy!
+          .contains(dataController.currentLoggedInPatient.value!.userId)) {
+        continue;
+      }
+
+      // if it is not accepted by anyOne then it is open
+      if (appointmentDoc.acceptedBy!.isEmpty) {
+        dataController.openAppointmentForPatient.add(appointmentDoc);
+      }
+    }
+  }
+
+  Future<void> deleteProviderFromPatient({required ClinicModel clinic}) async {
+    try {
+      // Remove the clinic from the patient's followed list in the data controller
+      dataController.patientFollowedClinic.remove(clinic);
+      dataController.followedClinicIds.remove(clinic.uid);
+
+      // Update the user's followed clinics in FireStore
+      await _fireStoreAuth
+          .collection('users')
+          .doc(dataController.currentLoggedInPatient.value!.userId)
+          .update({
+        'followedClinics': FieldValue.arrayRemove([clinic.uid])
+      });
+
+      // Remove the patient from the clinic's favouriteBy list and update FireStore
+      await _fireStoreAuth.collection('clinics').doc(clinic.uid).update({
+        'favouriteBy': FieldValue.arrayRemove(
+            [dataController.currentLoggedInPatient.value!.userId])
+      });
+
+      log("Successfully removed clinic from user's followed clinics and user from clinic's favourite list.");
+    } catch (e, stackTrace) {
+      log("Error occurred: $e");
+      log("StackTrace: $stackTrace");
+    }
   }
 }

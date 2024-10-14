@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/controller_service/controller_service.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
+import 'package:zeitnah/views/mobile_layout/service_provider/home_screen/settings/controller/provider_setting_controller.dart';
 
 import 'setting_view.dart';
 
 class AddTeamMembers extends StatelessWidget {
   AddTeamMembers({super.key});
 
+  final controller = Get.find<ProviderSettingController>();
   TextEditingController nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ZeitnahController>();
+    // final controller = Get.find<ZeitnahController>();
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -26,9 +27,10 @@ class AddTeamMembers extends StatelessWidget {
           Expanded(
             child: Obx(
               () => ListView.builder(
-                itemCount: controller.memberList.length,
+                itemCount: controller.dataController.providerTeamMembers.length,
                 itemBuilder: (context, index) {
-                  final memberName = controller.memberList[index];
+                  final memberName =
+                      controller.dataController.providerTeamMembers[index];
                   return Padding(
                     padding: EdgeInsets.only(bottom: 16.h),
                     child: Container(
@@ -40,38 +42,38 @@ class AddTeamMembers extends StatelessWidget {
                         borderRadius: BorderRadius.circular(40.r),
                         color: AppColors.kcGreyColor,
                       ),
-                      child: Stack(
+                      child: Row(
                         children: [
-                          Center(
-                            child: Text(
-                              memberName,
-                              overflow: TextOverflow.ellipsis,
-                              style: GoogleFonts.openSans(
-                                color: AppColors.kcPrimaryBlackColor,
-                                textStyle: TextStyle(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.bold),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                memberName,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.openSans(
+                                  color: AppColors.kcPrimaryBlackColor,
+                                  textStyle: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ),
-                          Positioned(
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: () {
-                                // Logic to remove the member
-                                // controller.memberList.removeAt(index);
-                                removeMember(
-                                  context: context,
-                                  name: memberName,
-                                  yes: () {
-                                    controller.memberList.removeAt(index);
-                                    Get.back();
-                                  },
-                                  no: () {
-                                    Get.back();
-                                  },
-                                );
-                              },
+                          GestureDetector(
+                            onTap: () {
+                              removeMember(
+                                context: context,
+                                name: memberName,
+                                yes: () {
+                                  controller.removeTeamMember(index);
+
+                                  Get.back();
+                                },
+                                no: () {
+                                  Get.back();
+                                },
+                              );
+                            },
+                            child: Center(
                               child: CircleAvatar(
                                 radius: 16.r,
                                 backgroundColor: AppColors.kcPrimaryBlackColor,

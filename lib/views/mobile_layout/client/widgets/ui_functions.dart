@@ -71,7 +71,7 @@ deleteAccount({required BuildContext context}) {
 
 logoutDialog({required BuildContext context}) {
   Size size = MediaQuery.of(context).size;
-  final AuthService _auth = AuthService();
+  final AuthService auth = AuthService();
   return showDialog(
       context: context,
       builder: (context) {
@@ -109,7 +109,7 @@ logoutDialog({required BuildContext context}) {
                             size: size,
                             borderRadius: 48.r,
                             onTap: () {
-                              _auth.logoutUser();
+                              auth.logoutUser();
                             }),
                         commonButtonWithLowWidth(
                             backGroundColor: AppColors.kcPrimaryBlueColor,

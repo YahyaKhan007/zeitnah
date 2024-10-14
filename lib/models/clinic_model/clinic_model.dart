@@ -31,7 +31,7 @@ class ClinicModel {
     required this.customTimeForAppointment,
   });
 
-  // Factory constructor to create a ClinicModel from a Map (like Firestore data)
+  // Factory constructor to create a ClinicModel from a Map (like FireStore data)
   factory ClinicModel.fromMap(Map<String, dynamic> map) {
     return ClinicModel(
       address: map['address'] ?? '',

@@ -2,33 +2,55 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
+import '../../../../../../models/appointment_model/appointment_model.dart';
 import '../../../../../../utils/app_colors/app_colors.dart';
+import '../../../../../widgets/formatting.dart';
+import '../../../../../widgets/loading_widget.dart';
+import '../controller/appointment_controller_for_client.dart';
 
 class AcceptedClientAppointment extends StatelessWidget {
-  const AcceptedClientAppointment({super.key});
+  final AppointmentControllerForClient controller;
+  const AcceptedClientAppointment({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CupertinoScrollbar(
-        radius: const Radius.circular(40),
-        thickness: 6,
-        thumbVisibility: true,
-        child: SizedBox(
-          child: Column(
-            children: [
-              16.h.verticalSpace,
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    return messageContainer(context: context);
-                  },
-                ),
+      body: SizedBox(
+        child: Column(
+          children: [
+            16.h.verticalSpace,
+            Expanded(
+              child: Obx(
+                () => controller
+                        .dataController.acceptedAppointmentForPatient.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No Accepted Appointments",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      )
+                    : CupertinoScrollbar(
+                        radius: const Radius.circular(40),
+                        thickness: 6,
+                        thumbVisibility: true,
+                        child: ListView.builder(
+                          itemCount: controller.dataController
+                              .acceptedAppointmentForPatient.length,
+                          itemBuilder: (context, index) {
+                            final appointment = controller.dataController
+                                .acceptedAppointmentForPatient[index];
+                            return messageContainer(
+                                context: context,
+                                appointment: appointment,
+                                controller: controller);
+                          },
+                        ),
+                      ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -36,6 +58,8 @@ class AcceptedClientAppointment extends StatelessWidget {
 
   Widget messageContainer({
     required BuildContext context,
+    required AppointmentModel appointment,
+    required AppointmentControllerForClient controller,
   }) {
     Size size = MediaQuery.of(context).size;
     return Padding(
@@ -56,13 +80,29 @@ class AcceptedClientAppointment extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               8.h.verticalSpace,
-              Text(
-                "Bilal Hospital",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w600),
-              ),
+              FutureBuilder(
+                  future:
+                      controller.gettingClinicNameFromAppointment(appointment),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return SizedBox(
+                        height: 24.h,
+                        child: Center(
+                          child: loadingWidgetInkDrop(
+                            size: 16.r,
+                            color: Colors.white24,
+                          ),
+                        ),
+                      );
+                    }
+                    return Text(
+                      snapshot.data!.clinicName.toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600),
+                    );
+                  }),
               8.h.verticalSpace,
               Row(
                 mainAxisSize: MainAxisSize.min,
@@ -75,15 +115,16 @@ class AcceptedClientAppointment extends StatelessWidget {
                     children: [
                       tileOption(
                         image: 'assets/icons/calender.svg',
-                        title: "Today (05.08)",
+                        title: formatDate(date: appointment.startTime!),
                       ),
                       tileOption(
                         image: 'assets/icons/clock.svg',
-                        title: "09:00 - 09:20",
+                        title:
+                            "${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}",
                       ),
                       tileOption(
                         image: 'assets/icons/user_box.svg',
-                        title: "Peter Weiß",
+                        title: appointment.workerName.toString(),
                       ),
                     ],
                   )),
@@ -113,38 +154,28 @@ class AcceptedClientAppointment extends StatelessWidget {
   Widget tileOption({required String image, required String title}) {
     return SizedBox(
         height: 24.h,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              image,
-              height: 18.r,
-              color: Colors.white,
-            ),
-            16.w.horizontalSpace,
-            Text(
-              title,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400),
-            ),
-          ],
-        )
-
-        // ListTile(
-        //   minVerticalPadding: 0,
-        //   leading:
-        //   title: Text(
-        //     title,
-        //     style: TextStyle(
-        //         color: Colors.white,
-        //         fontSize: 12.sp,
-        //         fontWeight: FontWeight.w300),
-        //   ),
-        // ),
-        );
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                image,
+                height: 18.r,
+                color: Colors.white,
+              ),
+              16.w.horizontalSpace,
+              Text(
+                title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          ),
+        ));
   }
 }

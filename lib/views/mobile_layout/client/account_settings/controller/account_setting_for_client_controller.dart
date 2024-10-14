@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 import 'package:zeitnah/services/database_service.dart/db_service.dart';
 
+import '../../../../../services/snackbar_service/snackbar_service.dart';
+
 class AccountSettingForClientController extends GetxController {
   final dataController = Get.find<ZeitnahDataController>();
+  final SnackBarService snackBarService = SnackBarService();
 
   final DataBaseService _dbService = DataBaseService();
 
@@ -23,6 +27,29 @@ class AccountSettingForClientController extends GetxController {
     isLoading.value = true;
     await _dbService.deleteClientAccount();
     isLoading.value = false;
+  }
+
+  Future<bool> launchEmail(String email) async {
+    final Uri emailLaunchUri = Uri(
+        scheme: 'mailto',
+        path: email,
+        queryParameters: {'subject': 'Support Request', 'body': ''});
+
+    try {
+      if (await canLaunchUrl(emailLaunchUri)) {
+        await launchUrl(emailLaunchUri, mode: LaunchMode.externalApplication);
+        return true;
+      } else {
+        print('Cannot launch $emailLaunchUri');
+        // Handle the inability to launch
+        return false;
+      }
+    } catch (e) {
+      print('Error launching email: $e');
+      return false;
+
+      // Handle the error
+    }
   }
 
   @override

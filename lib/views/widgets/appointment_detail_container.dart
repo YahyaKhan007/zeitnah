@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:zeitnah/models/appointment_model/appointment_model.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
+import 'package:zeitnah/views/widgets/formatting.dart';
 
 import '../../utils/app_colors/app_colors.dart';
 import '../views.dart';
+import 'loading_widget.dart';
 
 Widget appointmentDetailsContainer({
+  required AppointmentModel appointment,
+  required AppointmentControllerForClient controller,
   required BuildContext context,
 }) {
   Size size = MediaQuery.of(context).size;
@@ -30,13 +36,29 @@ Widget appointmentDetailsContainer({
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             8.h.verticalSpace,
-            Text(
-              "Bilal Hospital",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w600),
-            ),
+            FutureBuilder(
+                future:
+                    controller.gettingClinicNameFromAppointment(appointment),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(
+                      height: 24.h,
+                      child: Center(
+                        child: loadingWidgetInkDrop(
+                          size: 16.r,
+                          color: Colors.white24,
+                        ),
+                      ),
+                    );
+                  }
+                  return Text(
+                    snapshot.data!.clinicName.toString(),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600),
+                  );
+                }),
             8.h.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -50,15 +72,16 @@ Widget appointmentDetailsContainer({
                   children: [
                     tileOption(
                       image: 'assets/icons/calender.svg',
-                      title: "Today (05.08)",
+                      title: formatDate(date: appointment.startTime!),
                     ),
                     tileOption(
                       image: 'assets/icons/clock.svg',
-                      title: "09:00 - 09:20",
+                      title:
+                          "${formatTime(time: appointment.startTime!)} - ${formatTime(time: appointment.endTime!)}",
                     ),
                     tileOption(
                       image: 'assets/icons/user_box.svg',
-                      title: "Peter Weiß",
+                      title: appointment.workerName.toString(),
                     ),
                   ],
                 )),
@@ -67,9 +90,33 @@ Widget appointmentDetailsContainer({
                   radius: 38.r,
                   child: CircleAvatar(
                     radius: 37.r,
-                    backgroundColor: Colors.transparent,
-                    backgroundImage:
-                        const AssetImage('assets/icons/hospital.png'),
+                    backgroundColor: AppColors.kcPrimaryBlueColor,
+                    child: FutureBuilder(
+                        future: controller
+                            .gettingClinicNameFromAppointment(appointment),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return SizedBox(
+                              height: 24.h,
+                              child: Center(
+                                child: loadingWidgetInkDrop(
+                                  size: 16.r,
+                                  color: Colors.white24,
+                                ),
+                              ),
+                            );
+                          } else if (snapshot.data!.profilePicture.isEmpty) {
+                            return SizedBox(
+                                child:
+                                    Image.asset('assets/icons/hospital.png'));
+                          } else {
+                            return Image.network(snapshot.data!.profilePicture);
+                          }
+                        }),
+
+                    // appointment.cl
+                    //   const AssetImage('assets/icons/hospital.png'),
                   ),
                 )
               ],
@@ -84,25 +131,28 @@ Widget appointmentDetailsContainer({
 Widget tileOption({required String image, required String title}) {
   return SizedBox(
       height: 24.h,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(
-            image,
-            height: 18.r,
-            color: Colors.white,
-          ),
-          16.w.horizontalSpace,
-          Text(
-            title,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400),
-          ),
-        ],
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SvgPicture.asset(
+              image,
+              height: 18.r,
+              color: Colors.white,
+            ),
+            16.w.horizontalSpace,
+            Text(
+              title,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
       )
 
       //   ListTile(

@@ -59,7 +59,16 @@ class CreateAppointments extends GetView<CreateAppointmentController> {
               label: 'Select Worker (optional)',
               context: context,
               onTap: () {
-                pickWorker(context: context, controller: controller);
+                if (controller.dataController.providerTeamMembers.isEmpty) {
+                  controller.snackBarService.showSnackBar(
+                      color: AppColors.kcGreyTextColor,
+                      message:
+                          "There are no workers, Go to setting and add some",
+                      duration: 1,
+                      title: "No Worker");
+                } else {
+                  pickWorker(context: context, controller: controller);
+                }
               },
             ),
             appointmentPriority(

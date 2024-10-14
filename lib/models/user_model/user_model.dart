@@ -6,6 +6,7 @@ class PatientUserModel {
   final String lastName;
   final String phoneNumber;
   List<String> followedClinics;
+  List<String> requestedClinics;
   final String profilePicture;
   final String userId;
   final String userRole;
@@ -21,6 +22,7 @@ class PatientUserModel {
     required this.userId,
     required this.userRole,
     required this.followedClinics,
+    required this.requestedClinics,
   });
 
   // Factory method to create an instance of PatientUserModel from JSON
@@ -36,6 +38,7 @@ class PatientUserModel {
       userId: json['userId'] as String,
       userRole: json['userRole'] as String,
       followedClinics: List<String>.from(json['followedClinics'] ?? []),
+      requestedClinics: List<String>.from(json['requestedClinics'] ?? []),
     );
   }
 
@@ -52,6 +55,7 @@ class PatientUserModel {
       'userId': userId,
       'userRole': userRole,
       'followedClinics': followedClinics,
+      'requestedClinics': requestedClinics,
     };
   }
 
@@ -67,6 +71,7 @@ class PatientUserModel {
     String? userId,
     String? userRole,
     List<String>? followedClinics,
+    List<String>? requestedClinics,
   }) {
     return PatientUserModel(
       email: email ?? this.email,
@@ -79,12 +84,13 @@ class PatientUserModel {
       userId: userId ?? this.userId,
       userRole: userRole ?? this.userRole,
       followedClinics: followedClinics ?? this.followedClinics,
+      requestedClinics: requestedClinics ?? this.requestedClinics,
     );
   }
 
   @override
   String toString() {
-    return 'PatientUserModel(email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, isPriority: $isPriority, profilePicture: $profilePicture, userId: $userId, userRole: $userRole, followedClinics: $followedClinics)';
+    return 'PatientUserModel(email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, isPriority: $isPriority, profilePicture: $profilePicture, userId: $userId, userRole: $userRole, followedClinics: $followedClinics, requestedClinics: $requestedClinics)';
   }
 
   // Equality operator and hashCode
@@ -101,7 +107,8 @@ class PatientUserModel {
         other.profilePicture == profilePicture &&
         other.userId == userId &&
         other.userRole == userRole &&
-        other.followedClinics == followedClinics;
+        other.followedClinics == followedClinics &&
+        other.requestedClinics == requestedClinics;
   }
 
   @override
@@ -115,6 +122,7 @@ class PatientUserModel {
         profilePicture.hashCode ^
         userId.hashCode ^
         userRole.hashCode ^
-        followedClinics.hashCode;
+        followedClinics.hashCode ^
+        requestedClinics.hashCode;
   }
 }

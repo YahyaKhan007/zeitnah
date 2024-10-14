@@ -14,10 +14,11 @@ import '../../../../../../../services/router_service/router_helper_service.dart'
 import '../../../../../../../utils/app_colors/app_colors.dart';
 
 class CreateAppointmentController extends GetxController {
-  final SnackBarService _snackBarService = SnackBarService();
+  final SnackBarService snackBarService = SnackBarService();
   final DataBaseService _dbService = DataBaseService();
 
   final controller = Get.find<ZeitnahDataController>();
+  final dataController = Get.find<ZeitnahDataController>();
   // For showing data
 
   RxString showAppointmentDate = RxString('Today');
@@ -39,7 +40,7 @@ class CreateAppointmentController extends GetxController {
 
   updateAppointment() async {
     if (appointmentStartTime.value == null) {
-      _snackBarService.showErrorSnackBar(
+      snackBarService.showErrorSnackBar(
           message: "Start Date can not be empty", title: "Empty Fields");
     } else {
       isLoading.value = true;
@@ -61,7 +62,7 @@ class CreateAppointmentController extends GetxController {
 
         if (!result) return;
 
-        _snackBarService.showSuccessSnackBar(
+        snackBarService.showSuccessSnackBar(
             message: "Appointment has been successfully created",
             title: "Appointment Created");
         isLoading.value = false;
@@ -98,7 +99,7 @@ class CreateAppointmentController extends GetxController {
         clinicId: clinicId,
         startTime: startTime,
         notificationStatus: notificationStatus,
-        patientsIds: patientIds,
+        cancelBy: patientIds,
         workerName: workerName,
         priorityTime: priorityTime);
   }

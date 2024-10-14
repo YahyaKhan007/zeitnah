@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/views/mobile_layout/client/account_settings/controller/account_setting_for_client_controller.dart';
-import 'package:zeitnah/views/mobile_layout/client/account_settings/personal_info.dart';
 
 import '../../../../utils/app_colors/app_colors.dart';
+import '../../../views.dart';
 import '../widgets/ui_functions.dart';
+import 'controller/account_setting_for_client_controller.dart';
+import 'help_support.dart';
 
 class AccountSettingHomeForClient
     extends GetView<AccountSettingForClientController> {
@@ -56,7 +57,9 @@ class AccountSettingHomeForClient
               image: "assets/icons/help.svg",
               label: "Help & Support",
               onTap: () {
-                // Get.to(() => const HelpSupportProvider());
+                Get.to(() => HelpSupportForClient(
+                      controller: controller,
+                    ));
               }),
           settingoption(
               image: "assets/icons/logout.svg",

@@ -58,14 +58,12 @@ void selectDefaultTime(
                           color: AppColors.kcGreyColor.withOpacity(0.2)),
                     ),
                     scrollController: FixedExtentScrollController(
-                      initialItem: AppConstants.defaultAppointmentTime
-                          .indexOf(initialTime),
+                      initialItem: AppConstants.customTime.indexOf(initialTime),
                     ),
                     onSelectedItemChanged: (int index) {
-                      initialTime = AppConstants.defaultAppointmentTime[index];
+                      initialTime = AppConstants.customTime[index];
                     },
-                    children:
-                        AppConstants.defaultAppointmentTime.map((int worker) {
+                    children: AppConstants.customTime.map((int worker) {
                       return Center(
                         child: Text(
                           "$worker min",
@@ -412,7 +410,8 @@ void addMember(
                     onTap: () {
                       final DataBaseService dbService = DataBaseService();
                       final dataController = Get.find<ZeitnahDataController>();
-                      dataController.memberList.add(nameController.text);
+                      dataController.providerTeamMembers
+                          .add(nameController.text);
 
                       dbService.addClinicMember(nameController.text);
 

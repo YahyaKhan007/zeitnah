@@ -29,17 +29,6 @@ class _PatientScreenState extends State<PatientScreen> {
         children: [
           topBar(pageController: controller.pageController, size: size),
           16.h.verticalSpace,
-          // Obx(
-          //   () => controller.searchText.value.isEmpty
-          //       ? const Text(
-          //           "Search is Empty",
-          //           style: TextStyle(color: Colors.black, fontSize: 30),
-          //         )
-          //       : const Text(
-          //           "Not Empty",
-          //           style: TextStyle(color: Colors.black, fontSize: 30),
-          //         ),
-          // ),
           Expanded(
             child: Obx(
               () => controller.searchText.value.isNotEmpty

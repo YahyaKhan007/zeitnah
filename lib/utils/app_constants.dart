@@ -65,6 +65,8 @@ class AppConstants {
     'Sunday',
   ];
 
+  static final List<int> customTime = List.generate(30, (index) => index + 1);
+
   static final List<int> defaultAppointmentTime = [
     5,
     10,

@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/views/mobile_layout/service_provider/provider_account_settings.dart/controller/account_setting_for_provider_controller.dart';
+import 'package:zeitnah/views/widgets/loading_widget.dart';
 
 import '../../../../../utils/app_colors/app_colors.dart';
 import '../../../../widgets/custome_button_with_icon.dart';
@@ -49,16 +52,52 @@ class PersonalInfoServiceProviderScreen extends StatelessWidget {
             child: Column(
               children: [
                 16.h.verticalSpace,
-                SizedBox(
-                  height: size.height * 0.15,
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: size.height * 0.065,
-                        backgroundImage:
-                            const AssetImage('assets/icons/hospital.png'),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {
+                    controller.pickImage();
+                  },
+                  child: SizedBox(
+                    height: size.height * 0.15,
+                    child: Stack(
+                      children: [
+                        Obx(
+                          () => Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                shape: BoxShape.circle),
+                            // height: size.height * 0.065,
+                            height: size.height * 0.15,
+                            width: size.height * 0.15,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child:
+                                  controller.dataController.imageLoading.value
+                                      ? loadingWidgetInkDrop(
+                                          size: 20, color: Colors.black)
+                                      : controller
+                                              .dataController
+                                              .currentLoggedInClinic!
+                                              .value!
+                                              .profilePicture
+                                              .isEmpty
+                                          ? Image.asset(
+                                              'assets/icons/hospital.png',
+                                              fit: BoxFit.cover,
+                                            )
+                                          : CachedNetworkImage(
+                                              useOldImageOnUrlChange: true,
+                                              imageUrl: controller
+                                                  .dataController
+                                                  .currentLoggedInClinic!
+                                                  .value!
+                                                  .profilePicture,
+                                              fit: BoxFit.cover,
+                                            ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 16.h.verticalSpace,

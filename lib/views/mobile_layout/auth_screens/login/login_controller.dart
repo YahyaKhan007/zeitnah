@@ -25,12 +25,16 @@ class LoginController extends GetxController {
           from: 'mobile_view');
 
       if (result.isSuccess) {
+        // for clinic
         if (result.clinicModel != null) {
           _dbService.getAllClinicAppointments();
+
           getPatientsData(result.clinicModel!);
 
           Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
         } else {
+          // for patient
+          await getPatientData();
           Get.offAllNamed(RouterHelperService.clientHomeScreen);
         }
       }
@@ -41,7 +45,14 @@ class LoginController extends GetxController {
     }
   }
 
+  Future<void> getPatientData() async {
+    _dbService.getAllClinics();
+    await _dbService.getAppointmentDataForPatient();
+    await _dbService.getAllFollowedClinicByPatient();
+  }
+
   getPatientsData(ClinicModel clinicModel) async {
+    _dbService.getProviderTeamMembers();
     await _dbService.getAllPatientsData(clinicModel: clinicModel);
   }
 

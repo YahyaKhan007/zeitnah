@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:zeitnah/models/clinic_model/clinic_model.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../../utils/app_constants.dart';
@@ -209,6 +210,7 @@ addProviderDialog(
 
 deleteClinic(
     {required BuildContext context,
+    required ClinicModel clinic,
     required AddServiceProvideController controller}) {
   Size size = MediaQuery.of(context).size;
   return showDialog(
@@ -230,7 +232,7 @@ deleteClinic(
                   children: [
                     (size.height * 0.03).h.verticalSpace,
                     Center(
-                      child: Text("Delete Appointment?",
+                      child: Text("Delete Provider?",
                           style: TextStyle(
                               fontSize: 18.sp,
                               color: AppColors.kcPrimaryBlackColor,
@@ -247,7 +249,7 @@ deleteClinic(
                             size: size,
                             borderRadius: 48.r,
                             onTap: () {
-                              Get.back();
+                              controller.deleteProvider(clinic: clinic);
                             }),
                         commonButtonWithLowWidth(
                             backGroundColor: AppColors.kcPrimaryBlueColor,
