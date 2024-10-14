@@ -150,6 +150,7 @@ class HospitalProfileFromPatientSide extends StatelessWidget {
             child: Center(
               child: Text(
                 data,
+                textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   textStyle: TextStyle(
                       color: AppColors.kcPrimaryBlueColor,
