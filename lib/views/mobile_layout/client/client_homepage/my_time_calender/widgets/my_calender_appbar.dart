@@ -3,14 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/controller_service/controller_service.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../account_settings/account_settng_home.dart';
+import '../controller/my_calender_controller.dart';
 
-PreferredSizeWidget myCalenderAppbar(BuildContext context) {
+PreferredSizeWidget myCalenderAppbar(
+    BuildContext context, MyTimeCalendarController controller) {
   Size size = MediaQuery.of(context).size;
-  final controller = Get.find<ZeitnahController>();
   return PreferredSize(
     preferredSize: Size.fromHeight(170.h),
     child: Container(
@@ -68,14 +68,17 @@ PreferredSizeWidget myCalenderAppbar(BuildContext context) {
                   containerOption(
                       context: context,
                       label: "Always",
+                      controller: controller,
                       value: controller.always.value),
                   containerOption(
                       context: context,
                       label: "My times",
+                      controller: controller,
                       value: controller.myTimes.value),
                   containerOption(
                       context: context,
                       label: "Mute",
+                      controller: controller,
                       value: controller.mute.value)
                 ],
               ),
@@ -92,11 +95,11 @@ Widget containerOption({
   required BuildContext context,
   required String label,
   required bool value,
+  required MyTimeCalendarController controller,
 }) {
   Size size = MediaQuery.of(context).size;
-  final controller = Get.find<ZeitnahController>();
   return Container(
-    height: size.height * 0.095,
+    height: size.height * 0.1,
     width: size.width * 0.28,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(8.r),
@@ -111,6 +114,7 @@ Widget containerOption({
     ),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           label,

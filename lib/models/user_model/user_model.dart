@@ -2,7 +2,6 @@ class PatientUserModel {
   final String email;
   final String firstName;
   final bool isPriority;
-  // final bool isVerified;
   final String lastName;
   final String phoneNumber;
   List<String> followedClinics;
@@ -10,12 +9,12 @@ class PatientUserModel {
   final String profilePicture;
   final String userId;
   final String userRole;
+  Map<String, dynamic> freeSlots; // New field
 
   PatientUserModel({
     required this.email,
     required this.firstName,
     required this.isPriority,
-    // required this.isVerified,
     required this.lastName,
     required this.phoneNumber,
     required this.profilePicture,
@@ -23,6 +22,7 @@ class PatientUserModel {
     required this.userRole,
     required this.followedClinics,
     required this.requestedClinics,
+    required this.freeSlots, // Initialize new field
   });
 
   // Factory method to create an instance of PatientUserModel from JSON
@@ -31,7 +31,6 @@ class PatientUserModel {
       email: json['email'] as String,
       firstName: json['firstName'] as String,
       isPriority: json['isPriority'] as bool,
-      // isVerified: json['isVerified'] as bool,
       lastName: json['lastName'] as String,
       phoneNumber: json['phoneNumber'] as String,
       profilePicture: json['profilePicture'] as String,
@@ -39,6 +38,8 @@ class PatientUserModel {
       userRole: json['userRole'] as String,
       followedClinics: List<String>.from(json['followedClinics'] ?? []),
       requestedClinics: List<String>.from(json['requestedClinics'] ?? []),
+      freeSlots:
+          Map<String, dynamic>.from(json['freeSlots'] ?? {}), // Parse new field
     );
   }
 
@@ -48,7 +49,6 @@ class PatientUserModel {
       'email': email,
       'firstName': firstName,
       'isPriority': isPriority,
-      // 'isVerified': isVerified,
       'lastName': lastName,
       'phoneNumber': phoneNumber,
       'profilePicture': profilePicture,
@@ -56,6 +56,7 @@ class PatientUserModel {
       'userRole': userRole,
       'followedClinics': followedClinics,
       'requestedClinics': requestedClinics,
+      'freeSlots': freeSlots, // Include new field
     };
   }
 
@@ -64,7 +65,6 @@ class PatientUserModel {
     String? email,
     String? firstName,
     bool? isPriority,
-    // bool? isVerified,
     String? lastName,
     String? phoneNumber,
     String? profilePicture,
@@ -72,12 +72,12 @@ class PatientUserModel {
     String? userRole,
     List<String>? followedClinics,
     List<String>? requestedClinics,
+    Map<String, dynamic>? freeSlots, // New field in copyWith
   }) {
     return PatientUserModel(
       email: email ?? this.email,
       firstName: firstName ?? this.firstName,
       isPriority: isPriority ?? this.isPriority,
-      // isVerified: isVerified ?? this.isVerified,
       lastName: lastName ?? this.lastName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profilePicture: profilePicture ?? this.profilePicture,
@@ -85,12 +85,13 @@ class PatientUserModel {
       userRole: userRole ?? this.userRole,
       followedClinics: followedClinics ?? this.followedClinics,
       requestedClinics: requestedClinics ?? this.requestedClinics,
+      freeSlots: freeSlots ?? this.freeSlots, // Handle the new field
     );
   }
 
   @override
   String toString() {
-    return 'PatientUserModel(email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, isPriority: $isPriority, profilePicture: $profilePicture, userId: $userId, userRole: $userRole, followedClinics: $followedClinics, requestedClinics: $requestedClinics)';
+    return 'PatientUserModel(email: $email, firstName: $firstName, lastName: $lastName, phoneNumber: $phoneNumber, isPriority: $isPriority, profilePicture: $profilePicture, userId: $userId, userRole: $userRole, followedClinics: $followedClinics, requestedClinics: $requestedClinics, freeSlots: $freeSlots)';
   }
 
   // Equality operator and hashCode
@@ -101,14 +102,14 @@ class PatientUserModel {
     return other.email == email &&
         other.firstName == firstName &&
         other.isPriority == isPriority &&
-        // other.isVerified == isVerified &&
         other.lastName == lastName &&
         other.phoneNumber == phoneNumber &&
         other.profilePicture == profilePicture &&
         other.userId == userId &&
         other.userRole == userRole &&
         other.followedClinics == followedClinics &&
-        other.requestedClinics == requestedClinics;
+        other.requestedClinics == requestedClinics &&
+        other.freeSlots == freeSlots; // Compare the new field
   }
 
   @override
@@ -116,13 +117,13 @@ class PatientUserModel {
     return email.hashCode ^
         firstName.hashCode ^
         isPriority.hashCode ^
-        // isVerified.hashCode ^
         lastName.hashCode ^
         phoneNumber.hashCode ^
         profilePicture.hashCode ^
         userId.hashCode ^
         userRole.hashCode ^
         followedClinics.hashCode ^
-        requestedClinics.hashCode;
+        requestedClinics.hashCode ^
+        freeSlots.hashCode; // Include new field in hashCode
   }
 }

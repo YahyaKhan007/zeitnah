@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:zeitnah/models/clinic_model/clinic_model.dart';
 import 'package:zeitnah/services/database_service.dart/db_service.dart';
 import 'package:zeitnah/services/router_service/router_helper_service.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 
 import '../../../services/auth_service.dart/auth_service.dart';
 
@@ -62,8 +63,9 @@ class SplashController extends GetxController {
   }
 
   Future<void> getPatientData() async {
+    final controller = Get.find<AppointmentControllerForClient>();
     _dbService.getAllClinics();
-    await _dbService.getAppointmentDataForPatient();
+    await _dbService.getAppointmentDataForPatient(controller: controller);
     await _dbService.getAllFollowedClinicByPatient();
   }
 

@@ -312,6 +312,16 @@ class AuthService {
       required bool isPriority,
       required String profilePicture}) {
     return PatientUserModel(
+      freeSlots: {
+        'getNotified': "Always",
+        'sunday': [],
+        'monday': [],
+        'tuesday': [],
+        'wednesday': [],
+        'thursday': [],
+        'friday': [],
+        'saturday': [],
+      },
       requestedClinics: [],
       followedClinics: [],
       email: user.email ?? '',

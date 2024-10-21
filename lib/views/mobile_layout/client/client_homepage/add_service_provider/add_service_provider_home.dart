@@ -112,10 +112,13 @@ class AddProviderHome extends GetView<AddServiceProvideController> {
                                         ),
                                       ),
                                       Container(
-                                        decoration: const BoxDecoration(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: AppColors
+                                                    .kcPrimaryBlueColor),
                                             shape: BoxShape.circle),
-                                        height: size.height * 0.1,
-                                        width: size.width * 0.15,
+                                        height: 60,
+                                        width: 60,
                                         // backgroundColor:
                                         //     AppColors.kcPrimaryBlueColor,
 

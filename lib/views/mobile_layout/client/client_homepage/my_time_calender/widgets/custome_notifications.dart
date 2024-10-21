@@ -1,19 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/utils/app_colors/app_colors.dart';
 import 'package:zeitnah/utils/app_constants.dart';
+import 'package:zeitnah/views/widgets/formatting.dart';
 
+import '../controller/my_calender_controller.dart';
 import 'ui_functions.dart';
 
-Widget customeNotification({required BuildContext context}) {
+Widget customNotification(
+    {required BuildContext context,
+    required MyTimeCalendarController controller}) {
+  controller.showLogs();
   Size size = MediaQuery.of(context).size;
   return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24.r),
 
-        // color: AppColors.kcPrimaryBackgrundColor,
+        // color: AppColors.kcPrimaryBackGroundColor,
         boxShadow: [
           BoxShadow(
             color: AppColors.kcGreyTextColor.withOpacity(0.3),
@@ -37,73 +44,94 @@ Widget customeNotification({required BuildContext context}) {
             children: [
               dayContainer(
                   day: AppConstants.weekDays[0],
-                  dailySchedule: [
-                    {'start': "08:00", 'end': '10:00'},
-                    {'start': "12:00", 'end': '16:00'},
-                    {'start': "16:00", 'end': '24:00'},
-                  ],
+                  dailySchedule: controller.monday,
                   size: size,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[0]);
+                        dayList: controller.monday,
+                        controller: controller,
+                        context: context,
+                        label: AppConstants.weekDays[0]);
                   }),
               dayContainer(
                   day: AppConstants.weekDays[1],
-                  dailySchedule: [
-                    {'start': "08:00", 'end': '10:00'},
-                    {'start': "12:00", 'end': '16:00'},
-                  ],
+                  dailySchedule: controller.tuesday,
+                  // [
+                  //   {'start': "08:00", 'end': '10:00'},
+                  //   {'start': "12:00", 'end': '16:00'},
+                  // ],
                   size: size,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[1]);
+                        dayList: controller.tuesday,
+                        context: context,
+                        controller: controller,
+                        label: AppConstants.weekDays[1]);
                   }),
               dayContainer(
                   day: AppConstants.weekDays[2],
-                  dailySchedule: [
-                    {'start': "08:00", 'end': '10:00'},
-                  ],
+                  dailySchedule: controller.wednesday,
+                  // [
+                  //   {'start': "08:00", 'end': '10:00'},
+                  // ],
                   size: size,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[2]);
+                        dayList: controller.wednesday,
+                        context: context,
+                        controller: controller,
+                        label: AppConstants.weekDays[2]);
                   }),
               dayContainer(
                   day: AppConstants.weekDays[3],
-                  dailySchedule: [
-                    {'start': "08:00", 'end': '10:00'}
-                  ],
+                  dailySchedule: controller.thursday,
+                  // [
+                  //   {'start': "08:00", 'end': '10:00'}
+                  // ],
                   size: size,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[3]);
+                        dayList: controller.thursday,
+                        context: context,
+                        controller: controller,
+                        label: AppConstants.weekDays[3]);
                   }),
               dayContainer(
                   day: AppConstants.weekDays[4],
-                  dailySchedule: [],
+                  dailySchedule: controller.friday,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[4]);
+                        dayList: controller.friday,
+                        context: context,
+                        controller: controller,
+                        label: AppConstants.weekDays[4]);
                   },
                   size: size),
               dayContainer(
                   day: AppConstants.weekDays[5],
-                  dailySchedule: [],
+                  dailySchedule: controller.saturday,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[5]);
+                        dayList: controller.saturday,
+                        context: context,
+                        controller: controller,
+                        label: AppConstants.weekDays[5]);
                   },
                   size: size),
               dayContainer(
                   day: AppConstants.weekDays[6],
-                  dailySchedule: [
-                    {'start': "08:00", 'end': '10:00'},
-                    {'start': "16:00", 'end': '24:00'},
-                  ],
+                  dailySchedule: controller.sunday,
+                  // [
+                  //   {'start': "08:00", 'end': '10:00'},
+                  //   {'start': "16:00", 'end': '24:00'},
+                  // ],
                   size: size,
                   onTap: () {
                     addNotificationTime(
-                        context: context, label: AppConstants.weekDays[6]);
+                        dayList: controller.sunday,
+                        context: context,
+                        controller: controller,
+                        label: AppConstants.weekDays[6]);
                   }),
             ],
           ),
@@ -114,7 +142,7 @@ Widget customeNotification({required BuildContext context}) {
 Widget dayContainer({
   required String day,
   required Size size,
-  required List<Map<String, String>> dailySchedule,
+  required RxList<dynamic> dailySchedule,
   required VoidCallback onTap,
 }) {
   return GestureDetector(
@@ -152,18 +180,16 @@ Widget dayContainer({
                     // [].reversed;
                     final time = dailySchedule[index];
                     return SizedBox(
-                      // color: index == 0
-                      //     ? Colors.green
-                      //     : index == 1
-                      //         ? Colors.black12
-                      //         : Colors.pink,
                       width: size.width * 0.165,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            time['start'].toString(),
+                            formatTime(
+                                time: (time['start']).runtimeType == Timestamp
+                                    ? time['start'].toDate()
+                                    : time['start']),
                             style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                     fontSize: 10.sp,
@@ -171,7 +197,10 @@ Widget dayContainer({
                                     color: Colors.white)),
                           ),
                           Text(
-                            time['end'].toString(),
+                            formatTime(
+                                time: (time['end']).runtimeType == Timestamp
+                                    ? time['end'].toDate()
+                                    : time['end']),
                             style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                     fontSize: 10.sp,

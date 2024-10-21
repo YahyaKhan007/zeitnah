@@ -6,10 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/models/appointment_model/appointment_model.dart';
-import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 import 'package:zeitnah/views/widgets/formatting.dart';
 
 import '../../utils/app_colors/app_colors.dart';
+import '../mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 import '../views.dart';
 import 'loading_widget.dart';
 
@@ -46,12 +46,7 @@ Widget appointmentDetailsContainer({
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SizedBox(
                       height: 16.h,
-                      child: Center(
-                        child: loadingWidgetInkDrop(
-                          size: 16.r,
-                          color: Colors.white24,
-                        ),
-                      ),
+                      child: const Center(child: Text("...")),
                     );
                   }
                   return Text(

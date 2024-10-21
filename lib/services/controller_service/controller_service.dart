@@ -27,31 +27,6 @@ class ZeitnahController extends GetxController {
   RxBool isMobile = true.obs;
 
 //
-  RxBool always = RxBool(true);
-  RxBool mute = RxBool(false);
-  RxBool myTimes = RxBool(false);
-
-  setNotification({required String value}) {
-    switch (value) {
-      case 'Always':
-        always.value = true;
-        myTimes.value = false;
-        mute.value = false;
-        break;
-
-      case 'My times':
-        always.value = false;
-        myTimes.value = true;
-        mute.value = false;
-        break;
-
-      case 'Mute':
-        always.value = false;
-        myTimes.value = false;
-        mute.value = true;
-        break;
-    }
-  }
 
   // custome notifications
 }

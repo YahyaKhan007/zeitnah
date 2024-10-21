@@ -8,6 +8,7 @@ import 'package:zeitnah/views/mobile_layout/client/client_homepage/add_service_p
 
 import '../../models/models.dart';
 import '../../views/mobile_layout/client/client_homepage/add_service_provider/add_pro_views.dart';
+import '../../views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 import '../controller_service/zeitnah_data_controller.dart';
 
 class DataBaseService {
@@ -560,9 +561,11 @@ class DataBaseService {
   }
 
 //   getting appointment data for a patient
-  Future<void> getAppointmentDataForPatient() async {
+  Future<void> getAppointmentDataForPatient(
+      {required AppointmentControllerForClient controller}) async {
     dataController.acceptedAppointmentForPatient.clear();
     dataController.openAppointmentForPatient.clear();
+    controller.isLoading.value = true;
     final appointmentData =
         await _fireStoreAuth.collection('appointments').get();
 
@@ -595,9 +598,11 @@ class DataBaseService {
 
       // if it is not accepted by anyOne then it is open
       if (appointmentDoc.acceptedBy!.isEmpty) {
-        dataController.openAppointmentForPatient.add(appointmentDoc);
+        controller.gettingFreeTimeAppointments(appointmentDoc);
+        // dataController.openAppointmentForPatient.add(appointmentDoc);
       }
     }
+    controller.isLoading.value = false;
   }
 
   Future<void> deleteProviderFromPatient({required ClinicModel clinic}) async {
@@ -624,6 +629,32 @@ class DataBaseService {
     } catch (e, stackTrace) {
       log("Error occurred: $e");
       log("StackTrace: $stackTrace");
+    }
+  }
+
+  Future<void> changeNotifyStatus(String value) async {
+    try {
+      await _fireStoreAuth
+          .collection('users')
+          .doc(dataController.currentLoggedInPatient.value!.userId)
+          .update(
+              {'freeSlots.getNotified': value}); // Correct path to getNotified
+    } catch (e, stackTrace) {
+      print("Error : ${e.toString()}");
+      print("StackTrace : $stackTrace");
+    }
+  }
+
+  Future<void> updateTimeForSpecificDay(
+      {required List dayTimeList, required String day}) async {
+    try {
+      await _fireStoreAuth
+          .collection('users')
+          .doc(dataController.currentLoggedInPatient.value!.userId)
+          .update({'freeSlots.$day': dayTimeList});
+    } catch (e, stackTrace) {
+      print("Error : ${e.toString()}");
+      print("StackTrace : $stackTrace");
     }
   }
 }

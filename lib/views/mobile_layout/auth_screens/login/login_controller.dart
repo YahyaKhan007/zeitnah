@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zeitnah/services/database_service.dart/db_service.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 
 import '../../../../models/models.dart';
 import '../../../../services/auth_service.dart/auth_service.dart';
@@ -29,11 +30,13 @@ class LoginController extends GetxController {
         if (result.clinicModel != null) {
           _dbService.getAllClinicAppointments();
 
-          getPatientsData(result.clinicModel!);
+          // getPatientsData(result.clinicModel!);
 
           Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
         } else {
           // for patient
+          // await Get.find<OpenControllerForOpenAppointment>()
+          //     .gettingFreeTimeAppointments();
           await getPatientData();
           Get.offAllNamed(RouterHelperService.clientHomeScreen);
         }
@@ -46,8 +49,9 @@ class LoginController extends GetxController {
   }
 
   Future<void> getPatientData() async {
+    final controller = Get.find<AppointmentControllerForClient>();
     _dbService.getAllClinics();
-    await _dbService.getAppointmentDataForPatient();
+    await _dbService.getAppointmentDataForPatient(controller: controller);
     await _dbService.getAllFollowedClinicByPatient();
   }
 

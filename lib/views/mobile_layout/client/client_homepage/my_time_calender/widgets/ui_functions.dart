@@ -1,19 +1,28 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:zeitnah/services/controller_service/controller_service.dart';
-import 'package:zeitnah/services/services.dart';
+import 'package:zeitnah/views/mobile_layout/client/client_homepage/my_time_calender/controller/my_calender_controller.dart';
 import 'package:zeitnah/views/widgets/custome_button_with_icon.dart';
+import 'package:zeitnah/views/widgets/formatting.dart';
 
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
 
-addNotificationTime({required BuildContext context, required String label}) {
+addNotificationTime({
+  required BuildContext context,
+  required String label,
+  required RxList<dynamic> dayList,
+  required MyTimeCalendarController controller,
+}) {
   Size size = MediaQuery.of(context).size;
-  final controller = Get.find<ZeitnahController>();
+  // final controller = Get.find<ZeitnahController>();
   return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return Material(
@@ -45,8 +54,21 @@ addNotificationTime({required BuildContext context, required String label}) {
                       (size.height * 0.02).h.verticalSpace,
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: controller.notificationTime.length,
+                        itemCount: dayList.length,
                         itemBuilder: (context, index) {
+                          var startTime = dayList[index]['start'];
+                          var endTime = dayList[index]['end'];
+
+                          if (startTime.runtimeType == Timestamp) {
+                            log("The value is TimeStamp");
+                            startTime = startTime.toDate();
+                            endTime = endTime.toDate();
+                          } else {
+                            log("The value is DateTime");
+                          }
+
+                          log("type : ${startTime.runtimeType}");
+
                           return Container(
                             height: 40.h,
                             margin: EdgeInsets.only(
@@ -62,17 +84,20 @@ addNotificationTime({required BuildContext context, required String label}) {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   32.w.horizontalSpace,
-                                  Text(
-                                    controller.notificationTime[index].time,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.bold),
+                                  Expanded(
+                                    child: Center(
+                                      child: Text(
+                                        "${formatTime(time: startTime)} - ${formatTime(time: endTime)}",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
                                   GestureDetector(
                                       onTap: () {
-                                        controller.notificationTime.remove(
-                                            controller.notificationTime[index]);
+                                        dayList.remove(dayList[index]);
                                       },
                                       child: CircleAvatar(
                                         radius: 16.r,
@@ -96,10 +121,19 @@ addNotificationTime({required BuildContext context, required String label}) {
                           image: "assets/icons/edit.svg",
                           borderRadius: 40.r,
                           onTap: () {
-                            controller.notificationTime.length >= 3
-                                ? null
-                                : pickNotificationTime(
-                                    context: context, controller: controller);
+                            if (dayList.length >= 3) {
+                              controller.snackBarService.showSnackBar(
+                                  message:
+                                      "You can not select more than 3 slots",
+                                  duration: 2,
+                                  color: AppColors.kcgreyFieldColor,
+                                  title: "Max Selected");
+                            } else {
+                              pickNotificationTime(
+                                  dayList: dayList,
+                                  context: context,
+                                  controller: controller);
+                            }
                           }),
                       const Spacer(),
                       Row(
@@ -112,6 +146,13 @@ addNotificationTime({required BuildContext context, required String label}) {
                               size: size,
                               borderRadius: 24.r,
                               onTap: () {
+                                print(
+                                    "The List value is : ${dayList.toString()}");
+
+                                controller.updateNotifyTable(
+                                    day: label.toLowerCase(),
+                                    dayTimeList: dayList);
+
                                 Get.back();
                               }),
                         ],
@@ -134,9 +175,11 @@ class AddTime {
 
 void pickNotificationTime(
     {required BuildContext context,
-    required ZeitnahController controller}) async {
+    required List dayList,
+    required MyTimeCalendarController controller}) async {
   Size size = MediaQuery.of(context).size;
-  DateTime initialTime = DateTime.now();
+  DateTime fromInitialTime = DateTime.now();
+  DateTime toInitialTime = DateTime.now();
   DateTime? pickedTime = await showCupertinoModalPopup<DateTime>(
     context: context,
     builder: (BuildContext context) {
@@ -180,10 +223,10 @@ void pickNotificationTime(
                   height: 80.h,
                   child: CupertinoDatePicker(
                     use24hFormat: true,
-                    initialDateTime: initialTime,
+                    initialDateTime: fromInitialTime,
                     mode: CupertinoDatePickerMode.time,
                     onDateTimeChanged: (DateTime dateTime) {
-                      initialTime = dateTime;
+                      fromInitialTime = dateTime;
                     },
                   ),
                 ),
@@ -205,10 +248,10 @@ void pickNotificationTime(
                   height: 80.h,
                   child: CupertinoDatePicker(
                     use24hFormat: true,
-                    initialDateTime: initialTime,
+                    initialDateTime: toInitialTime,
                     mode: CupertinoDatePickerMode.time,
                     onDateTimeChanged: (DateTime dateTime) {
-                      initialTime = dateTime;
+                      toInitialTime = dateTime;
                     },
                   ),
                 ),
@@ -221,9 +264,18 @@ void pickNotificationTime(
                       size: size,
                       borderRadius: 40,
                       onTap: () {
-                        controller.notificationTime
-                            .add(AddTime(time: "09:00 - 15:00"));
-                        Navigator.of(context).pop(initialTime);
+                        print(
+                            "Starting time : ${formatTime(time: fromInitialTime)}");
+                        print(
+                            "Ending time : ${formatTime(time: toInitialTime)}");
+
+                        // dayList.add({});
+                        dayList.add(
+                            {'start': fromInitialTime, 'end': toInitialTime});
+
+                        // controller.notificationTime
+                        //     .add(AddTime(time: "09:00 - 15:00"));
+                        Navigator.of(context).pop();
                       }),
                 )
               ],

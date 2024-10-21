@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:zeitnah/views/mobile_layout/client/client_homepage/apointments/controller/appointment_controller_for_client.dart';
 
 import '../../../../../widgets/appointment_detail_container.dart';
+import '../../../../../widgets/loading_widget.dart';
+import '../controller/appointment_controller_for_client.dart';
 
 class OpenClientAppointments extends StatelessWidget {
   final AppointmentControllerForClient controller;
@@ -19,8 +20,10 @@ class OpenClientAppointments extends StatelessWidget {
             16.h.verticalSpace,
             Expanded(
               child: Obx(
-                () =>
-                    controller.dataController.openAppointmentForPatient.isEmpty
+                () => controller.isLoading.value
+                    ? loadingWidgetInkDrop(size: 40, color: Colors.black)
+                    : controller
+                            .dataController.openAppointmentForPatient.isEmpty
                         ? const Center(
                             child: Text(
                               "No Open Appointments",
@@ -37,8 +40,6 @@ class OpenClientAppointments extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final appointment = controller.dataController
                                     .openAppointmentForPatient[index];
-
-                                // controller.dataController.allClinic.forEach(action)
 
                                 return appointmentDetailsContainer(
                                     controller: controller,
