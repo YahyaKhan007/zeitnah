@@ -90,7 +90,7 @@ class AccountSettingForProviderController extends GetxController {
 
   Future<void> pickImage() async {
     pickerUtils.pickImageFromGallery(
-        clinicModel: dataController.currentLoggedInClinic!.value!);
+        clinicModel: dataController.currentLoggedInClinic.value!);
   }
 
   @override

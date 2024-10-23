@@ -45,4 +45,22 @@ class AppointmentModel {
         "workerName": workerName,
         "priorityTime": priorityTime,
       };
+
+  // Override the '==' operator to check for equality based on key fields.
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is AppointmentModel &&
+        other.uid == uid && // Compare based on unique ID
+        other.clinicId == clinicId &&
+        other.startTime == startTime &&
+        other.endTime == endTime;
+    // You can add or remove fields based on the equality you need
+  }
+
+  // Override hashCode to match the fields used in '=='
+  @override
+  int get hashCode =>
+      uid.hashCode ^ clinicId.hashCode ^ startTime.hashCode ^ endTime.hashCode;
 }

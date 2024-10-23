@@ -1,9 +1,9 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
 import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../auth_screens/widgets/common_widgets.dart';
-
 
 acceptClientAppointment({
   required BuildContext context,
@@ -16,7 +16,6 @@ acceptClientAppointment({
         return Material(
           elevation: 50,
           type: MaterialType.transparency,
-          
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24).w,
             child: Center(
@@ -39,7 +38,7 @@ acceptClientAppointment({
                     ),
                     (size.height * 0.02).h.verticalSpace,
                     Padding(
-                      padding:  EdgeInsets.symmetric(horizontal: 0.w),
+                      padding: EdgeInsets.symmetric(horizontal: 0.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -128,8 +127,7 @@ rejectClientAppointment({
                         ],
                       ),
                     ),
-                    (size.height * 0.02
-                    ).h.verticalSpace,
+                    (size.height * 0.02).h.verticalSpace,
                   ],
                 ),
               ),

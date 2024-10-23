@@ -21,9 +21,6 @@ class AppointmentHome extends GetView<AppointmentControllerForClient> {
           OpenClientAppointments(
             controller: controller,
           ),
-          // AcceptedClientAppointment(
-          //   controller: controller,
-          // ),
           AcceptedClientAppointment(
             controller: controller,
           ),

@@ -16,13 +16,13 @@ class ImagePickerUtils {
 
   void pickImageFromGallery({required ClinicModel clinicModel}) async {
     try {
-      dataController.imageLoading.value = true;
       final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
 
       if (pickedImage == null) {
         dataController.imageLoading.value = false;
         return;
       }
+      dataController.imageLoading.value = true;
 
       File imageFile = File(pickedImage.path);
 

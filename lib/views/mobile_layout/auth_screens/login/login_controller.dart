@@ -29,7 +29,7 @@ class LoginController extends GetxController {
         // for clinic
         if (result.clinicModel != null) {
           _dbService.getAllClinicAppointments();
-
+          await getPatientData();
           // getPatientsData(result.clinicModel!);
 
           Get.offAllNamed(RouterHelperService.serviceProviderHomeScreen);
@@ -57,6 +57,7 @@ class LoginController extends GetxController {
 
   getPatientsData(ClinicModel clinicModel) async {
     _dbService.getProviderTeamMembers();
+    _dbService.getAllPatientsData(clinicModel: clinicModel);
     await _dbService.getAllPatientsData(clinicModel: clinicModel);
   }
 

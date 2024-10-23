@@ -17,7 +17,7 @@ class AcceptedAppointmentController extends GetxController {
     box.write(GetStorageKeys.acceptedAppointmentsForClinic,
         box.read(GetStorageKeys.acceptedAppointmentsForClinic) - 1);
 
-    await _dbService.cancelAppointment(appointment: appointment);
+    await _dbService.cancelAcceptedAppointment(appointment: appointment);
 
     return;
   }

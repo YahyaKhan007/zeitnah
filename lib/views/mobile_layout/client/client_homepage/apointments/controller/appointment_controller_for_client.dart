@@ -1,22 +1,86 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:zeitnah/services/controller_service/zeitnah_data_controller.dart';
 
 import '../../../../../../models/appointment_model/appointment_model.dart';
 import '../../../../../../models/models.dart';
 import '../../../../../../services/database_service.dart/db_service.dart';
+import '../../../../../../utils/app_colors/app_colors.dart';
 import '../../../../../widgets/formatting.dart';
 
 class AppointmentControllerForClient extends GetxController {
   final dataController = Get.find<ZeitnahDataController>();
-  final DataBaseService _dbService = DataBaseService();
+  final DataBaseService dbService = DataBaseService();
   RxBool isLoading = RxBool(false);
+
+  Widget displayTimeGap(DateTime time) {
+    // Get the current time
+    Rx<DateTime> now = DateTime.now().obs;
+    Rx<Duration> difference = now.value.difference(time).obs;
+
+    // Calculate the difference
+
+    // Extract hours and minutes
+    RxInt hours = (difference.value.inHours * -1).obs;
+    RxInt minutes = ((difference.value.inMinutes.remainder(60)) * -1)
+        .obs; // Get remaining minutes after hours
+
+    // Display the result
+    return Text(
+      " ${hours.value}:${minutes.value} min",
+      style: GoogleFonts.inter(
+        textStyle: TextStyle(
+            fontSize: 22.sp,
+            color: AppColors.kcGreyTextColor,
+            fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    // _timer?.cancel(); // Cancel the timer when the controller is disposed
+    super.onClose();
+  }
+
   Future<ClinicModel> gettingClinicNameFromAppointment(
       AppointmentModel appointment) async {
-    final clinic = await _dbService.getClinicByUid(appointment.clinicId!);
+    final clinic = await dbService.getClinicByUid(appointment.clinicId!);
 
     return clinic!;
+  }
+
+  Rxn<AppointmentModel> observableAppointment = Rxn<AppointmentModel>(null);
+
+  Future<void> rejectAppointment(
+      {required AppointmentModel appointment}) async {
+    dbService.rejectAppointment(appointment: appointment);
+  }
+
+  void willRemoveAppointment(AppointmentModel appointment) {
+    if (observableAppointment.value == null) return;
+    log("Came to the remove Function");
+    if (observableAppointment.value!.acceptedBy != '') {
+      dataController.openAppointmentForPatient.remove(appointment);
+
+      log("Value Removed");
+    }
+
+    observableAppointment.value = null;
+  }
+
+  Future<void> acceptTheOpenAppointment(
+      {required AppointmentModel appointment}) async {
+    await dbService.acceptAppointmentForClient(appointment: appointment);
+
+    Get.back();
+    Get.back();
   }
 
 // 1. Open Side
@@ -48,8 +112,11 @@ class AppointmentControllerForClient extends GetxController {
     for (var slot in freeSlotsForDay) {
       if (isAppointmentWithinFreeSlot(
           appointmentStartTime, appointmentEndTime, slot)) {
-        dataController.openAppointmentForPatient.add(appointment);
-
+        if (dataController.openAppointmentForPatient.contains(appointment)) {
+          break;
+        } else {
+          dataController.openAppointmentForPatient.add(appointment);
+        }
         print('Appointment ID: ${appointment.uid}');
         break;
         // break;
@@ -78,37 +145,6 @@ class AppointmentControllerForClient extends GetxController {
         return '';
     }
   }
-
-  // Compare Appointment Time with Free Slot Times
-  // bool isAppointmentWithinFreeSlot(DateTime appointmentStart,
-  //     DateTime appointmentEnd, Map<String, dynamic> freeSlot) {
-  //   final freeSlotStart = freeSlot['start'];
-  //   final freeSlotEnd = freeSlot['end'];
-  //
-  //   log("Run Time Type  : $freeSlotStart");
-  //
-  //   // DateTime freeSlotStart = DateTime.parse(freeSlot['start']);
-  //   // DateTime freeSlotEnd = DateTime.parse(freeSlot['end']);
-  //
-  //   log("appointment start time : ${formatTime(time: appointmentStart)}");
-  //   log("appointment end Slot time : ${formatTime(time: appointmentEnd)}");
-  //   //
-  //   log(" Slot time : ${formatTime(time: freeSlotStart.toDate()).toString()}");
-  //   log(" Slot time : ${formatTime(time: freeSlotEnd.toDate()).toString()}");
-  //
-  //   // bool isInSlot = appointmentStart.isAfter(freeSlotStart.toDate()) &&
-  //   //     appointmentEnd.isBefore(freeSlotEnd.toDate());
-  //
-  //   bool isInSlot = isTimeInSlot(
-  //       appointmentEnd: appointmentEnd,
-  //       appointmentStart: appointmentStart,
-  //       freeSlotEnd: freeSlotStart.toDate(),
-  //       freeSlotStart: freeSlotEnd.toDate());
-  //
-  //   log("The appointment is in slot : $isInSlot");
-  //
-  //   return isInSlot;
-  // }
 
   // Compare Appointment Time with Free Slot Times
   bool isAppointmentWithinFreeSlot(DateTime appointmentStart,

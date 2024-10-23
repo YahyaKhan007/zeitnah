@@ -59,7 +59,7 @@ class SplashController extends GetxController {
   }
 
   Future<void> getProviderTeamMember() async {
-    _dbService.getProviderTeamMembers();
+    await _dbService.getProviderTeamMembers();
   }
 
   Future<void> getPatientData() async {

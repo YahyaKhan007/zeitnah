@@ -171,8 +171,8 @@ class DataBaseService {
     }
   }
 
-//   Cancel Appointment
-  Future<bool> cancelAppointment(
+//   Cancel accepted Appointment for Provider
+  Future<bool> cancelAcceptedAppointment(
       {required AppointmentModel appointment}) async {
     try {
       log("UID : ${appointment.uid}");
@@ -181,7 +181,6 @@ class DataBaseService {
       AppointmentModel appointment1 = appointment;
 
       appointment1.acceptedBy = "";
-
       log(" Accepted by :   ${appointment.acceptedBy.toString()}");
 
       await _fireStoreAuth
@@ -391,7 +390,7 @@ class DataBaseService {
   }
 
   Future<void> getProviderTeamMembers() async {
-    dataController.currentLoggedInClinic.value!.teamMembers.clear();
+    // dataController.currentLoggedInClinic.value!.teamMembers.clear();
     try {
       for (var workerId
           in dataController.currentLoggedInClinic.value!.teamMembers) {
@@ -564,8 +563,13 @@ class DataBaseService {
   Future<void> getAppointmentDataForPatient(
       {required AppointmentControllerForClient controller}) async {
     dataController.acceptedAppointmentForPatient.clear();
-    dataController.openAppointmentForPatient.clear();
+    // dataController.openAppointmentForPatient.clear();
     controller.isLoading.value = true;
+    String notify = controller
+        .dataController.currentLoggedInPatient.value!.freeSlots['getNotified'];
+
+    // for Custom timeTable
+
     final appointmentData =
         await _fireStoreAuth.collection('appointments').get();
 
@@ -582,12 +586,19 @@ class DataBaseService {
 
       if (appointmentDoc.acceptedBy !=
               dataController.currentLoggedInPatient.value!.userId &&
-          appointmentDoc.acceptedBy!.isNotEmpty) continue;
+          appointmentDoc.acceptedBy!.isNotEmpty) {
+        if (dataController.openAppointmentForPatient.contains(appointmentDoc)) {
+          dataController.openAppointmentForPatient.remove(appointmentDoc);
+          continue;
+        }
+      }
 
       // if it is not accepted by current patient then it is accepted
 
       if (appointmentDoc.acceptedBy ==
           dataController.currentLoggedInPatient.value!.userId) {
+        if (dataController.acceptedAppointmentForPatient
+            .contains(appointmentDoc)) continue;
         dataController.acceptedAppointmentForPatient.add(appointmentDoc);
       }
 
@@ -597,9 +608,18 @@ class DataBaseService {
       }
 
       // if it is not accepted by anyOne then it is open
-      if (appointmentDoc.acceptedBy!.isEmpty) {
-        controller.gettingFreeTimeAppointments(appointmentDoc);
-        // dataController.openAppointmentForPatient.add(appointmentDoc);
+      if (dataController.openAppointmentForPatient.contains(appointmentDoc)) {
+        // It will now check for equality based on the overridden '=='
+        continue;
+      }
+
+      switch (notify) {
+        case 'Always':
+          dataController.openAppointmentForPatient.add(appointmentDoc);
+          break;
+
+        default:
+          controller.gettingFreeTimeAppointments(appointmentDoc);
       }
     }
     controller.isLoading.value = false;
@@ -656,5 +676,33 @@ class DataBaseService {
       print("Error : ${e.toString()}");
       print("StackTrace : $stackTrace");
     }
+  }
+
+  Future<void> rejectAppointment(
+      {required AppointmentModel appointment}) async {
+    final currentPatient = dataController.currentLoggedInPatient.value;
+
+    await _fireStoreAuth
+        .collection('appointments')
+        .doc(appointment.uid)
+        .update({
+      'cancelBy': FieldValue.arrayUnion([currentPatient!.userId])
+    });
+
+    dataController.openAppointmentForPatient.remove(appointment);
+  }
+
+  // patient user will accept the open  appointment
+  Future<void> acceptAppointmentForClient(
+      {required AppointmentModel appointment}) async {
+    final currentPatient = dataController.currentLoggedInPatient.value;
+
+    await _fireStoreAuth
+        .collection('appointments')
+        .doc(appointment.uid)
+        .update({'acceptedBy': currentPatient!.userId});
+
+    dataController.acceptedAppointmentForPatient.add(appointment);
+    dataController.openAppointmentForPatient.remove(appointment);
   }
 }

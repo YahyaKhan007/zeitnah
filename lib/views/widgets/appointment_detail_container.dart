@@ -22,8 +22,11 @@ Widget appointmentDetailsContainer({
   return Padding(
     padding: const EdgeInsets.only(bottom: 16).h,
     child: GestureDetector(
-      onTap: () {
-        Get.to(() => const AcceptDeclineClientAppointments());
+      onTap: () async {
+        Get.to(() => AcceptDeclineClientAppointments(
+              appointment: appointment,
+              controller: controller,
+            ));
       },
       child: Container(
         decoration: BoxDecoration(
